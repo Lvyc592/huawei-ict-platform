@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:huawei_ict;MODE=MySQL;DATABASE_TO_LOWER=TRUE
+    username: sa
+    password: password
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:sql/01-schema.sql
+      data-locations: classpath:sql/02-init-data.sql,classpath:sql/03-exam-system.sql,classpath:sql/03-knowledge-points.sql
+
+server:
+  port: ${PORT:8080}
