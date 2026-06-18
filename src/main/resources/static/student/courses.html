@@ -1,0 +1,281 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课程学习 - 华技云学生端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="main-layout">
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="sidebar-header"><h1><i class="bi bi-cloud-fill"></i>华技云</h1></div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">主要功能</div>
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-house-door"></i>工作台</a>
+            <a href="courses.html" class="menu-item active"><i class="bi bi-book"></i>课程学习</a>
+            <a href="practice.html" class="menu-item"><i class="bi bi-journal-check"></i>题库练习</a>
+            <a href="mock-exams.html" class="menu-item"><i class="bi bi-clock-history"></i>模拟考试</a>
+            <a href="cloud-lab.html" class="menu-item"><i class="bi bi-cloud-haze"></i>华为云实训</a>
+            <a href="ai-tutor.html" class="menu-item"><i class="bi bi-robot"></i>助学智能体</a>
+            <div class="menu-section">扩展功能</div>
+            <a href="competitions.html" class="menu-item"><i class="bi bi-trophy"></i>赛事训练</a>
+            <a href="jobs.html" class="menu-item"><i class="bi bi-briefcase"></i>就业岗位</a>
+            <a href="analytics.html" class="menu-item"><i class="bi bi-bar-chart"></i>学情数据</a>
+            <a href="settings.html" class="menu-item"><i class="bi bi-gear"></i>个人设置</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">学</div>
+                <div class="user-details"><div class="user-name">学生用户</div><div class="user-role">华为ICT学员</div></div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <div class="header-nav">
+                    <a href="dashboard.html">首页</a>
+                    <a href="courses.html" class="active">课程学习</a>
+                    <a href="practice.html">题库练习</a>
+                    <a href="mock-exams.html">模拟考试</a>
+                    <a href="cloud-lab.html">云端实训</a>
+                    <a href="competitions.html">赛事中心</a>
+                    </div>
+            </div>
+            <div class="header-right">
+                <div class="header-icon" title="消息"><i class="bi bi-bell"></i><span class="badge"></span></div>
+                <a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <div class="page-title"><h2>课程学习</h2><p>系统化的华为ICT认证课程体系</p></div>
+
+            <!-- 分类标签 -->
+            <div class="card mb-4">
+                <div class="card-body" style="display:flex;gap:12px;flex-wrap:wrap;">
+                    <a href="courses.html" class="btn btn-primary btn-sm" style="cursor:pointer;text-decoration:none;">全部课程</a>
+                    <a href="courses.html?cat=HCIA" class="btn btn-outline btn-sm" style="cursor:pointer;text-decoration:none;">HCIA</a>
+                    <a href="courses.html?cat=HCIP" class="btn btn-outline btn-sm" style="cursor:pointer;text-decoration:none;">HCIP</a>
+                    <a href="courses.html?cat=HCIE" class="btn btn-outline btn-sm" style="cursor:pointer;text-decoration:none;">HCIE</a>
+                    <a href="courses.html?cat=cloud" class="btn btn-outline btn-sm" style="cursor:pointer;text-decoration:none;">云计算</a>
+                    <a href="courses.html?cat=bigdata" class="btn btn-outline btn-sm" style="cursor:pointer;text-decoration:none;">大数据</a>
+                    <a href="courses.html?cat=ai" class="btn btn-outline btn-sm" style="cursor:pointer;text-decoration:none;">人工智能</a>
+                </div>
+            </div>
+
+            <!-- 课程卡片网格 -->
+            <div class="grid-3" id="courseGrid">
+                <a class="img-card" href="course-detail.html?id=hcda-001&name=HCIA-Datacom%20基础认证" data-course-id="hcda-001" data-course-name="HCIA-Datacom 基础认证">
+                    <div class="img-wrapper">
+                        <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="hcda" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#1e3a8a"/></linearGradient>
+                            </defs>
+                            <rect width="400" height="200" fill="url(#hcda)"/>
+                            <circle cx="340" cy="40" r="60" fill="rgba(255,255,255,0.08)"/>
+                            <circle cx="370" cy="80" r="40" fill="rgba(255,255,255,0.06)"/>
+                            <text x="32" y="118" fill="#ffffff" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="26" font-weight="700">HCIA-Datacom</text>
+                            <text x="32" y="148" fill="rgba(255,255,255,0.85)" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="14">数据通信基础认证</text>
+                            <g transform="translate(310,150)" opacity="0.35">
+                                <circle cx="0" cy="0" r="6" fill="#fff"/><circle cx="20" cy="0" r="6" fill="#fff"/><circle cx="40" cy="0" r="6" fill="#fff"/>
+                                <line x1="6" y1="0" x2="14" y2="0" stroke="#fff" stroke-width="2"/><line x1="26" y1="0" x2="34" y2="0" stroke="#fff" stroke-width="2"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h4>HCIA-Datacom 基础认证</h4>
+                        <p>数据通信基础，网络工程师入门必学</p>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+                            <span style="font-size:12px;color:#1a6bc4;font-weight:500;"><i class="bi bi-people-fill me-1"></i>128 人学习</span>
+                            <span style="font-size:12px;color:#94a3b8;"><i class="bi bi-chevron-right"></i></span>
+                        </div>
+                    </div>
+                </a>
+                <a class="img-card" href="course-detail.html?id=hcdp-002&name=HCIP-Datacom%20高级认证" data-course-id="hcdp-002" data-course-name="HCIP-Datacom 高级认证">
+                    <div class="img-wrapper">
+                        <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="hcdp" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#7c3aed"/><stop offset="100%" stop-color="#4c1d95"/></linearGradient>
+                            </defs>
+                            <rect width="400" height="200" fill="url(#hcdp)"/>
+                            <polygon points="0,0 180,0 80,200 0,200" fill="rgba(255,255,255,0.06)"/>
+                            <polygon points="180,0 280,0 180,200 80,200" fill="rgba(255,255,255,0.04)"/>
+                            <text x="32" y="118" fill="#ffffff" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="26" font-weight="700">HCIP-Datacom</text>
+                            <text x="32" y="148" fill="rgba(255,255,255,0.85)" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="14">高级路由交换 · 企业实战</text>
+                            <g transform="translate(330,40)" opacity="0.4" fill="none" stroke="#fff" stroke-width="2.5">
+                                <circle cx="0" cy="20" r="8"/><circle cx="30" cy="0" r="8"/><circle cx="30" cy="40" r="8"/>
+                                <line x1="8" y1="20" x2="22" y2="2"/><line x1="8" y1="20" x2="22" y2="38"/><line x1="30" y1="8" x2="30" y2="32"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h4>HCIP-Datacom 高级认证</h4>
+                        <p>高级路由交换，企业网络实战</p>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+                            <span style="font-size:12px;color:#1a6bc4;font-weight:500;"><i class="bi bi-people-fill me-1"></i>256 人学习</span>
+                            <span style="font-size:12px;color:#94a3b8;"><i class="bi bi-chevron-right"></i></span>
+                        </div>
+                    </div>
+                </a>
+                <a class="img-card" href="course-detail.html?id=hcdx-003&name=HCIE-Datacom%20专家认证" data-course-id="hcdx-003" data-course-name="HCIE-Datacom 专家认证">
+                    <div class="img-wrapper">
+                        <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="hcdx" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#dc2626"/><stop offset="50%" stop-color="#991b1b"/><stop offset="100%" stop-color="#581616"/></linearGradient>
+                            </defs>
+                            <rect width="400" height="200" fill="url(#hcdx)"/>
+                            <g transform="translate(330,100)" opacity="0.3">
+                                <polygon points="0,-30 8,-9 30,-9 13,5 19,26 0,13 -19,26 -13,5 -30,-9 -8,-9" fill="#fbbf24"/>
+                            </g>
+                            <circle cx="60" cy="50" r="40" fill="rgba(251,191,36,0.1)"/>
+                            <text x="32" y="118" fill="#ffffff" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="26" font-weight="700">HCIE-Datacom</text>
+                            <text x="32" y="148" fill="rgba(255,255,255,0.85)" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="14">顶级专家认证 · 面试+实验</text>
+                            <g transform="translate(280,168)" opacity="0.4" fill="#fbbf24">
+                                <rect x="0" y="0" width="6" height="10"/><rect x="10" y="-4" width="6" height="14"/><rect x="20" y="-8" width="6" height="18"/><rect x="30" y="-2" width="6" height="12"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h4>HCIE-Datacom 专家认证</h4>
+                        <p>顶级网络专家认证，面试+实验</p>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+                            <span style="font-size:12px;color:#1a6bc4;font-weight:500;"><i class="bi bi-people-fill me-1"></i>89 人学习</span>
+                            <span style="font-size:12px;color:#94a3b8;"><i class="bi bi-chevron-right"></i></span>
+                        </div>
+                    </div>
+                </a>
+                <a class="img-card" href="course-detail.html?id=hccd-004&name=华为云计算%20HCIA-Cloud" data-course-id="hccd-004" data-course-name="华为云计算 HCIA-Cloud">
+                    <div class="img-wrapper">
+                        <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="hccd" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06b6d4"/><stop offset="100%" stop-color="#0e7490"/></linearGradient>
+                            </defs>
+                            <rect width="400" height="200" fill="url(#hccd)"/>
+                            <g transform="translate(290,40)" opacity="0.35" fill="none" stroke="#fff" stroke-width="2">
+                                <path d="M 0 30 Q 25 5 50 30 T 100 30"/>
+                                <path d="M 0 50 Q 25 25 50 50 T 100 50"/>
+                                <path d="M 0 70 Q 25 45 50 70 T 100 70"/>
+                            </g>
+                            <g transform="translate(60,40)" opacity="0.25" fill="#fff">
+                                <path d="M 0 0 a 20 20 0 0 1 40 0 a 14 14 0 0 1 -28 0 a 10 10 0 0 1 20 0 a 6 6 0 0 1 -12 0 z"/>
+                            </g>
+                            <text x="32" y="118" fill="#ffffff" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="26" font-weight="700">HCIA-Cloud</text>
+                            <text x="32" y="148" fill="rgba(255,255,255,0.85)" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="14">华为云计算 · 基础架构</text>
+                            <g transform="translate(310,160)" opacity="0.4" fill="#fff">
+                                <rect x="0" y="0" width="14" height="14" rx="2"/><rect x="18" y="0" width="14" height="14" rx="2"/><rect x="9" y="18" width="14" height="14" rx="2"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h4>华为云计算 HCIA-Cloud</h4>
+                        <p>云计算基础架构与华为云解决方案</p>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+                            <span style="font-size:12px;color:#1a6bc4;font-weight:500;"><i class="bi bi-people-fill me-1"></i>312 人学习</span>
+                            <span style="font-size:12px;color:#94a3b8;"><i class="bi bi-chevron-right"></i></span>
+                        </div>
+                    </div>
+                </a>
+                <a class="img-card" href="course-detail.html?id=hbbd-005&name=华为大数据%20HCIA-Big%20Data" data-course-id="hbbd-005" data-course-name="华为大数据 HCIA-Big Data">
+                    <div class="img-wrapper">
+                        <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="hbbd" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#065f46"/></linearGradient>
+                            </defs>
+                            <rect width="400" height="200" fill="url(#hbbd)"/>
+                            <g transform="translate(290,30)" opacity="0.3">
+                                <rect x="0" y="40" width="8" height="30" fill="#fff"/>
+                                <rect x="14" y="20" width="8" height="50" fill="#fff"/>
+                                <rect x="28" y="0" width="8" height="70" fill="#fff"/>
+                                <rect x="42" y="30" width="8" height="40" fill="#fff"/>
+                                <rect x="56" y="10" width="8" height="60" fill="#fff"/>
+                                <rect x="70" y="25" width="8" height="45" fill="#fff"/>
+                                <rect x="84" y="5" width="8" height="65" fill="#fff"/>
+                            </g>
+                            <circle cx="50" cy="40" r="35" fill="rgba(255,255,255,0.08)"/>
+                            <text x="32" y="118" fill="#ffffff" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="26" font-weight="700">HCIA-Big Data</text>
+                            <text x="32" y="148" fill="rgba(255,255,255,0.85)" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="14">大数据采集 · 存储与分析</text>
+                            <g transform="translate(330,160)" opacity="0.4" fill="none" stroke="#fff" stroke-width="2.5">
+                                <circle cx="0" cy="0" r="6"/><circle cx="0" cy="0" r="3" fill="#fff"/><line x1="0" y1="-6" x2="0" y2="-12"/><line x1="0" y1="6" x2="0" y2="12"/><line x1="-6" y1="0" x2="-12" y2="0"/><line x1="6" y1="0" x2="12" y2="0"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h4>华为大数据 HCIA-Big Data</h4>
+                        <p>大数据采集、存储与分析技术</p>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+                            <span style="font-size:12px;color:#1a6bc4;font-weight:500;"><i class="bi bi-people-fill me-1"></i>176 人学习</span>
+                            <span style="font-size:12px;color:#94a3b8;"><i class="bi bi-chevron-right"></i></span>
+                        </div>
+                    </div>
+                </a>
+                <a class="img-card" href="course-detail.html?id=hcai-006&name=华为人工智能%20HCIA-AI" data-course-id="hcai-006" data-course-name="华为人工智能 HCIA-AI">
+                    <div class="img-wrapper">
+                        <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="hcai" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#92400e"/></linearGradient>
+                            </defs>
+                            <rect width="400" height="200" fill="url(#hcai)"/>
+                            <g transform="translate(330,100)" opacity="0.3" fill="none" stroke="#fff" stroke-width="1.5">
+                                <circle cx="0" cy="0" r="35"/>
+                                <circle cx="0" cy="0" r="20"/>
+                                <line x1="-35" y1="0" x2="35" y2="0"/>
+                                <line x1="0" y1="-35" x2="0" y2="35"/>
+                                <line x1="-25" y1="-25" x2="25" y2="25"/>
+                                <line x1="-25" y1="25" x2="25" y2="-25"/>
+                            </g>
+                            <g transform="translate(60,40)" opacity="0.25" fill="#fff">
+                                <rect x="0" y="0" width="3" height="3"/><rect x="8" y="0" width="3" height="3"/><rect x="16" y="0" width="3" height="3"/>
+                                <rect x="0" y="8" width="3" height="3"/><rect x="8" y="8" width="3" height="3"/><rect x="16" y="8" width="3" height="3"/>
+                                <rect x="0" y="16" width="3" height="3"/><rect x="8" y="16" width="3" height="3"/><rect x="16" y="16" width="3" height="3"/>
+                            </g>
+                            <text x="32" y="118" fill="#ffffff" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="26" font-weight="700">HCIA-AI</text>
+                            <text x="32" y="148" fill="rgba(255,255,255,0.85)" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="14">机器学习 · 深度学习 · 昇腾</text>
+                            <g transform="translate(310,160)" opacity="0.45" fill="#fff">
+                                <circle cx="0" cy="0" r="3"/><circle cx="10" cy="0" r="3"/><circle cx="20" cy="0" r="3"/>
+                                <circle cx="5" cy="8" r="3"/><circle cx="15" cy="8" r="3"/>
+                                <circle cx="10" cy="16" r="3"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h4>华为人工智能 HCIA-AI</h4>
+                        <p>机器学习、深度学习与华为昇腾</p>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+                            <span style="font-size:12px;color:#1a6bc4;font-weight:500;"><i class="bi bi-people-fill me-1"></i>203 人学习</span>
+                            <span style="font-size:12px;color:#94a3b8;"><i class="bi bi-chevron-right"></i></span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/common.js"></script>
+<script>document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        const res = await apiRequest('/student/courses');
+        if (res && res.success && res.data) {
+            const cards = document.querySelectorAll('#courseGrid .img-card');
+            res.data.forEach(function(c, i) {
+                if (i < cards.length && c.id) {
+                    cards[i].setAttribute('href', 'course-detail.html?id=' + encodeURIComponent(c.id) + '&name=' + encodeURIComponent(c.name || ''));
+                    cards[i].setAttribute('data-course-id', c.id);
+                    cards[i].setAttribute('data-course-name', c.name || '');
+                    const h4 = cards[i].querySelector('h4');
+                    const p = cards[i].querySelector('p');
+                    if (h4 && c.name) h4.textContent = c.name;
+                    if (p && c.description) p.textContent = c.description;
+                }
+            });
+        }
+    } catch(e) {}
+});</script>
+</body>
+</html>

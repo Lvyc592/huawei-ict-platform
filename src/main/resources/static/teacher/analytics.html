@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学情分析 - 华技云教师端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .sidebar-header.teacher { background: linear-gradient(135deg, #064e3b, #059669); }
+        .menu-item.active { background: #f0fdf4; color: #059669; border-left: 3px solid #059669; }
+        .menu-item:hover { background: #f0fdf4; color: #059669; }
+        .overview-card { background: linear-gradient(135deg, #064e3b, #059669); color: #fff; border-radius: 12px; padding: 24px; }
+        .overview-card h2, .overview-card p { color: #fff; }
+        .overview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 20px; }
+        .overview-item { background: rgba(255,255,255,0.12); border-radius: 8px; padding: 14px; }
+        .overview-item strong { display: block; font-size: 24px; color: #fff; }
+        .overview-item span { color: rgba(255,255,255,0.85); font-size: 12px; }
+        .weak-table { width: 100%; border-collapse: collapse; }
+        .weak-table th, .weak-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
+        .weak-table th { background: #f0fdf4; color: #047857; font-weight: 600; }
+        .weak-table tr:hover { background: #f9fafb; }
+        .progress-bar-bg { height: 8px; background: #f1f5f9; border-radius: 4px; overflow: hidden; }
+        .progress-bar-bg > div { height: 100%; border-radius: 4px; }
+        .progress-bar-bg > div.low { background: linear-gradient(90deg, #f87171, #dc2626); }
+        .progress-bar-bg > div.mid { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+        .progress-bar-bg > div.high { background: linear-gradient(90deg, #10b981, #059669); }
+        .distribution-bar { display: flex; height: 28px; border-radius: 6px; overflow: hidden; box-shadow: var(--shadow); }
+        .distribution-bar > div { display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 600; transition: width .3s; }
+        .distribution-bar > div:nth-child(1) { background: #dc2626; }
+        .distribution-bar > div:nth-child(2) { background: #f59e0b; }
+        .distribution-bar > div:nth-child(3) { background: #10b981; }
+        .distribution-bar > div:nth-child(4) { background: #047857; }
+        .distribution-legend { display: flex; gap: 16px; margin-top: 10px; font-size: 12px; color: #6b7280; }
+        .distribution-legend span::before { content:''; display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: middle; }
+        .course-row { display: flex; align-items: center; padding: 14px 0; border-bottom: 1px solid #f1f5f9; }
+        .course-row:last-child { border-bottom: none; }
+        .course-name { flex: 1; }
+    </style>
+</head>
+<body>
+<div class="main-layout">
+    <aside class="sidebar">
+        <div class="sidebar-header teacher"><h1><i class="bi bi-person-workspace"></i>教师端</h1></div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">教学工作台</div>
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-speedometer2"></i>教学仪表盘</a>
+            <a href="courses.html" class="menu-item"><i class="bi bi-book"></i>我的课程</a>
+            <a href="students.html" class="menu-item"><i class="bi bi-people"></i>学员管理</a>
+            <a href="exam-records.html" class="menu-item"><i class="bi bi-journal-check"></i>考试记录</a>
+            <a href="analytics.html" class="menu-item active"><i class="bi bi-graph-up"></i>学情分析</a>
+            <div class="menu-section">个人</div>
+            <a href="../index.html" class="menu-item"><i class="bi bi-box-arrow-right"></i>退出登录</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar" style="background:#059669;">师</div>
+                <div class="user-details"><div class="user-name">教师用户</div><div class="user-role">华技云讲师</div></div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <div class="header-nav">
+                    <a href="dashboard.html">工作台</a>
+                    <a href="courses.html">我的课程</a>
+                    <a href="students.html">学员管理</a>
+                    <a href="exam-records.html">考试记录</a>
+                    <a href="analytics.html" class="active">学情分析</a>
+                </div>
+            </div>
+            <div class="header-right">
+                <a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <div class="overview-card mb-4">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <div>
+                        <h2 style="margin-bottom:6px;">学情分析总览</h2>
+                        <p style="opacity:0.9;margin:0;">基于您所教课程的全体学员数据</p>
+                    </div>
+                    <i class="bi bi-graph-up-arrow" style="font-size:48px;opacity:0.5;"></i>
+                </div>
+                <div class="overview-grid">
+                    <div class="overview-item"><strong id="ovCourses">--</strong><span>所教课程</span></div>
+                    <div class="overview-item"><strong id="ovStudents">--</strong><span>覆盖学员</span></div>
+                    <div class="overview-item"><strong id="ovMastery">--%</strong><span>班级平均掌握度</span></div>
+                    <div class="overview-item"><strong id="ovWeak">--</strong><span>薄弱知识点数</span></div>
+                </div>
+            </div>
+
+            <div class="row-2">
+                <!-- 左侧：课程分布 + 学员进度分布 -->
+                <div>
+                    <div class="card mb-4">
+                        <div class="card-header"><h3><i class="bi bi-pie-chart me-2"></i>每门课报名情况</h3></div>
+                        <div class="card-body" id="courseDistribution">
+                            <div style="text-align:center;color:#999;padding:30px;">加载中…</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><h3><i class="bi bi-bar-chart me-2"></i>学员学习进度分布</h3></div>
+                        <div class="card-body" id="progressDistribution">
+                            <div style="text-align:center;color:#999;padding:30px;">加载中…</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧：班级薄弱知识点 Top 10 -->
+                <div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="bi bi-exclamation-triangle me-2"></i>班级薄弱知识点 Top 10</h3>
+                            <span style="font-size:12px;color:#6b7280;">按平均掌握度从低到高</span>
+                        </div>
+                        <div class="card-body" id="weakPoints">
+                            <div style="text-align:center;color:#999;padding:30px;">加载中…</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/common.js"></script>
+<script>
+async function load() {
+    const r = await apiRequest('/teacher/analytics');
+    if (!r || !r.success) {
+        document.querySelectorAll('#courseDistribution,#progressDistribution,#weakPoints').forEach(function(el){el.innerHTML='<div style="text-align:center;color:#dc3545;padding:30px;">加载失败</div>';});
+        return;
+    }
+    var d = r.data;
+    document.getElementById('ovCourses').textContent = (d.myCourses||[]).length;
+    document.getElementById('ovStudents').textContent = d.studentCount||0;
+    document.getElementById('ovMastery').textContent = (d.avgMastery||0) + '%';
+    document.getElementById('ovWeak').textContent = (d.weakPoints||[]).length;
+
+    // 每门课报名
+    var cd = document.getElementById('courseDistribution');
+    if (!d.courseDistribution || d.courseDistribution.length === 0) {
+        cd.innerHTML = '<div style="text-align:center;color:#999;padding:30px;">暂无课程数据</div>';
+    } else {
+        var catColor = { HCIA:'#3b82f6', HCIP:'#7c3aed', HCIE:'#dc2626', Cloud:'#06b6d4', BigData:'#10b981', AI:'#f59e0b' };
+        cd.innerHTML = d.courseDistribution.map(function(c) {
+            var color = catColor[c.category] || '#059669';
+            return '<div class="course-row">' +
+                '<div class="course-name">' +
+                '<div style="font-weight:600;color:#064e3b;">' + (c.courseName||'') + '</div>' +
+                '<div style="font-size:12px;color:#6b7280;">' + (c.category||'') + ' · 共 ' + (c.total||0) + ' 人</div>' +
+                '</div>' +
+                '<div style="display:flex;gap:8px;align-items:center;font-size:12px;">' +
+                '<span class="tag" style="background:#d1fae5;color:#047857;">已完成 ' + (c.completed||0) + '</span>' +
+                '<span class="tag" style="background:#fef3c7;color:#92400e;">进行中 ' + (c.inProgress||0) + '</span>' +
+                '<span class="tag" style="background:#f3f4f6;color:#6b7280;">未开始 ' + (c.notStarted||0) + '</span>' +
+                '</div></div>';
+        }).join('');
+    }
+
+    // 进度分布
+    var pd = document.getElementById('progressDistribution');
+    if (!d.progressDistribution || d.progressDistribution.length === 0) {
+        pd.innerHTML = '<div style="text-align:center;color:#999;padding:30px;">暂无数据</div>';
+    } else {
+        var total = d.progressDistribution.reduce(function(sum,b){return sum + b.count;}, 0);
+        if (total === 0) {
+            pd.innerHTML = '<div style="text-align:center;color:#999;padding:30px;">暂无学员报名</div>';
+        } else {
+            var html = '<div class="distribution-bar">';
+            d.progressDistribution.forEach(function(b) {
+                var pct = total > 0 ? (b.count * 100 / total) : 0;
+                var showLabel = pct >= 5 ? (b.label + ' · ' + b.count) : '';
+                html += '<div style="width:' + pct + '%;">' + showLabel + '</div>';
+            });
+            html += '</div>';
+            html += '<div class="distribution-legend">' +
+                d.progressDistribution.map(function(b,i) {
+                    var color = ['#dc2626','#f59e0b','#10b981','#047857'][i];
+                    return '<span><i style="background:' + color + ';"></i>' + b.label + ' (' + b.count + ')</span>';
+                }).join('') +
+                '</div>';
+            pd.innerHTML = html;
+        }
+    }
+
+    // 薄弱知识点
+    var wp = document.getElementById('weakPoints');
+    if (!d.weakPoints || d.weakPoints.length === 0) {
+        wp.innerHTML = '<div style="text-align:center;color:#059669;padding:30px;"><i class="bi bi-check-circle-fill" style="font-size:32px;display:block;margin-bottom:8px;"></i>班级整体掌握情况良好，暂无明显薄弱点</div>';
+    } else {
+        var html = '<table class="weak-table"><thead><tr><th style="width:50%;">知识点</th><th style="width:25%;">掌握度</th><th style="width:25%;">覆盖学员</th></tr></thead><tbody>';
+        d.weakPoints.forEach(function(w) {
+            var mastery = w.mastery || 0;
+            var level = mastery < 40 ? 'low' : (mastery < 60 ? 'mid' : 'high');
+            html += '<tr>' +
+                '<td><i class="bi bi-exclamation-circle-fill" style="color:' + (mastery < 40 ? '#dc2626' : '#f59e0b') + ';"></i> ' + (w.name||'') + '</td>' +
+                '<td><div style="display:flex;align-items:center;gap:6px;"><div class="progress-bar-bg" style="flex:1;"><div class="' + level + '" style="width:' + mastery + '%;"></div></div><span style="font-size:12px;font-weight:600;color:' + (mastery < 40 ? '#dc2625' : '#f59e0b') + ';">' + mastery + '%</span></div></td>' +
+                '<td style="color:#6b7280;">' + (w.studentCount||0) + ' 人</td>' +
+                '</tr>';
+        });
+        html += '</tbody></table>';
+        wp.innerHTML = html;
+    }
+}
+document.addEventListener('DOMContentLoaded', load);
+</script>
+</body>
+</html>

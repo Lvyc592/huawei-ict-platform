@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习建议 - 华技云学生端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .ss-hero { background: linear-gradient(135deg,#1e3a8a 0%,#1a6bc4 50%,#06b6d4 100%); color:#fff; border-radius:var(--radius); padding:32px 28px; margin-bottom:24px; position:relative; overflow:hidden; }
+        .ss-hero::after { content:""; position:absolute; right:-40px; top:-40px; width:200px; height:200px; border-radius:50%; background:rgba(255,255,255,0.08); }
+        .ss-hero h1 { color:#fff; font-size:24px; margin:0 0 8px; }
+        .ss-hero p { color:rgba(255,255,255,0.9); margin:0; }
+        .ss-overview { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:20px; }
+        .ss-stat { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:18px 16px; text-align:center; }
+        .ss-stat .num { font-size:30px; font-weight:700; color:var(--primary); line-height:1; }
+        .ss-stat .lbl { font-size:12px; color:var(--text-gray); margin-top:6px; }
+        @media (max-width:900px){ .ss-overview{grid-template-columns:repeat(2,1fr);} }
+
+        .ss-card { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:18px; display:flex; gap:16px; align-items:flex-start; transition:all 0.2s; margin-bottom:12px; }
+        .ss-card:hover { box-shadow:0 6px 18px rgba(0,0,0,0.06); transform:translateY(-1px); }
+        .ss-card .ss-icon { width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:22px; flex-shrink:0; }
+        .ss-card .ss-body { flex:1; min-width:0; }
+        .ss-card .ss-body h4 { font-size:15px; font-weight:600; color:var(--text-dark); margin:0 0 6px; }
+        .ss-card .ss-body .ss-reason { font-size:13px; color:var(--text-gray); margin:0 0 8px; }
+        .ss-card .ss-body .ss-meta { display:flex; flex-wrap:wrap; gap:8px; align-items:center; font-size:12px; color:var(--text-light); }
+        .ss-card .ss-action { display:flex; flex-direction:column; gap:8px; align-items:flex-end; }
+        .ss-empty { text-align:center; padding:60px 20px; color:var(--text-gray); }
+        .ss-empty i { font-size:60px; color:var(--secondary); }
+
+        .ss-progress { background:var(--secondary); height:6px; border-radius:3px; overflow:hidden; }
+        .ss-progress > div { height:100%; transition:width 0.4s; }
+
+        .tag-danger { background:#fef2f2; color:#b91c1c; }
+        .tag-warning { background:#fffbeb; color:#b45309; }
+        .tag-success { background:#f0fdf4; color:#166534; }
+        .tag-primary { background:#eff6ff; color:#1d4ed8; }
+        .tag { display:inline-block; padding:2px 10px; border-radius:10px; font-size:12px; font-weight:500; }
+    </style>
+</head>
+<body>
+    <div class="main-layout">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1><i class="bi bi-cloud-fill"></i>华技云</h1>
+            </div>
+            <nav class="sidebar-menu">
+            <div class="menu-section">主要功能</div>
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-house-door"></i>工作台</a>
+            <a href="courses.html" class="menu-item"><i class="bi bi-book"></i>课程学习</a>
+            <a href="practice.html" class="menu-item"><i class="bi bi-journal-check"></i>题库练习</a>
+            <a href="mock-exams.html" class="menu-item"><i class="bi bi-clock-history"></i>模拟考试</a>
+            <a href="cloud-lab.html" class="menu-item"><i class="bi bi-cloud-haze"></i>华为云实训</a>
+            <a href="ai-tutor.html" class="menu-item"><i class="bi bi-robot"></i>助学智能体</a>
+            <div class="menu-section">扩展功能</div>
+            <a href="competitions.html" class="menu-item"><i class="bi bi-trophy"></i>赛事训练</a>
+            <a href="jobs.html" class="menu-item"><i class="bi bi-briefcase"></i>就业岗位</a>
+            <a href="analytics.html" class="menu-item active"><i class="bi bi-bar-chart"></i>学情数据</a>
+            <a href="settings.html" class="menu-item"><i class="bi bi-gear"></i>个人设置</a>
+        </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">学</div>
+                    <div class="user-details">
+                        <div class="user-name">学生用户</div>
+                        <div class="user-role">华为ICT学员</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <div class="header-nav">
+                    <a href="dashboard.html">首页</a>
+                    <a href="courses.html">课程学习</a>
+                    <a href="practice.html">题库练习</a>
+                    <a href="mock-exams.html">模拟考试</a>
+                    <a href="cloud-lab.html">云端实训</a>
+                    <a href="competitions.html">赛事中心</a>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="header-icon" title="消息通知"><i class="bi bi-bell"></i><span class="badge"></span></div>
+                    <div class="header-icon" title="帮助中心"><i class="bi bi-question-circle"></i></div>
+                    <a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <!-- 顶部 Hero -->
+                <div class="ss-hero">
+                    <h1><i class="bi bi-lightbulb-fill me-2" style="color:#fbbf24;"></i>智能学习建议</h1>
+                    <p>基于您的薄弱知识点，AI 引擎为您定制精准提升方案</p>
+                </div>
+
+                <!-- 概览统计 -->
+                <div class="ss-overview" id="ssOverview">
+                    <div class="ss-stat">
+                        <div class="num" id="ssTotal">--</div>
+                        <div class="lbl">考察知识点</div>
+                    </div>
+                    <div class="ss-stat">
+                        <div class="num" id="ssAvg" style="color:#06b6d4;">--</div>
+                        <div class="lbl">平均掌握度 %</div>
+                    </div>
+                    <div class="ss-stat">
+                        <div class="num" id="ssWeak" style="color:#dc2626;">--</div>
+                        <div class="lbl">薄弱知识点</div>
+                    </div>
+                    <div class="ss-stat">
+                        <div class="num" id="ssHigh" style="color:#f59e0b;">--</div>
+                        <div class="lbl">高优先级建议</div>
+                    </div>
+                </div>
+
+                <!-- 建议列表 -->
+                <div class="card">
+                    <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;">
+                        <h3><i class="bi bi-list-check me-2"></i>个性化建议清单</h3>
+                        <a href="dashboard.html" class="btn btn-sm btn-outline"><i class="bi bi-arrow-left me-1"></i>返回工作台</a>
+                    </div>
+                    <div class="card-body" id="ssListBody">
+                        <div class="ss-empty">
+                            <i class="bi bi-hourglass-split"></i>
+                            <p style="margin-top:16px;">正在分析您的学习数据…</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+        try {
+            const r = await apiRequest('/student/study-suggestion');
+            if (!r || !r.success) return;
+            var d = r.data;
+            var ov = d.overview || {};
+            document.getElementById('ssTotal').textContent = ov.total != null ? ov.total : 0;
+            document.getElementById('ssAvg').textContent = (ov.avgMastery || 0).toFixed(1);
+            document.getElementById('ssWeak').textContent = ov.weak != null ? ov.weak : 0;
+            document.getElementById('ssHigh').textContent = ov.highPriority != null ? ov.highPriority : 0;
+
+            var list = d.suggestions || [];
+            var body = document.getElementById('ssListBody');
+            if (!list.length) {
+                body.innerHTML = '<div class="ss-empty"><i class="bi bi-emoji-smile"></i><p style="margin-top:16px;">太棒了！您目前没有明显薄弱点，继续保持！</p></div>';
+                return;
+            }
+            body.innerHTML = list.map(function(s) {
+                var prioCls = s.priority === 'HIGH' ? 'tag-danger' : (s.priority === 'MEDIUM' ? 'tag-warning' : 'tag-success');
+                var prioText = s.priority === 'HIGH' ? '高优先级' : (s.priority === 'MEDIUM' ? '中优先级' : '低优先级');
+                var actionIcon = s.actionType === 'PRACTICE' ? 'pencil-square' : (s.actionType === 'EXPERIMENT' ? 'cpu' : 'book');
+                var iconBg = s.priority === 'HIGH' ? 'linear-gradient(135deg,#ef4444,#b91c1c)' :
+                             (s.priority === 'MEDIUM' ? 'linear-gradient(135deg,#f59e0b,#b45309)' :
+                             'linear-gradient(135deg,#10b981,#047857)');
+                var rate = s.masteryRate || 0;
+                var rateColor = rate < 40 ? '#dc2626' : (rate < 60 ? '#f59e0b' : '#10b981');
+                return '<div class="ss-card">' +
+                    '<div class="ss-icon" style="background:'+iconBg+';"><i class="bi bi-'+actionIcon+'"></i></div>' +
+                    '<div class="ss-body">' +
+                        '<h4>'+esc(s.title)+'</h4>' +
+                        '<p class="ss-reason">'+esc(s.reason)+'</p>' +
+                        '<div class="ss-meta">' +
+                            '<span class="tag '+prioCls+'">'+prioText+'</span>' +
+                            '<span style="background:#f1f5f9;padding:2px 8px;border-radius:10px;">📘 '+esc(s.relatedCourse||'')+'</span>' +
+                            '<span>🎯 掌握度：<strong style="color:'+rateColor+';">'+rate+'%</strong></span>' +
+                        '</div>' +
+                        '<div class="ss-progress" style="margin-top:8px;max-width:300px;"><div style="width:'+rate+'%;background:'+rateColor+';"></div></div>' +
+                    '</div>' +
+                    '<div class="ss-action">' +
+                        '<a href="'+esc(s.actionUrl)+'" class="btn btn-primary btn-sm"><i class="bi bi-'+actionIcon+' me-1"></i>'+esc(s.actionText)+'</a>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        } catch (e) { console.error(e); }
+    });
+
+    function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+    </script>
+</body>
+</html>

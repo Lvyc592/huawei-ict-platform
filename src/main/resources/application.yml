@@ -1,0 +1,77 @@
+server:
+  port: 8080
+
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  datasource:
+    url: jdbc:mysql://${ZEABUR_MYSQL_HOST:localhost}:${ZEABUR_MYSQL_PORT:3306}/${ZEABUR_MYSQL_DATABASE:huawei_ict}?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf-8&allowPublicKeyRetrieval=true
+    username: ${ZEABUR_MYSQL_USERNAME:root}
+    password: ${ZEABUR_MYSQL_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+
+  mvc:
+    static-path-pattern: /**
+    contentnegotiation:
+      favor-parameter: false
+    favicon:
+      enabled: false
+  resources:
+    add-mappings: true
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /**
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  messages:
+    encoding: UTF-8
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+
+app:
+  jwt:
+    secret: HuaweiICTPlatform2024SecretKeyForJWTTokenGeneration
+    expiration-ms: 86400000
+
+  # ==========================================
+  #  AI 助学智能体（双引擎：Ollama 本地大模型 + 内置知识库）
+  # ==========================================
+  #  默认配置已调好，零 Key 零注册 零外网。开箱即用！
+  #
+  #  引擎选择（engine）：
+  #    - auto       ：自动检测 Ollama，连不上就用知识库（推荐）
+  #    - ollama     ：强制使用 Ollama（不可用则报错）
+  #    - knowledge  ：强制只用内置知识库
+  #
+  #  想要更强回答能力？
+  #    1. 访问 https://ollama.com 下载安装 Ollama
+  #    2. 终端执行 ollama pull qwen2.5:3b （约 2GB）
+  #    3. 保持 Ollama 后台运行，刷新页面即自动切换
+  ai:
+    engine: auto
+    ollama-url: http://localhost:11434
+    ollama-model: qwen2.5:3b
+    stream: true
+    max-tokens: 1024
+    temperature: 0.7
+    probe-timeout-ms: 1500
+    system-prompt: 你是华技云·华为ICT智慧实训平台的AI助学智能体，名叫"华小智"。你精通华为HCIA/HCIP/HCIE认证的数通（Datacom）、云计算、安全、存储、大数据、鸿蒙等内容。请用中文回答，结构清晰、要点明确；如需列举请使用编号列表；遇到代码请用代码块包裹。

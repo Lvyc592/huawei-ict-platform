@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统设置 - 华技云管理端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="main-layout">
+    <aside class="sidebar">
+        <div class="sidebar-header" style="background:linear-gradient(135deg,#062c5a,#094086);"><h1><i class="bi bi-shield-lock-fill"></i>管理端</h1></div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">核心管理</div>
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-speedometer2"></i>管理仪表盘</a>
+            <a href="users.html" class="menu-item"><i class="bi bi-people"></i>用户管理</a>
+            <a href="courses.html" class="menu-item"><i class="bi bi-book"></i>课程管理</a>
+            <a href="certifications.html" class="menu-item"><i class="bi bi-award"></i>认证管理</a>
+            <div class="menu-section">运营管理</div>
+            <a href="labs.html" class="menu-item"><i class="bi bi-cloud-haze"></i>实训管理</a>
+            <a href="competitions.html" class="menu-item"><i class="bi bi-trophy"></i>赛事管理</a>
+            <a href="jobs.html" class="menu-item"><i class="bi bi-briefcase"></i>就业管理</a>
+            <div class="menu-section">数据与系统</div>
+            <a href="analytics.html" class="menu-item"><i class="bi bi-graph-up"></i>数据统计</a>
+            <a href="settings.html" class="menu-item active"><i class="bi bi-gear"></i>系统设置</a>
+        </nav>
+        <div class="sidebar-footer"><div class="user-info"><div class="user-avatar" style="background:#e8a838;">管</div><div class="user-details"><div class="user-name">管理员</div><div class="user-role">系统管理员</div></div></div></div>
+    </aside>
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left"><div class="header-nav"><a href="dashboard.html">仪表盘</a><a href="users.html">用户管理</a><a href="courses.html">课程管理</a><a href="analytics.html">数据统计</a><a href="settings.html" class="active">系统设置</a></div></div>
+            <div class="header-right"><a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a></div>
+        </header>
+        <div class="page-content">
+            <div class="page-title"><h2><i class="bi bi-gear me-2"></i>系统设置</h2><p>管理平台基础配置和系统参数</p></div>
+
+            <div class="row-2">
+                <!-- 基本设置 -->
+                <div>
+                    <div class="card mb-4">
+                        <div class="card-header"><h3>平台基本设置</h3></div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>平台名称</label>
+                                <input type="text" value="华技云 ICT智慧实训平台" style="width:100%;padding:10px 14px;border:1px solid #e5e7eb;border-radius:6px;font-size:14px;">
+                            </div>
+                            <div class="form-group">
+                                <label>平台副标题</label>
+                                <input type="text" value="领先级华为ICT学院 · 岗课赛证一体化实训平台" style="width:100%;padding:10px 14px;border:1px solid #e5e7eb;border-radius:6px;font-size:14px;">
+                            </div>
+                            <div class="form-group">
+                                <label>技术支持信息</label>
+                                <input type="text" value="博赛数字科技联合共建" style="width:100%;padding:10px 14px;border:1px solid #e5e7eb;border-radius:6px;font-size:14px;">
+                            </div>
+                            <div class="form-group">
+                                <label>备案号</label>
+                                <input type="text" value="京ICP备XXXXXXXX号" style="width:100%;padding:10px 14px;border:1px solid #e5e7eb;border-radius:6px;font-size:14px;">
+                            </div>
+                            <button class="btn btn-primary w-100" onclick="showToast('平台设置已保存成功！','success')">保存设置</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><h3>管理员信息</h3></div>
+                        <div class="card-body">
+                            <div style="text-align:center;margin-bottom:24px;">
+                                <div style="width:80px;height:80px;border-radius:50%;background:#e8a838;display:flex;align-items:center;justify-content:center;color:white;font-size:28px;margin:0 auto 12px;">管</div>
+                                <button class="btn btn-sm btn-outline" onclick="showToast('头像更换功能开发中，敬请期待','info')">更换头像</button>
+                            </div>
+                            <div class="form-group">
+                                <label>管理员名称</label>
+                                <input type="text" value="管理员" style="width:100%;padding:10px 14px;border:1px solid #e5e7eb;border-radius:6px;font-size:14px;">
+                            </div>
+                            <div class="form-group">
+                                <label>管理员邮箱</label>
+                                <input type="email" value="admin@huawei-ict.com" style="width:100%;padding:10px 14px;border:1px solid #e5e7eb;border-radius:6px;font-size:14px;">
+                            </div>
+                            <button class="btn btn-primary w-100" onclick="showToast('管理员信息已保存成功！','success')">保存修改</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 系统参数 -->
+                <div>
+                    <div class="card mb-4">
+                        <div class="card-header"><h3>功能开关</h3></div>
+                        <div class="card-body" style="display:flex;flex-direction:column;gap:16px;">
+                            <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;border-bottom:1px solid #e5e7eb;">
+                                <div><h4 style="font-size:14px;margin-bottom:4px;">用户注册</h4><p style="font-size:12px;color:#999;margin:0;">允许新用户自行注册</p></div>
+                                <span style="padding:4px 12px;background:#e8f8f0;color:#28a745;border-radius:4px;font-size:12px;">已开启</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;border-bottom:1px solid #e5e7eb;">
+                                <div><h4 style="font-size:14px;margin-bottom:4px;">AI助学功能</h4><p style="font-size:12px;color:#999;margin:0;">开启智能答疑和专注力监测</p></div>
+                                <span style="padding:4px 12px;background:#e8f8f0;color:#28a745;border-radius:4px;font-size:12px;">已开启</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;border-bottom:1px solid #e5e7eb;">
+                                <div><h4 style="font-size:14px;margin-bottom:4px;">云端实训环境</h4><p style="font-size:12px;color:#999;margin:0;">提供华为云全真实验环境</p></div>
+                                <span style="padding:4px 12px;background:#e8f8f0;color:#28a745;border-radius:4px;font-size:12px;">已开启</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;">
+                                <div><h4 style="font-size:14px;margin-bottom:4px;">维护模式</h4><p style="font-size:12px;color:#999;margin:0;">开启后仅管理员可访问</p></div>
+                                <span style="padding:4px 12px;background:#f5f5f5;color:#999;border-radius:4px;font-size:12px;">已关闭</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-header"><h3>系统信息</h3></div>
+                        <div class="card-body">
+                            <div style="display:flex;flex-direction:column;gap:12px;font-size:14px;">
+                                <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f5f5f5;">
+                                    <span style="color:#999;">系统版本</span><span>v2.0.1</span>
+                                </div>
+                                <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f5f5f5;">
+                                    <span style="color:#999;">服务器状态</span><span style="color:#28a745;">● 正常运行</span>
+                                </div>
+                                <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f5f5f5;">
+                                    <span style="color:#999;">数据库大小</span><span>2.8 GB</span>
+                                </div>
+                                <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f5f5f5;">
+                                    <span style="color:#999;">存储空间</span><span>128 GB / 500 GB</span>
+                                </div>
+                                <div style="display:flex;justify-content:space-between;padding:8px 0;">
+                                    <span style="color:#999;">上次备份</span><span>2024-06-12 03:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><h3>危险操作</h3></div>
+                        <div class="card-body" style="display:flex;flex-direction:column;gap:12px;">
+                            <button class="btn btn-outline w-100" style="justify-content:center;" onclick="showToast('正在备份数据库...','info')"><i class="bi bi-download me-2"></i>备份数据库</button>
+                            <button class="btn btn-outline w-100" style="justify-content:center;color:#dc3545;border-color:#dc3545;" onclick="if(confirm('确定要清空缓存吗？此操作不可撤销！'))showToast('缓存已清空','success')"><i class="bi bi-trash me-2"></i>清空缓存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/common.js"></script>
+<script>document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        const res = await apiRequest('/admin/settings');
+        if (res && res.success && res.data) {
+            const inputs = document.querySelectorAll('input[type="text"]');
+            if (inputs.length > 0 && res.data.platform_name) inputs[0].value = res.data.platform_name;
+            if (inputs.length > 1 && res.data.platform_subtitle) inputs[1].value = res.data.platform_subtitle;
+            if (inputs.length > 2 && res.data.tech_support) inputs[2].value = res.data.tech_support;
+            if (inputs.length > 3 && res.data.beian_no) inputs[3].value = res.data.beian_no;
+        }
+    } catch(e) {}
+});</script>
+</body>
+</html>

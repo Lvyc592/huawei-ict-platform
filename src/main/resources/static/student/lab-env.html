@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实验环境 - 华技云</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, "Microsoft YaHei", "Segoe UI", Roboto, sans-serif; }
+
+        /* 顶部品牌栏 */
+        .topbar {
+            height: 50px; background: white;
+            display: flex; align-items: center; padding: 0 20px;
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .brand-logo {
+            display: flex; align-items: center; gap: 8px;
+            font-weight: 700; color: #094086; font-size: 16px;
+            padding-right: 20px; border-right: 1px solid #e5e7eb;
+        }
+        .brand-logo .logo-mark {
+            width: 32px; height: 32px; border-radius: 6px;
+            background: linear-gradient(135deg, #094086, #1a6bc4);
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 14px;
+        }
+        .topbar .env-title { margin-left: 20px; font-size: 15px; color: #1f2937; font-weight: 600; }
+        .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 18px; font-size: 13px; color: #4b5563; }
+        .topbar-right a { color: #1a6bc4; text-decoration: none; }
+        .topbar-right a:hover { text-decoration: underline; }
+
+        /* 主体两栏布局 */
+        .main { display: flex; height: calc(100vh - 50px); }
+
+        /* 左侧手册 */
+        .manual-pane {
+            width: 38%; min-width: 360px; max-width: 720px;
+            background: white;
+            display: flex; flex-direction: column;
+            border-right: 1px solid #e5e7eb;
+        }
+        .manual-tabs {
+            display: flex; align-items: center;
+            border-bottom: 1px solid #e5e7eb;
+            background: #f9fafb;
+        }
+        .manual-tab {
+            padding: 12px 22px; cursor: pointer;
+            color: #6b7280; font-size: 14px; font-weight: 500;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .manual-tab.active { color: #1a6bc4; border-bottom-color: #1a6bc4; background: white; }
+        .manual-tab:hover { color: #1a6bc4; }
+        .manual-content {
+            flex: 1; overflow-y: auto; padding: 32px 40px;
+            line-height: 1.85; color: #374151; font-size: 14.5px;
+        }
+        .manual-content::-webkit-scrollbar { width: 6px; }
+        .manual-content::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+        .manual-content h1 { font-size: 26px; color: #1f2937; margin-bottom: 18px; }
+        .manual-content h2 { font-size: 19px; color: #1f2937; margin: 28px 0 12px; padding-left: 12px; border-left: 4px solid #1a6bc4; }
+        .manual-content h3 { font-size: 16px; color: #1a6bc4; margin: 20px 0 10px; }
+        .manual-content p { margin-bottom: 12px; }
+        .manual-content ul, .manual-content ol { margin: 10px 0 16px 24px; }
+        .manual-content li { margin-bottom: 6px; }
+        .manual-content code {
+            background: #f1f5f9; padding: 2px 8px; border-radius: 4px;
+            font-family: "Consolas", "Monaco", monospace; font-size: 13px; color: #e11d48;
+        }
+        .manual-content pre {
+            background: #1e293b; color: #e2e8f0; padding: 16px 18px; border-radius: 8px;
+            font-family: "Consolas", "Monaco", monospace; font-size: 13px; line-height: 1.7;
+            overflow-x: auto; margin: 12px 0 18px;
+        }
+        .manual-content pre .comment { color: #94a3b8; }
+        .manual-content pre .keyword { color: #f472b6; }
+        .manual-content pre .string { color: #86efac; }
+        .manual-content .tip {
+            background: #eff6ff; border-left: 4px solid #1a6bc4;
+            padding: 12px 16px; border-radius: 4px; margin: 14px 0;
+            color: #1e40af; font-size: 14px;
+        }
+        .manual-content .step-num {
+            display: inline-block; width: 26px; height: 26px; line-height: 26px; text-align: center;
+            background: #1a6bc4; color: white; border-radius: 50%;
+            font-weight: 600; font-size: 13px; margin-right: 8px;
+        }
+
+        /* 右侧云端开发环境 */
+        .env-pane { flex: 1; display: flex; flex-direction: column; background: #1e1e1e; min-width: 0; }
+        .env-toolbar {
+            display: flex; align-items: center; gap: 12px;
+            background: #252526; padding: 6px 12px;
+            border-bottom: 1px solid #1e1e1e;
+        }
+        .env-toolbar .btn-pill {
+            background: #0e639c; color: white; border: none;
+            padding: 4px 14px; border-radius: 14px; font-size: 12px; cursor: pointer;
+        }
+        .env-toolbar .btn-pill:hover { background: #1177bb; }
+        .env-toolbar .right-tools { margin-left: auto; display: flex; align-items: center; gap: 10px; color: #cccccc; font-size: 12px; }
+        .env-toolbar .status-dot { width: 8px; height: 8px; background: #4ec9b0; border-radius: 50%; display: inline-block; margin-right: 4px; }
+
+        .env-body { display: flex; flex: 1; min-height: 0; }
+        /* 活动栏（最左一列图标） */
+        .activity-bar {
+            width: 48px; background: #333333;
+            display: flex; flex-direction: column; align-items: center; padding: 8px 0;
+        }
+        .activity-bar .icon-btn {
+            width: 48px; height: 48px;
+            display: flex; align-items: center; justify-content: center;
+            color: #858585; cursor: pointer; position: relative;
+            font-size: 22px;
+        }
+        .activity-bar .icon-btn:hover { color: white; }
+        .activity-bar .icon-btn.active { color: white; }
+        .activity-bar .icon-btn.active::before {
+            content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: #1a6bc4;
+        }
+
+        /* 资源管理器侧栏 */
+        .sidebar-pane {
+            width: 220px; background: #252526;
+            color: #cccccc; display: flex; flex-direction: column;
+        }
+        .sidebar-pane .pane-title {
+            padding: 8px 14px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;
+            color: #cccccc; font-weight: 600; background: #2d2d2d;
+        }
+        .file-tree { flex: 1; overflow-y: auto; padding: 4px 0; font-size: 13px; }
+        .file-tree::-webkit-scrollbar { width: 6px; }
+        .file-tree::-webkit-scrollbar-thumb { background: #424242; }
+        .file-row {
+            display: flex; align-items: center; padding: 3px 14px;
+            cursor: pointer; white-space: nowrap; user-select: none;
+        }
+        .file-row:hover { background: #2a2d2e; }
+        .file-row.active { background: #094771; color: white; }
+        .file-row .indent { display: inline-block; }
+        .file-row i { margin-right: 6px; font-size: 14px; }
+        .file-row.folder > .name { font-weight: 500; }
+        .file-row .file-actions { margin-left: auto; opacity: 0; font-size: 12px; }
+        .file-row:hover .file-actions { opacity: 0.8; }
+        .file-row .file-actions i { margin-right: 2px; cursor: pointer; }
+
+        /* 主编辑区 */
+        .editor-pane { flex: 1; display: flex; flex-direction: column; min-width: 0; background: #1e1e1e; }
+        .tab-bar {
+            display: flex; background: #2d2d2d;
+            border-bottom: 1px solid #1e1e1e;
+        }
+        .tab {
+            padding: 8px 16px; font-size: 13px; color: #969696;
+            display: flex; align-items: center; gap: 8px; cursor: pointer;
+            border-right: 1px solid #1e1e1e; background: #2d2d2d;
+        }
+        .tab.active { background: #1e1e1e; color: white; border-top: 2px solid #1a6bc4; }
+        .tab .close { font-size: 14px; opacity: 0.6; }
+        .tab .close:hover { opacity: 1; }
+        .tab .unsaved { color: #e0af68; }
+
+        .editor-body { flex: 1; display: flex; min-height: 0; }
+        .line-numbers {
+            width: 50px; background: #1e1e1e; color: #6b6b6b;
+            padding: 12px 8px 12px 0; text-align: right; font-size: 13px;
+            font-family: "Consolas", "Monaco", monospace; line-height: 1.55;
+            user-select: none;
+        }
+        .code-area {
+            flex: 1; padding: 12px 16px; overflow: auto;
+            font-family: "Consolas", "Monaco", monospace; font-size: 13px; line-height: 1.55;
+            color: #d4d4d4; white-space: pre;
+        }
+        .code-area .kw { color: #c586c0; }
+        .code-area .str { color: #ce9178; }
+        .code-area .num { color: #b5cea8; }
+        .code-area .com { color: #6a9955; font-style: italic; }
+        .code-area .fn { color: #dcdcaa; }
+        .code-area .var { color: #9cdcfe; }
+        .code-area .type { color: #4ec9b0; }
+        .code-area .punct { color: #d4d4d4; }
+
+        /* 底部状态栏 */
+        .status-bar {
+            height: 24px; background: #007acc; color: white;
+            display: flex; align-items: center; padding: 0 12px;
+            font-size: 12px; gap: 18px;
+        }
+        .status-bar .right { margin-left: auto; display: flex; gap: 18px; }
+
+        /* 终端面板 */
+        .terminal-panel {
+            height: 180px; background: #1e1e1e;
+            border-top: 1px solid #1e1e1e;
+            display: none; flex-direction: column;
+        }
+        .terminal-panel.show { display: flex; }
+        .terminal-header {
+            background: #252526; padding: 4px 14px; font-size: 11px;
+            color: #cccccc; text-transform: uppercase; letter-spacing: 0.5px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .terminal-header i { cursor: pointer; }
+        .terminal-body {
+            flex: 1; overflow-y: auto; padding: 8px 14px;
+            font-family: "Consolas", "Monaco", monospace; font-size: 12.5px; color: #cccccc;
+        }
+        .terminal-body .prompt { color: #4ec9b0; }
+        .terminal-body .line { margin-bottom: 2px; white-space: pre-wrap; }
+
+        /* 通知弹窗 */
+        .notif {
+            position: fixed; right: 20px; top: 70px; z-index: 9999;
+            background: #252526; color: #cccccc; padding: 12px 18px;
+            border-left: 4px solid #e0af68; border-radius: 4px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3); font-size: 13px;
+            display: flex; align-items: center; gap: 10px;
+            animation: slideInRight 0.4s ease;
+        }
+        @keyframes slideInRight { from { transform: translateX(120%); } to { transform: translateX(0); } }
+
+        /* 响应式 */
+        @media (max-width: 900px) {
+            .manual-pane { width: 45%; min-width: 0; }
+            .sidebar-pane { width: 160px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 顶部品牌栏 -->
+<div class="topbar">
+    <div class="brand-logo">
+        <div class="logo-mark">华</div>
+        <span>华技云 · 华为ICT智慧实训平台</span>
+    </div>
+    <div class="env-title" id="envTitle">实验环境</div>
+    <div class="topbar-right">
+        <span style="color:#9ece6a;"><i class="bi bi-circle-fill" style="font-size:8px;"></i> 已连接</span>
+        <a href="cloud-lab.html"><i class="bi bi-arrow-left"></i> 返回</a>
+        <a href="javascript:void(0)" onclick="resetEnv()"><i class="bi bi-arrow-repeat"></i> 重置环境</a>
+        <a href="javascript:void(0)" onclick="downloadSource()"><i class="bi bi-download"></i> 实验源码下载</a>
+        <a href="cloud-lab.html" style="color:#dc3545;"><i class="bi bi-box-arrow-right"></i> 退出</a>
+    </div>
+</div>
+
+<div class="main">
+    <!-- 左侧：操作手册 -->
+    <div class="manual-pane">
+        <div class="manual-tabs">
+            <div class="manual-tab active" onclick="switchTab('manual')"><i class="bi bi-journal-text"></i> 实验手册</div>
+            <div class="manual-tab" onclick="switchTab('video')"><i class="bi bi-play-circle"></i> 演示视频</div>
+        </div>
+        <div class="manual-content" id="manualContent">
+            <h1 id="manualTitle">鸿蒙智慧台灯项目设备端开发指导手册</h1>
+            <p>本实验将带您完成一个完整的鸿蒙智慧台灯项目，模拟使用 DevEco Studio 进行 HarmonyOS 设备端应用开发，集成 IoT 通信、传感器采集与智能控制逻辑。</p>
+
+            <h2>实验目标</h2>
+            <ul>
+                <li>掌握 HarmonyOS 应用工程结构与 Ability 生命周期</li>
+                <li>熟悉 IoT 设备控制 API 的调用方式</li>
+                <li>完成智慧台灯的开关 / 亮度 / 色温控制功能</li>
+                <li>实现人体感应 + 光感自动控制逻辑</li>
+            </ul>
+
+            <h2>实验步骤</h2>
+
+            <h3><span class="step-num">1</span>创建工程</h3>
+            <p>在 DevEco Studio 中选择 <code>Application → Empty Ability</code> 模板，工程名 <code>SmartLamp</code>，语言选择 <code>ArkTS</code>。</p>
+            <pre><span class="comment">// 工程结构</span>
+SmartLamp/
+├── entry/src/main/ets/
+│   ├── pages/
+│   │   └── Index.ets        <span class="comment">// 主页面</span>
+│   ├── common/
+│   │   └── LampController.ets   <span class="comment">// 灯控逻辑</span>
+│   └── model/
+│       └── DeviceModel.ets      <span class="comment">// 设备模型</span>
+└── resources/</pre>
+
+            <h3><span class="step-num">2</span>编写主页面 Index.ets</h3>
+            <p>在右侧编辑器中打开 <code>Index.ets</code>，可以看到已经为您预置了完整代码，请按以下注释完成逻辑补充：</p>
+            <pre><span class="keyword">import</span> { LampController } <span class="keyword">from</span> <span class="string">'../common/LampController'</span>
+
+<span class="type">@Entry</span>
+<span class="type">@Component</span>
+struct <span class="type">Index</span> {
+  <span class="keyword">private</span> controller: <span class="type">LampController</span> = <span class="keyword">new</span> <span class="type">LampController</span>()
+
+  <span class="keyword">build</span>() {
+    <span class="type">Column</span>() {
+      <span class="type">Text</span>(<span class="string">'智慧台灯控制台'</span>)
+        .<span class="fn">fontSize</span>(<span class="num">28</span>)
+        .<span class="fn">fontWeight</span>(<span class="type">FontWeight</span>.<span class="var">Bold</span>)
+
+      <span class="type">Toggle</span>({ <span class="var">type</span>: <span class="type">ToggleType</span>.<span class="var">Switch</span>, <span class="var">isOn</span>: <span class="keyword">this</span>.<span class="var">controller</span>.<span class="fn">isOn</span>() })
+        .<span class="fn">onChange</span>((<span class="var">isOn</span>: <span class="type">boolean</span>) =&gt; {
+          <span class="keyword">this</span>.<span class="var">controller</span>.<span class="fn">toggle</span>(<span class="var">isOn</span>)
+        })
+    }
+  }
+}</pre>
+
+            <div class="tip">
+                <i class="bi bi-lightbulb"></i> 提示：按 <code>Ctrl + S</code> 保存后系统会自动运行编译，并在终端输出运行结果。
+            </div>
+
+            <h3><span class="step-num">3</span>实现 LampController</h3>
+            <p>点击左侧文件树中的 <code>common/LampController.ets</code>，完成开关、亮度、色温三个方法：</p>
+            <ul>
+                <li><code>toggle(isOn: boolean)</code> — 控制灯的开关</li>
+                <li><code>setBrightness(level: number)</code> — 设置亮度 0~100</li>
+                <li><code>setColorTemp(kelvin: number)</code> — 设置色温 2700~6500K</li>
+            </ul>
+
+            <h3><span class="step-num">4</span>编译并运行</h3>
+            <p>点击右上角 <code>▶ 启动</code> 按钮，编译将在底部终端中输出。运行后可在模拟器中查看台灯 UI 效果。</p>
+            <pre><span class="prompt">$</span> hvigorw clean
+<span class="prompt">$</span> hvigorw assembleHap --mode module -p product default
+<span class="comment"># 构建成功！</span>
+<span class="prompt">$</span> hdc install entry/build/default/outputs/default/entry-default-signed.hap
+<span class="comment"># 安装完成：1/1</span></pre>
+
+            <h2>实验要求</h2>
+            <ol>
+                <li>独立完成至少 3 个方法的编码实现</li>
+                <li>在终端中执行 <code>npm test</code> 验证单元测试</li>
+                <li>实验报告以 PDF 格式上传至作业区</li>
+            </ol>
+
+            <h2>常见问题</h2>
+            <p><strong>Q1：编译报错 "Cannot find module @ohos.iothardware"？</strong></p>
+            <p>A：在 <code>oh-package.json5</code> 中添加依赖 <code>"@ohos.iothardware": "^1.0.0"</code> 后同步即可。</p>
+            <p><strong>Q2：模拟器无法启动？</strong></p>
+            <p>A：点击右上角"重置环境"按钮，等待 5-10 秒后重试。</p>
+        </div>
+    </div>
+
+    <!-- 右侧：云端开发环境 -->
+    <div class="env-pane">
+        <div class="env-toolbar">
+            <button class="btn-pill" onclick="runProject()"><i class="bi bi-play-fill"></i> 启动</button>
+            <button class="btn-pill" style="background:#4ec9b0;" onclick="toggleTerminal()"><i class="bi bi-terminal"></i> 终端</button>
+            <span style="color:#cccccc;font-size:12px;margin-left:8px;">bosstay ▸ entry ▸ <span id="currentFile">Index.ets</span></span>
+            <div class="right-tools">
+                <span><span class="status-dot"></span>已连接</span>
+                <span>UTF-8</span>
+                <span>ArkTS</span>
+            </div>
+        </div>
+
+        <div class="env-body">
+            <!-- 活动栏 -->
+            <div class="activity-bar">
+                <div class="icon-btn active" title="资源管理器" onclick="switchPanel(this)"><i class="bi bi-files"></i></div>
+                <div class="icon-btn" title="搜索" onclick="switchPanel(this)"><i class="bi bi-search"></i></div>
+                <div class="icon-btn" title="源码管理" onclick="switchPanel(this)"><i class="bi bi-git"></i></div>
+                <div class="icon-btn" title="调试" onclick="switchPanel(this)"><i class="bi bi-bug"></i></div>
+                <div class="icon-btn" title="扩展" onclick="switchPanel(this)"><i class="bi bi-puzzle"></i></div>
+                <div class="icon-btn" style="margin-top:auto;" title="设置" onclick="switchPanel(this)"><i class="bi bi-gear"></i></div>
+            </div>
+
+            <!-- 资源管理器 -->
+            <div class="sidebar-pane">
+                <div class="pane-title">资源管理器</div>
+                <div class="file-tree" id="fileTree">
+                    <div class="file-row folder" onclick="toggleFolder(this)"><i class="bi bi-chevron-down"></i><i class="bi bi-folder-fill" style="color:#dcb67a;"></i><span class="name">SmartLamp</span></div>
+                    <div class="file-row folder" style="padding-left:24px;" onclick="toggleFolder(this)"><i class="bi bi-chevron-down"></i><i class="bi bi-folder-fill" style="color:#dcb67a;"></i><span class="name">entry</span><span class="file-actions"><i class="bi bi-three-dots"></i></span></div>
+                    <div class="file-row folder" style="padding-left:48px;" onclick="toggleFolder(this)"><i class="bi bi-chevron-down"></i><i class="bi bi-folder-fill" style="color:#dcb67a;"></i><span class="name">src</span></div>
+                    <div class="file-row folder" style="padding-left:72px;" onclick="toggleFolder(this)"><i class="bi bi-chevron-down"></i><i class="bi bi-folder-fill" style="color:#dcb67a;"></i><span class="name">main</span></div>
+                    <div class="file-row folder" style="padding-left:96px;" onclick="toggleFolder(this)"><i class="bi bi-chevron-down"></i><i class="bi bi-folder-fill" style="color:#dcb67a;"></i><span class="name">ets</span></div>
+                    <div class="file-row folder" style="padding-left:120px;" onclick="toggleFolder(this)"><i class="bi bi-chevron-down"></i><i class="bi bi-folder-fill" style="color:#dcb67a;"></i><span class="name">pages</span></div>
+                    <div class="file-row active" style="padding-left:144px;" onclick="openFile(this,'Index.ets')"><i class="bi bi-file-earmark-code" style="color:#4ec9b0;"></i><span class="name">Index.ets</span><span class="file-actions"><i class="bi bi-x"></i></span></div>
+                    <div class="file-row folder" style="padding-left:120px;" onclick="toggleFolder(this)"><i class="bi bi-chevron-down"></i><i class="bi bi-folder-fill" style="color:#dcb67a;"></i><span class="name">common</span></div>
+                    <div class="file-row" style="padding-left:144px;" onclick="openFile(this,'LampController.ets')"><i class="bi bi-file-earmark-code" style="color:#4ec9b0;"></i><span class="name">LampController.ets</span></div>
+                    <div class="file-row folder" style="padding-left:120px;" onclick="toggleFolder(this)"><i class="bi bi-chevron-down"></i><i class="bi bi-folder-fill" style="color:#dcb67a;"></i><span class="name">model</span></div>
+                    <div class="file-row" style="padding-left:144px;" onclick="openFile(this,'DeviceModel.ets')"><i class="bi bi-file-earmark-code" style="color:#4ec9b0;"></i><span class="name">DeviceModel.ets</span></div>
+                    <div class="file-row" style="padding-left:96px;" onclick="openFile(this,'oh-package.json5')"><i class="bi bi-file-earmark-text" style="color:#cbcb41;"></i><span class="name">oh-package.json5</span></div>
+                    <div class="file-row" style="padding-left:96px;" onclick="openFile(this,'main_pages.json')"><i class="bi bi-file-earmark-text" style="color:#cbcb41;"></i><span class="name">main_pages.json</span></div>
+                    <div class="file-row folder" style="padding-left:48px;" onclick="toggleFolder(this)"><i class="bi bi-chevron-right"></i><i class="bi bi-folder-fill" style="color:#dcb67a;"></i><span class="name">resources</span></div>
+                    <div class="file-row" style="padding-left:24px;" onclick="openFile(this,'oh-package.json5')"><i class="bi bi-file-earmark-text" style="color:#cbcb41;"></i><span class="name">oh-package.json5</span></div>
+                    <div class="file-row" style="padding-left:24px;" onclick="openFile(this,'build-profile.json5')"><i class="bi bi-file-earmark-text" style="color:#cbcb41;"></i><span class="name">build-profile.json5</span></div>
+                    <div class="file-row" style="padding-left:24px;"><i class="bi bi-file-earmark-text" style="color:#909090;"></i><span class="name">hvigorfile.ts</span></div>
+                    <div class="file-row" style="padding-left:0px;"><i class="bi bi-file-earmark-text" style="color:#909090;"></i><span class="name">README.md</span></div>
+                </div>
+            </div>
+
+            <!-- 编辑器 -->
+            <div class="editor-pane">
+                <div class="tab-bar">
+                    <div class="tab active">
+                        <i class="bi bi-file-earmark-code" style="color:#4ec9b0;"></i>
+                        <span>Index.ets</span>
+                        <span class="unsaved">●</span>
+                        <span class="close">×</span>
+                    </div>
+                    <div class="tab">
+                        <i class="bi bi-file-earmark-code" style="color:#4ec9b0;"></i>
+                        <span>LampController.ets</span>
+                        <span class="close">×</span>
+                    </div>
+                </div>
+                <div class="editor-body">
+                    <div class="line-numbers" id="lineNums">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43<br>44<br>45</div>
+                    <div class="code-area" id="codeArea"><span class="com">// SmartLamp - 鸿蒙智慧台灯设备端入口</span>
+<span class="com">// Copyright (c) 2024 华技云 - 华为ICT智慧实训平台</span>
+
+<span class="kw">import</span> { <span class="var">LampController</span> } <span class="kw">from</span> <span class="str">'../common/LampController'</span>
+<span class="kw">import</span> { <span class="var">DeviceModel</span> } <span class="kw">from</span> <span class="str">'../model/DeviceModel'</span>
+<span class="kw">import</span> { <span class="var">sensor</span> } <span class="kw">from</span> <span class="str">'@kit.SensorServiceKit'</span>
+<span class="kw">import</span> { <span class="var">logger</span> } <span class="kw">from</span> <span class="str">'@kit.LoggerKit'</span>
+
+<span class="type">@Entry</span>
+<span class="type">@Component</span>
+<span class="kw">struct</span> <span class="type">Index</span> {
+  <span class="com">// 灯控与设备模型</span>
+  <span class="kw">private</span> <span class="var">controller</span>: <span class="type">LampController</span> = <span class="kw">new</span> <span class="type">LampController</span>()
+  <span class="kw">private</span> <span class="var">device</span>: <span class="type">DeviceModel</span> = <span class="kw">new</span> <span class="type">DeviceModel</span>({
+    <span class="var">deviceId</span>: <span class="str">'lamp-001'</span>,
+    <span class="var">name</span>: <span class="str">'智慧台灯'</span>,
+    <span class="var">type</span>: <span class="str">'IoT-Lamp'</span>
+  })
+
+  <span class="com">// 自动模式状态</span>
+  <span class="com">// @State autoMode: boolean = false</span>
+  <span class="com">// @State brightness: number = 80</span>
+  <span class="com">// @State colorTemp: number = 4000</span>
+
+  <span class="fn">aboutToAppear</span>() {
+    <span class="var">logger</span>.<span class="fn">info</span>(<span class="str">'Index 页面即将显示'</span>)
+    <span class="kw">this</span>.<span class="var">controller</span>.<span class="fn">init</span>(<span class="kw">this</span>.<span class="var">device</span>)
+  }
+
+  <span class="fn">aboutToDisappear</span>() {
+    <span class="kw">this</span>.<span class="var">controller</span>.<span class="fn">release</span>()
+  }
+
+  <span class="kw">build</span>() {
+    <span class="type">Column</span>() {
+      <span class="type">Row</span>() {
+        <span class="type">Text</span>(<span class="str">'智慧台灯控制台'</span>)
+          .<span class="fn">fontSize</span>(<span class="num">26</span>)
+          .<span class="fn">fontWeight</span>(<span class="type">FontWeight</span>.<span class="var">Bold</span>)
+          .<span class="fn">layoutWeight</span>(<span class="num">1</span>)
+
+        <span class="type">Toggle</span>({ <span class="var">type</span>: <span class="type">ToggleType</span>.<span class="var">Switch</span> })
+          .<span class="fn">onChange</span>((<span class="var">isOn</span>: <span class="type">boolean</span>) =&gt; {
+            <span class="kw">this</span>.<span class="var">controller</span>.<span class="fn">toggle</span>(<span class="var">isOn</span>)
+          })
+      }
+      .<span class="fn">width</span>(<span class="str">'100%'</span>)
+      .<span class="fn">padding</span>(<span class="num">16</span>)
+
+      <span class="type">Slider</span>({ <span class="var">value</span>: <span class="num">80</span>, <span class="var">min</span>: <span class="num">0</span>, <span class="var">max</span>: <span class="num">100</span> })
+        .<span class="fn">onChange</span>((<span class="var">v</span>: <span class="type">number</span>) =&gt; {
+          <span class="kw">this</span>.<span class="var">controller</span>.<span class="fn">setBrightness</span>(<span class="var">v</span>)
+        })
+    }
+  }
+}</div>
+                </div>
+
+                <!-- 终端 -->
+                <div class="terminal-panel" id="terminalPanel">
+                    <div class="terminal-header">
+                        <span>终端 — bash</span>
+                        <i class="bi bi-x-lg" onclick="toggleTerminal()"></i>
+                    </div>
+                    <div class="terminal-body" id="terminalBody">
+                        <div class="line"><span class="prompt">root@bosstay-ide:~/SmartLamp$</span> hvigorw clean</div>
+                        <div class="line">Hivigor 4.5.0</div>
+                        <div class="line" style="color:#4ec9b0;">✓ Clean completed (1.2s)</div>
+                        <div class="line"><span class="prompt">root@bosstay-ide:~/SmartLamp$</span> hvigorw assembleHap</div>
+                        <div class="line">Compile ArkTS...</div>
+                        <div class="line" style="color:#4ec9b0;">✓ Compile success (3.8s)</div>
+                        <div class="line" style="color:#4ec9b0;">✓ Build HAP success (5.2s)</div>
+                        <div class="line"><span class="prompt">root@bosstay-ide:~/SmartLamp$</span> <span style="animation:blink 1s infinite;">_</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部状态栏 -->
+        <div class="status-bar">
+            <span><i class="bi bi-git"></i> main*</span>
+            <span><i class="bi bi-bug"></i> 0 ⚠ 0</span>
+            <span style="margin-left:8px;">Restricted Mode</span>
+            <div class="right">
+                <span>Ln 12, Col 24</span>
+                <span>Spaces: 2</span>
+                <span>UTF-8</span>
+                <span>LF</span>
+                <span>ArkTS</span>
+                <span>Layout: US</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 从 URL 读取实验信息
+    const params = new URLSearchParams(window.location.search);
+    const labId = params.get('id') || '';
+    const labName = params.get('name') || '鸿蒙智慧台灯项目';
+
+    if (labName) {
+        document.getElementById('envTitle').textContent = labName + ' — 实验环境';
+        document.getElementById('manualTitle').textContent = labName + ' 设备端开发指导手册';
+    }
+
+    function switchTab(name) {
+        document.querySelectorAll('.manual-tab').forEach(t => t.classList.remove('active'));
+        event.target.closest('.manual-tab').classList.add('active');
+        if (name === 'video') {
+            document.getElementById('manualContent').innerHTML =
+                '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#6b7280;">' +
+                '<i class="bi bi-play-circle" style="font-size:80px;color:#1a6bc4;margin-bottom:20px;"></i>' +
+                '<h3 style="color:#1f2937;">演示视频</h3>' +
+                '<p style="margin-top:10px;">视频加载中...（模拟环境）</p>' +
+                '<div style="margin-top:24px;width:80%;max-width:500px;aspect-ratio:16/9;background:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;">' +
+                '<i class="bi bi-play-fill" style="font-size:60px;color:white;opacity:0.7;"></i></div></div>';
+        }
+    }
+
+    function switchPanel(el) {
+        document.querySelectorAll('.activity-bar .icon-btn').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+    }
+
+    function toggleFolder(row) {
+        const chevron = row.querySelector('.bi-chevron-down, .bi-chevron-right');
+        if (chevron) {
+            chevron.classList.toggle('bi-chevron-down');
+            chevron.classList.toggle('bi-chevron-right');
+        }
+    }
+
+    function openFile(row, name) {
+        document.querySelectorAll('.file-row').forEach(r => r.classList.remove('active'));
+        row.classList.add('active');
+        document.getElementById('currentFile').textContent = name;
+    }
+
+    function runProject() {
+        const tp = document.getElementById('terminalPanel');
+        tp.classList.add('show');
+        const tb = document.getElementById('terminalBody');
+        const lines = [
+            '<div class="line"><span class="prompt">root@bosstay-ide:~/SmartLamp$</span> hvigorw assembleHap</div>',
+            '<div class="line">Hivigor 4.5.0</div>',
+            '<div class="line">Compile ArkTS files...</div>',
+            '<div class="line" style="color:#4ec9b0;">✓ 编译成功 (3.8s)</div>',
+            '<div class="line">Package HAP...</div>',
+            '<div class="line" style="color:#4ec9b0;">✓ 打包成功 entry-default-signed.hap (2.1MB)</div>',
+            '<div class="line">Installing to emulator...</div>',
+            '<div class="line" style="color:#4ec9b0;">✓ 安装完成：1/1</div>',
+            '<div class="line" style="color:#4ec9b0;">✓ 应用启动成功</div>',
+            '<div class="line"><span class="prompt">root@bosstay-ide:~/SmartLamp$</span> <span style="animation:blink 1s infinite;">_</span></div>'
+        ];
+        let i = 0;
+        const timer = setInterval(() => {
+            if (i < lines.length) { tb.insertAdjacentHTML('beforeend', lines[i]); tb.scrollTop = tb.scrollHeight; i++; }
+            else clearInterval(timer);
+        }, 300);
+        showNotif('编译运行成功！应用已部署到模拟器。', 'success');
+    }
+
+    function toggleTerminal() {
+        document.getElementById('terminalPanel').classList.toggle('show');
+    }
+
+    function resetEnv() {
+        if (!confirm('确定要重置实验环境吗？所有未保存的修改将丢失。')) return;
+        showNotif('正在重置实验环境...', 'info');
+        setTimeout(() => { showNotif('环境已重置完成！', 'success'); }, 1500);
+    }
+
+    function downloadSource() {
+        showNotif('源码包准备中...', 'info');
+        setTimeout(() => { showNotif('源码已开始下载（SmartLamp.zip）', 'success'); }, 1000);
+    }
+
+    function showNotif(msg, type) {
+        const n = document.createElement('div');
+        n.className = 'notif';
+        n.style.borderLeftColor = type === 'success' ? '#4ec9b0' : type === 'danger' ? '#f48771' : '#e0af68';
+        n.innerHTML = '<i class="bi bi-info-circle"></i> ' + msg;
+        document.body.appendChild(n);
+        setTimeout(() => { n.style.transition = 'opacity 0.4s'; n.style.opacity = '0'; setTimeout(() => n.remove(), 400); }, 2800);
+    }
+
+    // blink keyframe
+    const style = document.createElement('style');
+    style.textContent = '@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}';
+    document.head.appendChild(style);
+
+    // 自动聚焦侧边栏
+    document.addEventListener('DOMContentLoaded', () => {
+        const t = setTimeout(toggleTerminal, 600);
+    });
+</script>
+</body>
+</html>

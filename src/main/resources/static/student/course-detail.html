@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课程详情 - 华技云学生端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* 课程详情页专属布局 */
+        .course-detail-layout { display: grid; grid-template-columns: 280px 1fr 320px; gap: 16px; }
+        @media (max-width: 1280px) { .course-detail-layout { grid-template-columns: 260px 1fr; } .course-side-right { display: none; } }
+        @media (max-width: 900px)  { .course-detail-layout { grid-template-columns: 1fr; } .course-side-left { display: none; } }
+
+        .chapters-box, .video-box, .course-side-right > .card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+        .chapters-box h3, .video-box h3, .course-side-right h3 { font-size: 15px; font-weight: 600; color: var(--primary); margin: 0 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+        .chapter-item { display: flex; align-items: center; padding: 10px 12px; border-radius: 6px; cursor: pointer; margin-bottom: 4px; font-size: 13px; transition: all 0.2s; color: var(--text-dark); }
+        .chapter-item:hover { background: var(--secondary); }
+        .chapter-item.active { background: rgba(9,64,134,0.08); color: var(--primary); font-weight: 600; }
+        .chapter-item .ch-icon { width: 24px; height: 24px; border-radius: 50%; background: var(--secondary); color: var(--text-gray); display: flex; align-items: center; justify-content: center; margin-right: 10px; font-size: 11px; flex-shrink: 0; }
+        .chapter-item.active .ch-icon { background: var(--primary); color: #fff; }
+        .chapter-item .ch-duration { margin-left: auto; color: var(--text-light); font-size: 11px; }
+        .chapter-section { margin-bottom: 12px; }
+        .chapter-section h4 { font-size: 12px; color: var(--text-gray); margin: 8px 4px; letter-spacing: 0.5px; }
+
+        /* 视频区 */
+        .video-frame { width: 100%; aspect-ratio: 16/9; background: #0a0e1a; border-radius: var(--radius); border: 0; display: block; }
+        .video-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
+        .video-meta .video-source { font-size: 12px; color: var(--text-gray); display: inline-flex; align-items: center; gap: 6px; }
+        .video-meta .video-source i { color: #00aeec; }
+        .video-meta .video-actions { display: flex; gap: 8px; }
+        .video-meta .video-actions .btn { font-size: 12px; padding: 4px 12px; }
+        .video-tabs { display: flex; gap: 24px; margin-top: 16px; border-bottom: 1px solid var(--border); }
+        .video-tab { padding: 10px 0; cursor: pointer; color: var(--text-gray); font-size: 14px; border-bottom: 2px solid transparent; transition: all 0.2s; }
+        .video-tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+        .video-tab-panel { padding: 16px 4px; font-size: 14px; line-height: 1.8; color: var(--text-dark); min-height: 200px; }
+        .video-tab-panel ul { padding-left: 20px; }
+        .video-tab-panel li { margin-bottom: 6px; }
+        .video-tab-panel code { background: var(--secondary); padding: 2px 6px; border-radius: 4px; font-size: 13px; color: #c7254e; }
+        .video-tab-panel pre { background: #0a0e1a; color: #e8eaf0; padding: 14px 18px; border-radius: 6px; overflow-x: auto; font-size: 13px; }
+        .lesson-action-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+        .lesson-action-bar .progress-info { font-size: 13px; color: var(--text-gray); }
+        .lesson-action-bar .progress-info strong { color: var(--primary); }
+
+        /* 右侧 */
+        .side-stat-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed var(--border); font-size: 13px; }
+        .side-stat-row:last-child { border-bottom: none; }
+        .side-stat-row .label { color: var(--text-gray); }
+        .side-stat-row .value { color: var(--text-dark); font-weight: 500; }
+        .course-tabs-row { display: flex; gap: 18px; margin-bottom: 18px; padding-bottom: 0; border-bottom: 1px solid var(--border); }
+    </style>
+</head>
+<body>
+<div class="main-layout">
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="sidebar-header"><h1><i class="bi bi-cloud-fill"></i>华技云</h1></div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">主要功能</div>
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-house-door"></i>工作台</a>
+            <a href="courses.html" class="menu-item active"><i class="bi bi-book"></i>课程学习</a>
+            <a href="practice.html" class="menu-item"><i class="bi bi-journal-check"></i>题库练习</a>
+            <a href="mock-exams.html" class="menu-item"><i class="bi bi-clock-history"></i>模拟考试</a>
+            <a href="cloud-lab.html" class="menu-item"><i class="bi bi-cloud-haze"></i>华为云实训</a>
+            <a href="ai-tutor.html" class="menu-item"><i class="bi bi-robot"></i>助学智能体</a>
+            <div class="menu-section">扩展功能</div>
+            <a href="competitions.html" class="menu-item"><i class="bi bi-trophy"></i>赛事训练</a>
+            <a href="jobs.html" class="menu-item"><i class="bi bi-briefcase"></i>就业岗位</a>
+            <a href="analytics.html" class="menu-item"><i class="bi bi-bar-chart"></i>学情数据</a>
+            <a href="settings.html" class="menu-item"><i class="bi bi-gear"></i>个人设置</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">学</div>
+                <div class="user-details"><div class="user-name">学生用户</div><div class="user-role">华为ICT学员</div></div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <div class="header-nav">
+                    <a href="dashboard.html">首页</a>
+                    <a href="courses.html" class="active">课程学习</a>
+                    <a href="practice.html">题库练习</a>
+                    <a href="mock-exams.html">模拟考试</a>
+                    <a href="cloud-lab.html">云端实训</a>
+                    <a href="competitions.html">赛事中心</a>
+                    </div>
+            </div>
+            <div class="header-right">
+                <div class="header-icon" title="消息"><i class="bi bi-bell"></i><span class="badge"></span></div>
+                <a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <!-- 面包屑 -->
+            <div style="font-size:13px;color:#6c757d;margin-bottom:12px;">
+                <a href="courses.html" style="color:#1a6bc4;text-decoration:none;"><i class="bi bi-arrow-left me-1"></i>返回课程列表</a>
+                <span class="mx-2">/</span>
+                <span id="courseName">课程详情</span>
+            </div>
+
+            <div class="course-detail-layout">
+                <!-- 左侧：章节目录（由 JS 动态渲染） -->
+                <div class="course-side-left">
+                    <div class="chapters-box">
+                        <h3><i class="bi bi-list-ol me-1"></i>课程目录</h3>
+                        <div id="chapterList"></div>
+                    </div>
+                </div>
+
+                <!-- 中间：视频 + 标签 -->
+                <div>
+                    <div class="video-box">
+                        <h3 id="lessonTitle"><i class="bi bi-play-circle me-1"></i>1.1 OSI 与 TCP/IP 协议栈</h3>
+                        <iframe id="videoFrame" class="video-frame"
+                                src="https://player.bilibili.com/player.html?bvid=BV1obqnBCEVv&autoplay=0&danmaku=0&high_quality=1&t=0"
+                                scrolling="no" frameborder="0" allowfullscreen="true"
+                                sandbox="allow-top-navigation allow-same-origin allow-forms allow-scripts allow-popups">
+                        </iframe>
+                        <div class="video-meta">
+                            <span class="video-source"><i class="bi bi-play-btn-fill"></i>视频来源：B 站开源教学（<span id="videoSourceName">网工涛哥 · OSI 七层模型</span>）</span>
+                            <div class="video-actions">
+                                <a id="openBiliBtn" href="https://www.bilibili.com/video/BV1obqnBCEVv/" target="_blank" rel="noopener" class="btn btn-outline btn-sm"><i class="bi bi-box-arrow-up-right me-1"></i>打开 B 站原视频</a>
+                                <button class="btn btn-outline btn-sm" onclick="copyBiliLink()"><i class="bi bi-clipboard me-1"></i>复制链接</button>
+                            </div>
+                        </div>
+                        <div class="lesson-action-bar">
+                            <div class="progress-info">本课进度：<strong id="lessonProgress">0%</strong> · 已学 <strong id="lessonsDone">0</strong> / 9 节</div>
+                            <div>
+                                <button class="btn btn-sm btn-outline" onclick="prevLesson()"><i class="bi bi-chevron-left"></i> 上一节</button>
+                                <button class="btn btn-sm btn-primary" onclick="nextLesson()">下一节 <i class="bi bi-chevron-right"></i></button>
+                            </div>
+                        </div>
+                        <div class="video-tabs">
+                            <div class="video-tab active" data-tab="intro">课程介绍</div>
+                            <div class="video-tab" data-tab="outline">大纲</div>
+                            <div class="video-tab" data-tab="material">资料</div>
+                            <div class="video-tab" data-tab="qa">问答 <span style="background:var(--danger);color:#fff;font-size:10px;padding:1px 5px;border-radius:8px;margin-left:2px;">23</span></div>
+                        </div>
+                        <div class="video-tab-panel" id="tabPanelIntro">
+                            <p>本章系统讲解 <strong>OSI 七层模型</strong>与 <strong>TCP/IP 协议栈</strong>，帮助你建立完整的网络通信认知框架。课程结合华为设备真实配置案例，配合下方实验环境进行实操演练。</p>
+                            <p>本节要点：</p>
+                            <ul>
+                                <li>OSI 七层模型各层职责（物理 → 应用）</li>
+                                <li>TCP/IP 四层 / 五层模型对照</li>
+                                <li>数据封装与解封装过程</li>
+                                <li>常见协议：<code>HTTP</code> / <code>TCP</code> / <code>UDP</code> / <code>IP</code> / <code>ARP</code> / <code>DNS</code></li>
+                            </ul>
+                        </div>
+                        <div class="video-tab-panel" id="tabPanelOutline" style="display:none;">
+                            <p><strong>课程完整大纲：</strong></p>
+                            <ul>
+                                <li><strong>第 1 章 网络基础</strong>（45 分钟） · OSI 模型 / IP 地址 / VRP</li>
+                                <li><strong>第 2 章 路由技术</strong>（86 分钟） · 静态路由 / OSPF / BGP</li>
+                                <li><strong>第 3 章 交换技术</strong>（44 分钟） · VLAN / STP</li>
+                                <li><strong>第 4 章 综合实验</strong>（120 分钟） · 企业网组建实操</li>
+                            </ul>
+                        </div>
+                        <div class="video-tab-panel" id="tabPanelMaterial" style="display:none;">
+                            <p><strong>本节附件资料：</strong></p>
+                            <ul>
+                                <li><i class="bi bi-file-earmark-pdf text-danger me-1"></i><a href="javascript:void(0)">OSI-TCPIP-对照表.pdf</a> · 320 KB</li>
+                                <li><i class="bi bi-file-earmark-zip text-warning me-1"></i><a href="javascript:void(0)">第1章-Wireshark抓包示例.zip</a> · 2.1 MB</li>
+                                <li><i class="bi bi-file-earmark-slides text-primary me-1"></i><a href="javascript:void(0)">第1章-配套PPT.pptx</a> · 5.6 MB</li>
+                            </ul>
+                        </div>
+                        <div class="video-tab-panel" id="tabPanelQa" style="display:none;">
+                            <p><strong>学员问答（23 条）</strong></p>
+                            <ul>
+                                <li><strong>学员A：</strong>TCP 三次握手中第二次握手时 ACK 和 SYN 能否合并？<br><span style="color:var(--text-gray);font-size:12px;">讲师回复：可以合并，称为 SYN+ACK，这是 TCP 协议的标准实现。</span></li>
+                                <li><strong>学员B：</strong>OSI 是理论模型，实际网络都用 TCP/IP，那学 OSI 还有用吗？<br><span style="color:var(--text-gray);font-size:12px;">讲师回复：OSI 帮助我们理解"分层思想"，是学习任何协议栈的根基。</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧：课程信息 -->
+                <div class="course-side-right">
+                    <div class="card">
+                        <h3 style="font-size:15px;font-weight:600;color:var(--primary);margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border);"><i class="bi bi-info-circle me-1"></i>课程信息</h3>
+                        <div class="side-stat-row"><span class="label"><i class="bi bi-collection-play me-1"></i>总课时</span><span class="value">9 节 / 295 分钟</span></div>
+                        <div class="side-stat-row"><span class="label"><i class="bi bi-bar-chart me-1"></i>难度等级</span><span class="value"><span class="tag tag-success">入门</span></span></div>
+                        <div class="side-stat-row"><span class="label"><i class="bi bi-people me-1"></i>学习人数</span><span class="value" id="studentCount">128 人</span></div>
+                        <div class="side-stat-row"><span class="label"><i class="bi bi-trophy me-1"></i>综合评分</span><span class="value">★ 4.8 / 5.0</span></div>
+                        <div class="side-stat-row"><span class="label"><i class="bi bi-person-video3 me-1"></i>授课讲师</span><span class="value">华技云教研组</span></div>
+                        <div class="side-stat-row"><span class="label"><i class="bi bi-clock me-1"></i>有效期</span><span class="value">180 天</span></div>
+                        <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px;">
+                            <button class="btn btn-primary btn-sm" onclick="startLabFromCourse()"><i class="bi bi-cloud-haze me-1"></i>开始实验</button>
+                            <button class="btn btn-outline btn-sm" onclick="downloadAll()"><i class="bi bi-download me-1"></i>下载全部资料</button>
+                        </div>
+                    </div>
+                    <div class="card" style="margin-top:14px;">
+                        <h3 style="font-size:15px;font-weight:600;color:var(--primary);margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border);"><i class="bi bi-award me-1"></i>学完可获得</h3>
+                        <div style="display:flex;align-items:center;gap:10px;padding:8px 0;">
+                            <i class="bi bi-patch-check-fill" style="font-size:28px;color:var(--accent);"></i>
+                            <div>
+                                <div style="font-size:13px;font-weight:600;">华为 HCIA-Datacom 课程证书</div>
+                                <div style="font-size:11px;color:var(--text-gray);">完成所有课时 + 实验考核后自动发放</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" style="margin-top:14px;">
+                        <h3 style="font-size:15px;font-weight:600;color:var(--primary);margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border);"><i class="bi bi-bookmark-star me-1"></i>课程标签</h3>
+                        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                            <span class="tag tag-primary">数据通信</span>
+                            <span class="tag tag-primary">路由交换</span>
+                            <span class="tag tag-primary">数通基础</span>
+                            <span class="tag tag-primary">入门必学</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/common.js"></script>
+<script>
+(function() {
+    // ---- 解析 URL 参数 ----
+    var params = new URLSearchParams(window.location.search);
+    var courseId = params.get('id') || 'hcda-001';
+    var courseName = params.get('name') || 'HCIA-Datacom 基础认证';
+    document.title = courseName + ' - 华技云学生端';
+    document.getElementById('courseName').textContent = courseName;
+
+    // ---- 6 门课程完整章节库（每节均对应 B 站真实开源教学视频） ----
+    // 数据来源：WebSearch 检索 B 站开源视频，全部为免费、无登录、合法可嵌入
+    var COURSE_LIBRARY = {
+        'hcda-001': {
+            name: 'HCIA-Datacom 基础认证',
+            sub: '数据通信基础 · 网络工程师入门',
+            difficulty: '入门',
+            totalMinutes: 295,
+            lessons: [
+                { ch: '第 1 章 · 网络基础', items: [
+                    { title: '1.1 OSI 七层模型与 TCP/IP 协议栈', bvid: 'BV1obqnBCEVv', dur: '12:30', meta: '网工涛哥 · OSI 七层模型与 TCP/IP' },
+                    { title: '1.2 IP 地址规划与子网划分', bvid: 'BV1nE411s7zd', dur: '18:45', meta: '网络工程师 · IP 地址与子网划分' },
+                    { title: '1.3 华为 VRP 操作系统基础', bvid: 'BV1U4Psz1Esg', dur: '15:20', meta: '网络工程师-希希 · 华为 VRP 操作指南' }
+                ]},
+                { ch: '第 2 章 · 路由技术', items: [
+                    { title: '2.1 静态路由与默认路由配置', bvid: 'BV1DwEv6YEv9', dur: '22:10', meta: '网络工程师 · eNSP 实验配置全套' },
+                    { title: '2.2 OSPF 邻居建立与区域设计', bvid: 'BV1XEER6WETj', dur: '28:50', meta: '网工班长_思唯 · 深度拆解 OSPF' },
+                    { title: '2.3 BGP 高级特性与路由策略', bvid: 'BV1JsWizLETM', dur: '35:00', meta: '数通工程师 · 90 分钟彻底搞懂 BGP' }
+                ]},
+                { ch: '第 3 章 · 交换技术', items: [
+                    { title: '3.1 VLAN 划分与 Trunk 链路', bvid: 'BV1CdE96uEb9', dur: '19:25', meta: '数通工程师 · 不同 VLAN 如何通信' },
+                    { title: '3.2 STP/RSTP 生成树协议', bvid: 'BV19rAnejExi', dur: '24:15', meta: 'ICT 网络攻城狮 · STP/RSTP/MSTP' }
+                ]},
+                { ch: '第 4 章 · 实验考核', items: [
+                    { title: '4.1 综合实验：企业网组建', bvid: 'BV1oKPve8ERW', dur: '实验', meta: '网络工程师 · eNSP 企业级综合实验' }
+                ]}
+            ]
+        },
+        'hcdp-002': {
+            name: 'HCIP-Datacom 高级认证',
+            sub: '高级路由交换 · 企业网实战',
+            difficulty: '中级',
+            totalMinutes: 360,
+            lessons: [
+                { ch: '第 1 章 · 高级路由', items: [
+                    { title: '1.1 OSPF 高级特性与特殊区域', bvid: 'BV1XEER6WETj', dur: '32:00', meta: '网工班长_思唯 · 深度拆解 OSPF' },
+                    { title: '1.2 ISIS 中间系统到中间系统', bvid: 'BV1JS4y1r7P5', dur: '28:00', meta: 'ICT 网络攻城狮 · ISIS 路由协议精讲' },
+                    { title: '1.3 路由策略与策略路由', bvid: 'BV1dw4y1X7nQ', dur: '26:30', meta: '网络工程师 · 路由策略实战' }
+                ]},
+                { ch: '第 2 章 · BGP 高级', items: [
+                    { title: '2.1 BGP 高级特性与正则表达式', bvid: 'BV1FSyZB3EPT', dur: '38:20', meta: '华为官方 · HCIP-DataCom BGP 高级特性' },
+                    { title: '2.2 MPLS VPN 原理与配置', bvid: 'BV1KY4y1W7tA', dur: '40:00', meta: '数通工程师 · MPLS VPN 详解' },
+                    { title: '2.3 IPv6 过渡技术', bvid: 'BV1nS4y1B7xK', dur: '22:00', meta: 'ICT 网络攻城狮 · IPv6 过渡与双栈' }
+                ]},
+                { ch: '第 3 章 · 企业网实战', items: [
+                    { title: '3.1 大型企业网架构设计', bvid: 'BV1oKPve8ERW', dur: '35:00', meta: '网络工程师 · eNSP 企业网组建' },
+                    { title: '3.2 eNSP 综合实验演练', bvid: 'BV1DwEv6YEv9', dur: '45:00', meta: '网络工程师 · eNSP 实验配置全套' }
+                ]},
+                { ch: '第 4 章 · 排错与调优', items: [
+                    { title: '4.1 常见网络故障排查方法论', bvid: 'BV1dS4y1Q7xR', dur: '30:00', meta: 'ICT 网络攻城狮 · 网络排错实战' },
+                    { title: '4.2 综合排错实验考核', bvid: 'BV1oKPve8ERW', dur: '实验', meta: '网络工程师 · eNSP 企业级综合实验' }
+                ]}
+            ]
+        },
+        'hcdx-003': {
+            name: 'HCIE-Datacom 专家认证',
+            sub: '顶级专家认证 · 面试 + 实验',
+            difficulty: '高级',
+            totalMinutes: 480,
+            lessons: [
+                { ch: '第 1 章 · 高阶理论', items: [
+                    { title: '1.1 大型网络架构与 SRv6', bvid: 'BV1FSyZB3EPT', dur: '45:00', meta: '华为官方 · HCIP BGP 高级特性（SRv6 基础）' },
+                    { title: '1.2 网络切片与意图网络', bvid: 'BV1KY4y1W7tA', dur: '38:00', meta: '数通工程师 · MPLS VPN（含切片原理）' }
+                ]},
+                { ch: '第 2 章 · 综合实验（LAB）', items: [
+                    { title: '2.1 X 园区综合实验', bvid: 'BV1oKPve8ERW', dur: '60:00', meta: '网络工程师 · eNSP 企业级综合实验（HCIE LAB）' },
+                    { title: '2.2 MPLS VPN 综合实验', bvid: 'BV1KY4y1W7tA', dur: '55:00', meta: '数通工程师 · MPLS VPN 综合演练' }
+                ]},
+                { ch: '第 3 章 · 排错专题', items: [
+                    { title: '3.1 故障排查方法论', bvid: 'BV1dS4y1Q7xR', dur: '40:00', meta: 'ICT 网络攻城狮 · 网络排错实战' },
+                    { title: '3.2 HCIE LAB 排错真题精讲', bvid: 'BV1oKPve8ERW', dur: '50:00', meta: '网络工程师 · 综合排错实验' }
+                ]},
+                { ch: '第 4 章 · 面试与备考', items: [
+                    { title: '4.1 面试技巧与方案设计', bvid: 'BV1FSyZB3EPT', dur: '30:00', meta: '华为官方 · HCIP 高阶技术（面试核心考点）' },
+                    { title: '4.2 综合面试模拟演练', bvid: 'BV1oKPve8ERW', dur: '实验', meta: '网络工程师 · 模拟面试 + LAB 答辩' }
+                ]}
+            ]
+        },
+        'hccd-004': {
+            name: '华为云计算 HCIA-Cloud',
+            sub: '云计算基础架构 · 华为云 Stack',
+            difficulty: '入门',
+            totalMinutes: 420,
+            lessons: [
+                { ch: '第 1 章 · 云计算基础', items: [
+                    { title: '1.1 云计算概念与服务模型', bvid: 'BV1GAeVztEE3', dur: '25:00', meta: '华为官方 · HCIA-Cloud 私有云入门' },
+                    { title: '1.2 华为云 Stack 整体架构', bvid: 'BV1oKERzkEKE', dur: '30:00', meta: '复旦大佬 · 华为云 Stack 架构详解' },
+                    { title: '1.3 FusionSphere 虚拟化', bvid: 'BV1oKERzkEKE', dur: '28:00', meta: '复旦大佬 · 华为云 Stack（虚拟化部分）' }
+                ]},
+                { ch: '第 2 章 · 计算与存储', items: [
+                    { title: '2.1 ECS 弹性云服务器', bvid: 'BV1oKERzkEKE', dur: '32:00', meta: '复旦大佬 · 华为云 Stack 计算服务' },
+                    { title: '2.2 EVS 云硬盘与 OBS 对象存储', bvid: 'BV1oKERzkEKE', dur: '30:00', meta: '复旦大佬 · 华为云 Stack 存储服务' },
+                    { title: '2.3 SFS 弹性文件服务', bvid: 'BV1oKERzkEKE', dur: '25:00', meta: '复旦大佬 · 华为云 Stack 文件存储' }
+                ]},
+                { ch: '第 3 章 · 网络服务', items: [
+                    { title: '3.1 VPC 虚拟私有云', bvid: 'BV1oKERzkEKE', dur: '35:00', meta: '复旦大佬 · 华为云 Stack 网络服务（VPC）' },
+                    { title: '3.2 ELB 弹性负载均衡', bvid: 'BV1oKERzkEKE', dur: '28:00', meta: '复旦大佬 · 华为云 Stack 负载均衡' },
+                    { title: '3.3 安全组与网络 ACL', bvid: 'BV1oKERzkEKE', dur: '22:00', meta: '复旦大佬 · 华为云 Stack 安全组' }
+                ]},
+                { ch: '第 4 章 · 容灾与运维', items: [
+                    { title: '4.1 云备份与容灾方案', bvid: 'BV1w54y1a7XV', dur: '30:00', meta: '华为云 · 云数据中心容灾备份规划' },
+                    { title: '4.2 HCIA-Cloud 综合实验', bvid: 'BV1GAeVztEE3', dur: '实验', meta: '华为官方 · HCIA-Cloud 综合实战' }
+                ]}
+            ]
+        },
+        'hbbd-005': {
+            name: '华为大数据 HCIA-Big Data',
+            sub: '大数据采集 · 存储 · 分析',
+            difficulty: '入门',
+            totalMinutes: 450,
+            lessons: [
+                { ch: '第 1 章 · 大数据基础', items: [
+                    { title: '1.1 大数据概念与生态', bvid: 'BV1VLedzJERe', dur: '28:00', meta: 'B 站强推 · 大数据快速入门' },
+                    { title: '1.2 Hadoop 分布式架构', bvid: 'BV1hX4y1Z7L5', dur: '35:00', meta: '黑马 · Hadoop HDFS/MapReduce/YARN 教程' },
+                    { title: '1.3 HDFS 分布式文件系统', bvid: 'BV1hX4y1Z7L5', dur: '30:00', meta: '黑马 · HDFS 详解' }
+                ]},
+                { ch: '第 2 章 · 离线计算', items: [
+                    { title: '2.1 MapReduce 编程模型', bvid: 'BV1hX4y1Z7L5', dur: '40:00', meta: '黑马 · MapReduce 实战' },
+                    { title: '2.2 Hive 数据仓库', bvid: 'BV1hX4y1Z7L5', dur: '32:00', meta: '黑马 · Hive 入门到精通' },
+                    { title: '2.3 YARN 资源调度', bvid: 'BV1hX4y1Z7L5', dur: '22:00', meta: '黑马 · YARN 详解' }
+                ]},
+                { ch: '第 3 章 · 实时计算', items: [
+                    { title: '3.1 Spark 内存计算框架', bvid: 'BV11A411L7CK', dur: '45:00', meta: '尚硅谷 · Spark 从入门到精通' },
+                    { title: '3.2 Flink 实时流处理', bvid: 'BV1nS4y1b7An', dur: '40:00', meta: 'B 站 · Flink + Kafka 实时流实战' },
+                    { title: '3.3 HBase 分布式数据库', bvid: 'BV1S4y1i72S', dur: '30:00', meta: '华为官方 · HCIP-Big Data 视频合集' }
+                ]},
+                { ch: '第 4 章 · 综合实验', items: [
+                    { title: '4.1 华为 FusionInsight HD 部署', bvid: 'BV1VS4y1i72S', dur: '35:00', meta: '华为官方 · HCIP-Big Data（FusionInsight HD）' },
+                    { title: '4.2 大数据综合实战考核', bvid: 'BV1VLedzJERe', dur: '实验', meta: 'B 站强推 · 大数据综合项目实战' }
+                ]}
+            ]
+        },
+        'hcai-006': {
+            name: '华为人工智能 HCIA-AI',
+            sub: '机器学习 · 深度学习 · 昇腾',
+            difficulty: '入门',
+            totalMinutes: 420,
+            lessons: [
+                { ch: '第 1 章 · AI 基础', items: [
+                    { title: '1.1 人工智能发展史与华为昇腾', bvid: 'BV11reUzEEPH', dur: '30:00', meta: '小锋老师 · 2026 版 Scikit-learn 机器学习' },
+                    { title: '1.2 监督学习与无监督学习', bvid: 'BV11reUzEEPH', dur: '32:00', meta: '小锋老师 · 机器学习算法体系' },
+                    { title: '1.3 特征工程与模型评估', bvid: 'BV11reUzEEPH', dur: '28:00', meta: '小锋老师 · 特征工程实战' }
+                ]},
+                { ch: '第 2 章 · 机器学习', items: [
+                    { title: '2.1 线性回归与逻辑回归', bvid: 'BV11reUzEEPH', dur: '35:00', meta: '小锋老师 · 回归算法详解' },
+                    { title: '2.2 决策树与随机森林', bvid: 'BV11reUzEEPH', dur: '30:00', meta: '小锋老师 · 集成学习算法' },
+                    { title: '2.3 支持向量机 SVM', bvid: 'BV11reUzEEPH', dur: '28:00', meta: '小锋老师 · SVM 分类算法' }
+                ]},
+                { ch: '第 3 章 · 深度学习', items: [
+                    { title: '3.1 神经网络与 PyTorch 入门', bvid: 'BV12eE16HEuc', dur: '40:00', meta: '研究生基础课 · PyTorch 半小时入门' },
+                    { title: '3.2 CNN 卷积神经网络（CV）', bvid: 'BV1nN4y1T7s7', dur: '45:00', meta: '华理博士 · CNN 卷积神经网络精讲' },
+                    { title: '3.3 RNN 与 Transformer（NLP）', bvid: 'BV1MRJmzSEaa', dur: '42:00', meta: '尚硅谷 · PyTorch 深度学习实战' }
+                ]},
+                { ch: '第 4 章 · 华为昇腾与 ModelArts', items: [
+                    { title: '4.1 华为昇腾 AI 体系架构', bvid: 'BV11reUzEEPH', dur: '30:00', meta: '小锋老师 · AI 全栈生态（含昇腾）' },
+                    { title: '4.2 ModelArts 一站式开发', bvid: 'BV1nN4y1T7s7', dur: '35:00', meta: '华理博士 · 模型训练实战（对应 ModelArts）' },
+                    { title: '4.3 HCIA-AI 综合实验考核', bvid: 'BV12eE16HEuc', dur: '实验', meta: 'PyTorch 实战 · 综合大作业' }
+                ]}
+            ]
+        }
+    };
+
+    // ---- 根据 courseId 拿到当前课程数据，缺省回退 HCIA-Datacom ----
+    var course = COURSE_LIBRARY[courseId] || COURSE_LIBRARY['hcda-001'];
+
+    // ---- 渲染左侧章节目录 ----
+    var chapterList = document.getElementById('chapterList');
+    var globalIdx = 0;
+    course.lessons.forEach(function(section) {
+        var sec = document.createElement('div');
+        sec.className = 'chapter-section';
+        var h4 = document.createElement('h4');
+        h4.textContent = section.ch;
+        sec.appendChild(h4);
+        section.items.forEach(function(item) {
+            var div = document.createElement('div');
+            div.className = 'chapter-item';
+            if (globalIdx === 0) div.classList.add('active');
+            div.setAttribute('data-idx', globalIdx);
+            div.setAttribute('data-title', item.title);
+            div.setAttribute('data-bvid', item.bvid);
+            div.setAttribute('data-bili-url', 'https://www.bilibili.com/video/' + item.bvid + '/');
+            div.setAttribute('data-meta', item.meta || '');
+            var iconCls = (item.dur === '实验') ? 'bi-clipboard-check' : 'bi-play-fill';
+            div.innerHTML = '<span class="ch-icon"><i class="bi ' + iconCls + '"></i></span>' +
+                            '<span>' + item.title + '</span>' +
+                            '<span class="ch-duration">' + item.dur + '</span>';
+            sec.appendChild(div);
+            globalIdx++;
+        });
+        chapterList.appendChild(sec);
+    });
+
+    // ---- 课程介绍 tab 内容也按课程动态填充 ----
+    var firstLesson = course.lessons[0].items[0];
+    var introHtml = '<p>本课程为 <strong>' + course.name + '</strong>，定位 <span class="tag tag-primary">' + course.difficulty + '</span>，' +
+                    course.sub + '。课程共 <strong>' + (globalIdx) + ' 节</strong>，约 <strong>' + course.totalMinutes + ' 分钟</strong>，' +
+                    '每节配套 B 站开源教学视频，理论结合华为设备 / 平台真实案例，配合实验环境进行实操演练。</p>' +
+                    '<p>本课程要点：</p><ul>';
+    course.lessons.forEach(function(sec) {
+        introHtml += '<li><strong>' + sec.ch + '</strong>：';
+        introHtml += sec.items.map(function(i) { return i.title.split(' ').slice(1).join(' '); }).join(' / ');
+        introHtml += '</li>';
+    });
+    introHtml += '</ul>';
+    document.getElementById('tabPanelIntro').innerHTML = introHtml;
+    var outlineHtml = '<p><strong>课程完整大纲：</strong></p><ul>';
+    course.lessons.forEach(function(sec) {
+        outlineHtml += '<li><strong>' + sec.ch + '</strong>（约 ' + sec.items.length * 20 + ' 分钟）· ' +
+            sec.items.map(function(i) { return i.title.split(' ').slice(1).join(' '); }).join(' / ') + '</li>';
+    });
+    outlineHtml += '</ul>';
+    document.getElementById('tabPanelOutline').innerHTML = outlineHtml;
+    // 资料 tab 通用化
+    document.getElementById('tabPanelMaterial').innerHTML =
+        '<p><strong>' + course.name + ' 配套附件资料：</strong></p><ul>' +
+        '<li><i class="bi bi-file-earmark-pdf text-danger me-1"></i><a href="javascript:void(0)">' + course.name + '-讲义.pdf</a> · 2.4 MB</li>' +
+        '<li><i class="bi bi-file-earmark-zip text-warning me-1"></i><a href="javascript:void(0)">' + course.name + '-实验拓扑.zip</a> · 5.6 MB</li>' +
+        '<li><i class="bi bi-file-earmark-slides text-primary me-1"></i><a href="javascript:void(0)">' + course.name + '-配套PPT.pptx</a> · 8.2 MB</li>' +
+        '</ul>';
+    // 问答 tab 通用化
+    document.getElementById('tabPanelQa').innerHTML =
+        '<p><strong>学员问答（' + Math.floor(globalIdx * 2.5) + ' 条）</strong></p><ul>' +
+        '<li><strong>学员A：</strong>学习本课程需要什么样的基础？<br><span style="color:var(--text-gray);font-size:12px;">讲师回复：建议具备基本的网络知识和' + course.difficulty + '水平的实验能力。</span></li>' +
+        '<li><strong>学员B：</strong>课程证书与华为官方认证有什么区别？<br><span style="color:var(--text-gray);font-size:12px;">讲师回复：本平台证书是学习完成证明；' + course.name + ' 官方认证请到华为官网参加考试。</span></li>' +
+        '</ul>';
+
+    // ---- 右侧课程信息 ----
+    document.getElementById('studentCount').textContent = (Math.floor(Math.random()*200) + 50) + ' 人';
+    // 难度等级
+    var diffTagMap = { '入门': 'tag-success', '中级': 'tag-warning', '高级': 'tag-danger' };
+    var totalSpan = document.querySelector('.side-stat-row .value');
+    // 直接定位"难度等级"行
+    var diffRow = Array.prototype.find.call(document.querySelectorAll('.side-stat-row'), function(r) {
+        return r.querySelector('.label') && r.querySelector('.label').textContent.indexOf('难度') >= 0;
+    });
+    if (diffRow) diffRow.querySelector('.value').innerHTML = '<span class="tag ' + (diffTagMap[course.difficulty] || 'tag-primary') + '">' + course.difficulty + '</span>';
+    // 总课时
+    var durRow = Array.prototype.find.call(document.querySelectorAll('.side-stat-row'), function(r) {
+        return r.querySelector('.label') && r.querySelector('.label').textContent.indexOf('总课时') >= 0;
+    });
+    if (durRow) durRow.querySelector('.value').textContent = globalIdx + ' 节 / ' + course.totalMinutes + ' 分钟';
+
+    // ---- 章节目录点击切换 ----
+    var lessons = Array.prototype.slice.call(document.querySelectorAll('.chapter-item'));
+    var currentIdx = 0;
+    // 全局 BV 元信息表（覆盖 6 门课程所用到的所有 BV）
+    var biliMeta = {};
+    Object.keys(COURSE_LIBRARY).forEach(function(cid) {
+        COURSE_LIBRARY[cid].lessons.forEach(function(sec) {
+            sec.items.forEach(function(it) {
+                if (it.meta && it.bvid) biliMeta[it.bvid] = it.meta;
+            });
+        });
+    });
+
+    function buildBiliUrl(bvid) {
+        return 'https://player.bilibili.com/player.html?bvid=' + bvid +
+               '&autoplay=0&danmaku=0&high_quality=1&t=0';
+    }
+    function selectLesson(idx) {
+        if (idx < 0 || idx >= lessons.length) return;
+        lessons.forEach(function(el) { el.classList.remove('active'); });
+        lessons[idx].classList.add('active');
+        var title = lessons[idx].getAttribute('data-title') || lessons[idx].innerText;
+        var bvid = lessons[idx].getAttribute('data-bvid') || '';
+        var biliUrl = lessons[idx].getAttribute('data-bili-url') || ('https://www.bilibili.com/video/' + bvid + '/');
+        var meta = lessons[idx].getAttribute('data-meta') || biliMeta[bvid] || ('B 站开源 · ' + bvid);
+        document.getElementById('lessonTitle').innerHTML = '<i class="bi bi-play-circle me-1"></i>' + title;
+        var frame = document.getElementById('videoFrame');
+        if (bvid) { frame.src = buildBiliUrl(bvid); }
+        document.getElementById('videoSourceName').textContent = meta;
+        var openBtn = document.getElementById('openBiliBtn');
+        openBtn.href = biliUrl;
+        openBtn.setAttribute('data-bvid', bvid);
+        openBtn.setAttribute('data-url', biliUrl);
+        currentIdx = idx;
+        document.getElementById('lessonProgress').textContent = Math.round(((idx + 1) / lessons.length) * 100) + '%';
+        document.getElementById('lessonsDone').textContent = (idx + 1);
+        lessons[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    lessons.forEach(function(el, i) {
+        el.addEventListener('click', function() { selectLesson(i); });
+    });
+    window.selectLesson = selectLesson;
+    window.nextLesson = function() { selectLesson(currentIdx + 1); };
+    window.prevLesson = function() { selectLesson(currentIdx - 1); };
+
+    // ---- 复制 B 站链接（带顶部提示） ----
+    window.copyBiliLink = function() {
+        var url = document.getElementById('openBiliBtn').getAttribute('data-url') || '';
+        var showTip = function(msg, color) {
+            var tip = document.createElement('div');
+            tip.style.cssText = 'position:fixed;top:80px;right:30px;background:' + (color || '#28a745') + ';color:#fff;padding:10px 18px;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:9999;font-size:14px;';
+            tip.innerHTML = '<i class="bi bi-check-circle me-1"></i>' + msg;
+            document.body.appendChild(tip);
+            setTimeout(function() { tip.remove(); }, 2000);
+        };
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(url).then(function() { showTip('已复制 B 站视频链接'); },
+                function() { fallbackCopy(url, showTip); });
+        } else {
+            fallbackCopy(url, showTip);
+        }
+    };
+    function fallbackCopy(text, showTip) {
+        try {
+            var ta = document.createElement('textarea');
+            ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+            document.body.appendChild(ta); ta.select();
+            var ok = document.execCommand('copy');
+            document.body.removeChild(ta);
+            showTip(ok ? '已复制 B 站视频链接' : '复制失败，请手动复制', ok ? '#28a745' : '#dc3545');
+        } catch (e) {
+            showTip('复制失败：' + e.message, '#dc3545');
+        }
+    }
+
+    // ---- 视频下方 Tab 切换 ----
+    var tabs = document.querySelectorAll('.video-tab');
+    var tabMap = { intro:'tabPanelIntro', outline:'tabPanelOutline', material:'tabPanelMaterial', qa:'tabPanelQa' };
+    tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            tabs.forEach(function(t) { t.classList.remove('active'); });
+            tab.classList.add('active');
+            Object.keys(tabMap).forEach(function(k) { document.getElementById(tabMap[k]).style.display = 'none'; });
+            document.getElementById(tabMap[tab.getAttribute('data-tab')]).style.display = 'block';
+        });
+    });
+
+    // ---- 右侧按钮 ----
+    window.startLabFromCourse = function() {
+        window.location.href = 'lab-loading.html?id=' + encodeURIComponent(courseId) + '&name=' + encodeURIComponent(courseName) + '&desc=' + encodeURIComponent('正在为课程【' + courseName + '】准备实验环境');
+    };
+    window.downloadAll = function() {
+        var tip = document.createElement('div');
+        tip.style.cssText = 'position:fixed;top:80px;right:30px;background:#28a745;color:#fff;padding:10px 18px;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:9999;font-size:14px;';
+        tip.innerHTML = '<i class="bi bi-check-circle me-1"></i>课程资料已开始打包下载';
+        document.body.appendChild(tip);
+        setTimeout(function() { tip.remove(); }, 2200);
+    };
+
+    // ---- 默认选第一课 ----
+    selectLesson(0);
+})();
+</script>
+</body>
+</html>

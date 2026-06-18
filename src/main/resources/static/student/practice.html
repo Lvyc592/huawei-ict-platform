@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>题库练习 - 华技云学生端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="main-layout">
+    <aside class="sidebar">
+        <div class="sidebar-header"><h1><i class="bi bi-cloud-fill"></i>华技云</h1></div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">主要功能</div>
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-house-door"></i>工作台</a>
+            <a href="courses.html" class="menu-item"><i class="bi bi-book"></i>课程学习</a>
+            <a href="practice.html" class="menu-item active"><i class="bi bi-journal-check"></i>题库练习</a>
+            <a href="mock-exams.html" class="menu-item"><i class="bi bi-clock-history"></i>模拟考试</a>
+            <a href="cloud-lab.html" class="menu-item"><i class="bi bi-cloud-haze"></i>华为云实训</a>
+            <a href="ai-tutor.html" class="menu-item"><i class="bi bi-robot"></i>助学智能体</a>
+            <div class="menu-section">扩展功能</div>
+            <a href="competitions.html" class="menu-item"><i class="bi bi-trophy"></i>赛事训练</a>
+            <a href="jobs.html" class="menu-item"><i class="bi bi-briefcase"></i>就业岗位</a>
+            <a href="analytics.html" class="menu-item"><i class="bi bi-bar-chart"></i>学情数据</a>
+            <a href="settings.html" class="menu-item"><i class="bi bi-gear"></i>个人设置</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">学</div>
+                <div class="user-details"><div class="user-name">学生用户</div><div class="user-role">华为ICT学员</div></div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <div class="header-nav">
+                    <a href="dashboard.html">首页</a>
+                    <a href="courses.html">课程学习</a>
+                    <a href="practice.html" class="active">题库练习</a>
+                    <a href="mock-exams.html">模拟考试</a>
+                    <a href="cloud-lab.html">云端实训</a>
+                    <a href="competitions.html">赛事中心</a>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-icon" title="消息"><i class="bi bi-bell"></i><span class="badge"></span></div>
+                <a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <div class="page-title"><h2><i class="bi bi-journal-check me-2"></i>题库练习</h2><p>按知识点自由练习，即时查看答案解析，稳步提升</p></div>
+
+            <!-- 统计概览 -->
+            <div class="stat-cards mb-4">
+                <div class="stat-card"><div class="stat-icon blue"><i class="bi bi-file-text"></i></div><div class="stat-info"><h3>--</h3><p>题库总量</p></div></div>
+                <div class="stat-card"><div class="stat-icon green"><i class="bi bi-check-all"></i></div><div class="stat-info"><h3>--</h3><p>已练习题目</p></div></div>
+                <div class="stat-card"><div class="stat-icon orange"><i class="bi bi-percent"></i></div><div class="stat-info"><h3>--</h3><p>正确率</p></div></div>
+                <div class="stat-card"><div class="stat-icon purple"><i class="bi bi-journal-medical"></i></div><div class="stat-info"><h3>--</h3><p>练习次数</p></div></div>
+            </div>
+
+            <!-- 分类筛选 -->
+            <div class="card mb-3">
+                <div class="card-body" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:12px 16px;">
+                    <span style="font-size:13px;color:#666;font-weight:500;">分类筛选：</span>
+                    <button class="btn btn-sm btn-primary" onclick="filterCategory('')">全部</button>
+                    <button class="btn btn-sm btn-outline" onclick="filterCategory('HCIA')">HCIA</button>
+                    <button class="btn btn-sm btn-outline" onclick="filterCategory('HCIP')">HCIP</button>
+                    <button class="btn btn-sm btn-outline" onclick="filterCategory('HCIE')">HCIE</button>
+                    <button class="btn btn-sm btn-outline" onclick="filterCategory('Cloud')">云计算</button>
+                </div>
+            </div>
+
+            <!-- 题库列表与练习统计 -->
+            <div class="row-2">
+                <div>
+                    <div class="card">
+                        <div class="card-header"><h3>题库列表</h3><span id="totalCount" class="tag tag-success">0题</span></div>
+                        <div class="card-body" style="padding:0;">
+                            <table class="data-table" id="examListTable">
+                                <thead><tr><th>题库名称</th><th>分类</th><th>题量</th><th>练习进度</th><th>操作</th></tr></thead>
+                                <tbody id="examListBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <!-- 答题统计 -->
+                    <div class="card">
+                        <div class="card-header"><h3>练习统计</h3></div>
+                        <div class="card-body" id="answerStats">
+                            <div style="text-align:center;padding:20px;">
+                                <div style="position:relative;width:120px;height:120px;margin:0 auto 16px;">
+                                    <svg viewBox="0 0 36 36" style="width:120px;height:120px;">
+                                        <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#e5e7eb" stroke-width="3"/>
+                                        <path id="accuracyArc" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#094086" stroke-width="3" stroke-dasharray="0, 100"/>
+                                    </svg>
+                                    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+                                        <div id="accuracyPercent" style="font-size:24px;font-weight:700;color:#094086;">0%</div>
+                                        <div style="font-size:11px;color:#999;">正确率</div>
+                                    </div>
+                                </div>
+                                <div style="display:flex;justify-content:center;gap:20px;font-size:13px;">
+                                    <div><span style="color:#28a745;font-weight:700;" id="correctCount">0</span> 正确</div>
+                                    <div><span style="color:#dc3545;font-weight:700;" id="wrongCount">0</span> 错误</div>
+                                    <div><span style="color:#094086;font-weight:700;" id="totalAnswered">0</span> 总计</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/common.js"></script>
+<script>
+var allExams = [];
+var currentCategory = '';
+var totalQuestionCount = 0;
+
+async function loadData() {
+    try {
+        var [r1, r2] = await Promise.all([
+            apiRequest('/student/practice/exams'),
+            apiRequest('/student/practice/stats')
+        ]);
+
+        // 加载题库列表
+        if (r1 && r1.success) {
+            allExams = r1.data || [];
+            renderExams();
+            totalQuestionCount = allExams.reduce(function(s, e) { return s + (e.questionCount || 0); }, 0);
+            document.getElementById('totalCount').textContent = totalQuestionCount + '题';
+        }
+
+        // 加载统计数据
+        if (r2 && r2.success) {
+            var stats = r2.data || {};
+            var cards = document.querySelectorAll('.stat-card .stat-info h3');
+            if (cards.length > 0) cards[0].textContent = totalQuestionCount || 0;
+            if (cards.length > 1) cards[1].textContent = stats.total || 0;
+            if (cards.length > 2) {
+                cards[2].textContent = stats.accuracy ? Number(stats.accuracy).toFixed(2) + '%' : '0.00%';
+            }
+            if (cards.length > 3) cards[3].textContent = stats.total || 0;
+            // 正确率环形图
+            var total = (stats.correct || 0) + (stats.wrong || 0);
+            var accPct = total > 0 ? (stats.correct / total) * 100 : 0;
+            document.getElementById('accuracyPercent').textContent = Number(accPct).toFixed(2) + '%';
+            document.getElementById('accuracyArc').setAttribute('stroke-dasharray', accPct.toFixed(2) + ', ' + (100 - accPct).toFixed(2));
+            document.getElementById('correctCount').textContent = stats.correct || 0;
+            document.getElementById('wrongCount').textContent = stats.wrong || 0;
+            document.getElementById('totalAnswered').textContent = total || 0;
+        }
+    } catch(e) { console.error(e); }
+}
+
+function renderExams() {
+    var filtered = currentCategory ? allExams.filter(function(e) { return e.category === currentCategory; }) : allExams;
+    var tbody = document.getElementById('examListBody');
+    tbody.innerHTML = filtered.map(function(e) {
+        return '<tr><td><strong>' + e.title + '</strong></td>' +
+            '<td><span class="tag tag-info">' + (e.category || '-') + '</span></td>' +
+            '<td>' + (e.questionCount || 0) + '题</td>' +
+            '<td><div style="background:#f0f0f0;border-radius:4px;height:8px;overflow:hidden;"><div style="background:#094086;height:100%;width:0%;"></div></div><span class="progress-text" style="font-size:12px;color:#666;">未开始</span></td>' +
+            '<td><a href="practice-session.html?examId=' + e.id + '" class="btn btn-sm btn-primary"><i class="bi bi-play-fill"></i> 开始练习</a></td></tr>';
+    }).join('');
+    if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:30px;color:#999;">暂无匹配的题库</td></tr>';
+    }
+    // 加载各题库练习进度
+    loadPracticeProgress(filtered);
+}
+
+async function loadPracticeProgress(exams) {
+    for (var i = 0; i < exams.length; i++) {
+        try {
+            var r = await apiRequest('/student/practice/exams/' + exams[i].id + '/progress');
+            if (r && r.success) {
+                var p = r.data || {};
+                var rows = document.getElementById('examListBody').querySelectorAll('tr');
+                if (rows[i]) {
+                    var bar = rows[i].querySelector('div[style*="background:#094086"]');
+                    var text = rows[i].querySelector('.progress-text');
+                    if (bar) bar.style.width = (p.progress || 0) + '%';
+                    if (text) text.textContent = (p.answered || 0) + '/' + (p.total || 0) + ' 已练习';
+                }
+            }
+        } catch(e) { console.error(e); }
+    }
+}
+
+function filterCategory(cat) {
+    currentCategory = cat;
+    document.querySelectorAll('.card-body .btn').forEach(function(b) {
+        var t = b.textContent.trim();
+        if (t === '全部' || t === 'HCIA' || t === 'HCIP' || t === 'HCIE' || t === '云计算') {
+            b.className = (cat === '' && t === '全部') || (cat === t.replace('云计算','Cloud')) ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-outline';
+        }
+    });
+    renderExams();
+}
+
+document.addEventListener('DOMContentLoaded', function() { loadData(); });
+</script>
+</body>
+</html>

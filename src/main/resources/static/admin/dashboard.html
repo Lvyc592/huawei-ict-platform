@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理仪表盘 - 华技云管理端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="main-layout">
+    <!-- 管理端侧边栏 -->
+    <aside class="sidebar">
+        <div class="sidebar-header" style="background:linear-gradient(135deg,#062c5a,#094086);"><h1><i class="bi bi-shield-lock-fill"></i>管理端</h1></div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">核心管理</div>
+            <a href="dashboard.html" class="menu-item active"><i class="bi bi-speedometer2"></i>管理仪表盘</a>
+            <a href="users.html" class="menu-item"><i class="bi bi-people"></i>用户管理</a>
+            <a href="courses.html" class="menu-item"><i class="bi bi-book"></i>课程管理</a>
+            <a href="certifications.html" class="menu-item"><i class="bi bi-award"></i>认证管理</a>
+            <div class="menu-section">考试管理</div>
+            <a href="exams.html" class="menu-item"><i class="bi bi-journal-check"></i>考试题库</a>
+            <div class="menu-section">运营管理</div>
+            <a href="labs.html" class="menu-item"><i class="bi bi-cloud-haze"></i>实训管理</a>
+            <a href="competitions.html" class="menu-item"><i class="bi bi-trophy"></i>赛事管理</a>
+            <a href="jobs.html" class="menu-item"><i class="bi bi-briefcase"></i>就业管理</a>
+            <div class="menu-section">数据与系统</div>
+            <a href="analytics.html" class="menu-item"><i class="bi bi-graph-up"></i>数据统计</a>
+            <a href="settings.html" class="menu-item"><i class="bi bi-gear"></i>系统设置</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar" style="background:#e8a838;">管</div>
+                <div class="user-details"><div class="user-name">管理员</div><div class="user-role">系统管理员</div></div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <div class="header-nav">
+                    <a href="dashboard.html" class="active">仪表盘</a>
+                    <a href="users.html">用户管理</a>
+                    <a href="courses.html">课程管理</a>
+                    <a href="exams.html">考试管理</a>
+                    <a href="analytics.html">数据统计</a>
+                    <a href="settings.html">系统设置</a>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-icon" title="消息"><i class="bi bi-bell"></i><span class="badge"></span></div>
+                <div class="header-icon" title="设置"><i class="bi bi-gear"></i></div>
+                <a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <!-- 欢迎横幅 -->
+            <div class="card mb-4" style="background:linear-gradient(135deg,#062c5a,#094086);color:white;border:none;">
+                <div class="card-body" style="display:flex;align-items:center;justify-content:space-between;">
+                    <div>
+                        <h2 style="color:white;margin-bottom:8px;">管理员控制台</h2>
+                        <p style="opacity:0.9;margin:0;">欢迎回来！当前平台运行状态正常，今日有 <strong>256</strong> 名学生在线学习</p>
+                    </div>
+                    <img src="https://cdn-icons-png.flaticon.com/512/201/201614.png" style="width:80px;filter:brightness(0) invert(1);opacity:0.7;">
+                </div>
+            </div>
+
+            <!-- 核心统计 -->
+            <div class="stat-cards mb-4">
+                <div class="stat-card"><div class="stat-icon blue"><i class="bi bi-people-fill"></i></div><div class="stat-info"><h3>1,286</h3><p>注册学生</p></div></div>
+                <div class="stat-card"><div class="stat-icon green"><i class="bi bi-book-half"></i></div><div class="stat-info"><h3>42</h3><p>在线课程</p></div></div>
+                <div class="stat-card"><div class="stat-icon orange"><i class="bi bi-award-fill"></i></div><div class="stat-info"><h3>892</h3><p>认证通过</p></div></div>
+                <div class="stat-card"><div class="stat-icon red"><i class="bi bi-cloud-fill"></i></div><div class="stat-info"><h3>36</h3><p>云端实训实例</p></div></div>
+            </div>
+
+            <div class="row-2">
+                <!-- 今日概况 -->
+                <div>
+                    <div class="card mb-4">
+                        <div class="card-header"><h3><i class="bi bi-activity me-2"></i>今日概况</h3></div>
+                        <div class="card-body">
+                            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">
+                                <div style="padding:16px;background:#f0f5fc;border-radius:8px;text-align:center;">
+                                    <h4 style="font-size:28px;color:#094086;margin-bottom:4px;">256</h4>
+                                    <p style="font-size:13px;color:#666;margin:0;">今日在线人数</p>
+                                </div>
+                                <div style="padding:16px;background:#e8f8f0;border-radius:8px;text-align:center;">
+                                    <h4 style="font-size:28px;color:#28a745;margin-bottom:4px;">18</h4>
+                                    <p style="font-size:13px;color:#666;margin:0;">今日新增注册</p>
+                                </div>
+                                <div style="padding:16px;background:#fff8e1;border-radius:8px;text-align:center;">
+                                    <h4 style="font-size:28px;color:#e8a838;margin-bottom:4px;">523</h4>
+                                    <p style="font-size:13px;color:#666;margin:0;">今日刷题次数</p>
+                                </div>
+                                <div style="padding:16px;background:#fde8e8;border-radius:8px;text-align:center;">
+                                    <h4 style="font-size:28px;color:#dc3545;margin-bottom:4px;">12</h4>
+                                    <p style="font-size:13px;color:#666;margin:0;">今日认证通过</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 最近登录用户 -->
+                    <div class="card">
+                        <div class="card-header"><h3><i class="bi bi-clock-history me-2"></i>最近登录用户</h3></div>
+                        <div class="card-body">
+                            <table class="data-table">
+                                <thead><tr><th>用户</th><th>角色</th><th>登录时间</th><th>状态</th></tr></thead>
+                                <tbody>
+                                    <tr><td>张同学</td><td><span class="tag tag-info">学生</span></td><td>2024-06-12 14:30</td><td><span class="tag tag-success">在线</span></td></tr>
+                                    <tr><td>李同学</td><td><span class="tag tag-info">学生</span></td><td>2024-06-12 14:25</td><td><span class="tag tag-success">在线</span></td></tr>
+                                    <tr><td>王老师</td><td><span class="tag tag-warning">教师</span></td><td>2024-06-12 14:10</td><td><span class="tag tag-success">在线</span></td></tr>
+                                    <tr><td>赵同学</td><td><span class="tag tag-info">学生</span></td><td>2024-06-12 13:55</td><td><span style="color:#999;font-size:12px;">离线</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 系统通知 & 待办 -->
+                <div>
+                    <div class="card mb-4">
+                        <div class="card-header"><h3><i class="bi bi-bell me-2"></i>系统通知</h3></div>
+                        <div class="card-body">
+                            <ul class="notice-list">
+                                <li><a href="javascript:void(0)" onclick="showToast('请前往用户管理页面处理审核','info')">新用户注册审核（3人待审）</a><span class="tag tag-danger">待处理</span></li>
+                                <li><a href="javascript:void(0)" onclick="showToast('课程内容已更新提醒','info')">课程内容更新提醒</a><span class="tag tag-warning">提醒</span></li>
+                                <li><a href="javascript:void(0)" onclick="showToast('服务器扩容已完成','success')">服务器扩容已完成</a><span class="tag tag-success">已完成</span></li>
+                                <li><a href="javascript:void(0)" onclick="showToast('HCIP题库同步更新已完成','success')">HCIP题库同步更新</a><span class="tag tag-success">已完成</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><h3><i class="bi bi-list-check me-2"></i>待办事项</h3></div>
+                        <div class="card-body" style="display:flex;flex-direction:column;gap:10px;">
+                            <div style="display:flex;align-items:center;gap:10px;padding:10px;background:#fde8e8;border-radius:6px;">
+                                <i class="bi bi-exclamation-circle-fill text-danger"></i>
+                                <span style="font-size:13px;flex:1;">审核新注册用户（3人）</span>
+                                <a href="users.html" class="btn btn-sm btn-primary">处理</a>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:10px;padding:10px;background:#fff8e1;border-radius:6px;">
+                                <i class="bi bi-exclamation-triangle-fill text-warning"></i>
+                                <span style="font-size:13px;flex:1;">更新HCIE实验指导书</span>
+                                <a href="courses.html" class="btn btn-sm btn-primary">处理</a>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:10px;padding:10px;background:#e8f4fd;border-radius:6px;">
+                                <i class="bi bi-info-circle-fill text-info"></i>
+                                <span style="font-size:13px;flex:1;">发布下周教学计划</span>
+                                <a href="javascript:void(0)" onclick="showToast('已标记稍后处理','info')" class="btn btn-sm btn-outline">稍后</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/common.js"></script>
+<script>document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        const r = await apiRequest('/admin/dashboard/full');
+        if (!r || !r.success || !r.data) return;
+        var d = r.data;
+        if (d.stats) {
+            var s = d.stats;
+            var c = document.querySelectorAll('.stat-card .stat-info h3');
+            if (c.length>0) c[0].textContent = (s.totalStudents||0).toLocaleString();
+            if (c.length>1) c[1].textContent = s.totalCourses||0;
+            if (c.length>2) c[2].textContent = (s.totalCertifications||0).toLocaleString();
+            if (c.length>3) c[3].textContent = s.totalLabs||0;
+            var t = document.querySelectorAll('[style*=\"grid-template-columns\"] h4');
+            if (t.length>0) t[0].textContent = s.onlineUsers||0;
+            if (t.length>1) t[1].textContent = s.todayRegistrations||0;
+        }
+        if (d.recentUsers && d.recentUsers.content) {
+            var tb = document.querySelector('.data-table tbody');
+            if (tb) tb.innerHTML = d.recentUsers.content.map(function(u){return '<tr><td>'+(u.name||'')+'</td><td><span class=\"tag tag-info\">'+(u.role||'')+'</span></td><td>'+(u.createdAt?u.createdAt.substring(0,16):'')+'</td><td><span class=\"tag tag-success\">在线</span></td></tr>';}).join('');
+        }
+        if (d.notifications && d.notifications.length > 0) {
+            var nl = document.querySelector('.notice-list');
+            if (nl) nl.innerHTML = d.notifications.map(function(n){return '<li><a href="javascript:void(0)" onclick="showToast(\'通知详情功能开发中\',\'info\')">'+(n.title||'')+'</a><span class=\"tag '+(n.status==='UNREAD'?'tag-danger':'tag-success')+'\">'+(n.status==='UNREAD'?'待处理':'已完成')+'</span></li>';}).join('');
+        }
+    } catch(e) {}
+});</script>
+</body>
+</html>

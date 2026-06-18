@@ -1,0 +1,283 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课程管理 - 华技云管理端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="main-layout">
+    <aside class="sidebar">
+        <div class="sidebar-header" style="background:linear-gradient(135deg,#062c5a,#094086);"><h1><i class="bi bi-shield-lock-fill"></i>管理端</h1></div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">核心管理</div>
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-speedometer2"></i>管理仪表盘</a>
+            <a href="users.html" class="menu-item"><i class="bi bi-people"></i>用户管理</a>
+            <a href="courses.html" class="menu-item active"><i class="bi bi-book"></i>课程管理</a>
+            <a href="certifications.html" class="menu-item"><i class="bi bi-award"></i>认证管理</a>
+            <div class="menu-section">运营管理</div>
+            <a href="labs.html" class="menu-item"><i class="bi bi-cloud-haze"></i>实训管理</a>
+            <a href="competitions.html" class="menu-item"><i class="bi bi-trophy"></i>赛事管理</a>
+            <a href="jobs.html" class="menu-item"><i class="bi bi-briefcase"></i>就业管理</a>
+            <div class="menu-section">数据与系统</div>
+            <a href="analytics.html" class="menu-item"><i class="bi bi-graph-up"></i>数据统计</a>
+            <a href="settings.html" class="menu-item"><i class="bi bi-gear"></i>系统设置</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar" style="background:#e8a838;">管</div>
+                <div class="user-details"><div class="user-name">管理员</div><div class="user-role">系统管理员</div></div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <div class="header-nav">
+                    <a href="dashboard.html">仪表盘</a>
+                    <a href="users.html">用户管理</a>
+                    <a href="courses.html" class="active">课程管理</a>
+                    <a href="analytics.html">数据统计</a>
+                    <a href="settings.html">系统设置</a>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-icon" title="消息"><i class="bi bi-bell"></i><span class="badge"></span></div>
+                <a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <div class="page-title"><h2><i class="bi bi-book me-2"></i>课程管理</h2><p>管理课程内容、章节和学习资源</p></div>
+
+            <!-- 操作栏 -->
+            <div class="card mb-4">
+                <div class="card-body" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                        <div class="search-box"><i class="bi bi-search"></i><input type="text" placeholder="搜索课程名称..."></div>
+                        <select style="padding:8px 12px;border:1px solid #e5e7eb;border-radius:6px;font-size:13px;">
+                            <option>全部类别</option><option>HCIA</option><option>HCIP</option><option>HCIE</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="showToast('正在创建新课程...','info')"><i class="bi bi-plus-lg me-1"></i>创建课程</button>
+                </div>
+            </div>
+
+            <!-- 课程卡片网格（与学生端 SVG 渐变卡片一致） -->
+            <div class="grid-3" id="courseGrid">
+                <div class="img-card" data-course-id="">
+                    <div class="img-wrapper">
+                        <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+                            <defs><linearGradient id="hcda" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#1e3a8a"/></linearGradient></defs>
+                            <rect width="400" height="200" fill="url(#hcda)"/>
+                            <circle cx="340" cy="40" r="60" fill="rgba(255,255,255,0.08)"/><circle cx="370" cy="80" r="40" fill="rgba(255,255,255,0.06)"/>
+                            <text x="32" y="118" fill="#ffffff" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="26" font-weight="700">HCIA-Datacom</text>
+                            <text x="32" y="148" fill="rgba(255,255,255,0.85)" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="14">数据通信基础认证</text>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h4>HCIA-Datacom 基础认证</h4>
+                        <p>数据通信基础，网络工程师入门必学</p>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+                            <span class="tag tag-success">已上线</span>
+                            <div>
+                                <a href="javascript:void(0)" onclick="editCourse(this)" class="btn btn-sm btn-outline">编辑</a>
+                                <a href="javascript:void(0)" onclick="toggleCourse(this,'offline')" class="btn btn-sm btn-outline text-danger">下架</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="img-card" data-course-id="">
+                    <div class="img-wrapper">
+                        <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+                            <defs><linearGradient id="hcdp" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#7c3aed"/><stop offset="100%" stop-color="#4c1d95"/></linearGradient></defs>
+                            <rect width="400" height="200" fill="url(#hcdp)"/>
+                            <polygon points="0,0 180,0 80,200 0,200" fill="rgba(255,255,255,0.06)"/>
+                            <polygon points="180,0 280,0 180,200 80,200" fill="rgba(255,255,255,0.04)"/>
+                            <text x="32" y="118" fill="#ffffff" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="26" font-weight="700">HCIP-Datacom</text>
+                            <text x="32" y="148" fill="rgba(255,255,255,0.85)" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="14">高级路由交换 · 企业实战</text>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h4>HCIP-Datacom 高级认证</h4>
+                        <p>高级路由交换，企业网络实战</p>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+                            <span class="tag tag-success">已上线</span>
+                            <div>
+                                <a href="javascript:void(0)" onclick="editCourse(this)" class="btn btn-sm btn-outline">编辑</a>
+                                <a href="javascript:void(0)" onclick="toggleCourse(this,'offline')" class="btn btn-sm btn-outline text-danger">下架</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="img-card" data-course-id="">
+                    <div class="img-wrapper">
+                        <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+                            <defs><linearGradient id="hcdx" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#dc2626"/><stop offset="50%" stop-color="#991b1b"/><stop offset="100%" stop-color="#581616"/></linearGradient></defs>
+                            <rect width="400" height="200" fill="url(#hcdx)"/>
+                            <circle cx="60" cy="50" r="40" fill="rgba(251,191,36,0.1)"/>
+                            <text x="32" y="118" fill="#ffffff" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="26" font-weight="700">HCIE-Datacom</text>
+                            <text x="32" y="148" fill="rgba(255,255,255,0.85)" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="14">顶级专家认证 · 面试+实验</text>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h4>HCIE-Datacom 专家认证</h4>
+                        <p>顶级网络专家认证，面试+实验</p>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+                            <span class="tag tag-success">已上线</span>
+                            <div>
+                                <a href="javascript:void(0)" onclick="editCourse(this)" class="btn btn-sm btn-outline">编辑</a>
+                                <a href="javascript:void(0)" onclick="toggleCourse(this,'offline')" class="btn btn-sm btn-outline text-danger">下架</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="img-card" data-course-id="">
+                    <div class="img-wrapper">
+                        <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+                            <defs><linearGradient id="hccd" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06b6d4"/><stop offset="100%" stop-color="#0e7490"/></linearGradient></defs>
+                            <rect width="400" height="200" fill="url(#hccd)"/>
+                            <text x="32" y="118" fill="#ffffff" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="26" font-weight="700">HCIA-Cloud</text>
+                            <text x="32" y="148" fill="rgba(255,255,255,0.85)" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="14">华为云计算 · 基础架构</text>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h4>华为云计算 HCIA-Cloud</h4>
+                        <p>云计算基础架构与华为云解决方案</p>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+                            <span class="tag tag-success">已上线</span>
+                            <div>
+                                <a href="javascript:void(0)" onclick="editCourse(this)" class="btn btn-sm btn-outline">编辑</a>
+                                <a href="javascript:void(0)" onclick="toggleCourse(this,'offline')" class="btn btn-sm btn-outline text-danger">下架</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="img-card" data-course-id="">
+                    <div class="img-wrapper">
+                        <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+                            <defs><linearGradient id="hbbd" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#065f46"/></linearGradient></defs>
+                            <rect width="400" height="200" fill="url(#hbbd)"/>
+                            <text x="32" y="118" fill="#ffffff" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="26" font-weight="700">HCIA-Big Data</text>
+                            <text x="32" y="148" fill="rgba(255,255,255,0.85)" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="14">大数据采集 · 存储与分析</text>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h4>华为大数据 HCIA-Big Data</h4>
+                        <p>大数据采集、存储与分析技术</p>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+                            <span class="tag tag-success">已上线</span>
+                            <div>
+                                <a href="javascript:void(0)" onclick="editCourse(this)" class="btn btn-sm btn-outline">编辑</a>
+                                <a href="javascript:void(0)" onclick="toggleCourse(this,'offline')" class="btn btn-sm btn-outline text-danger">下架</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="img-card" data-course-id="">
+                    <div class="img-wrapper">
+                        <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+                            <defs><linearGradient id="hcai" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#92400e"/></linearGradient></defs>
+                            <rect width="400" height="200" fill="url(#hcai)"/>
+                            <text x="32" y="118" fill="#ffffff" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="26" font-weight="700">HCIA-AI</text>
+                            <text x="32" y="148" fill="rgba(255,255,255,0.85)" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="14">机器学习 · 深度学习 · 昇腾</text>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h4>华为人工智能 HCIA-AI</h4>
+                        <p>机器学习、深度学习与华为昇腾</p>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+                            <span class="tag tag-info">待审核</span>
+                            <div>
+                                <a href="javascript:void(0)" onclick="approveCourse(this)" class="btn btn-sm btn-primary">审核通过</a>
+                                <a href="javascript:void(0)" onclick="rejectCourse(this)" class="btn btn-sm btn-outline text-danger">驳回</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/common.js"></script>
+<script>document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        const res = await apiRequest('/admin/courses');
+        if (res && res.success && res.data) {
+            const cards = document.querySelectorAll('#courseGrid .img-card');
+            res.data.forEach(function(c, i) {
+                if (i < cards.length && c.id) {
+                    const card = cards[i];
+                    card.setAttribute('data-course-id', c.id);
+                    const h4 = card.querySelector('h4');
+                    const p = card.querySelector('p');
+                    if (h4 && c.name) h4.textContent = c.name;
+                    if (p && c.description) p.textContent = c.description;
+                    const tag = card.querySelector('.tag');
+                    if (tag) {
+                        var statusMap = {
+                            'PUBLISHED': { text: '已上线', cls: 'tag-success' },
+                            'PENDING':   { text: '待审核', cls: 'tag-info' },
+                            'OFFLINE':   { text: '已下架', cls: 'tag-warning' },
+                            'DRAFT':     { text: '草稿',   cls: 'tag-warning' }
+                        };
+                        var s = statusMap[c.status] || { text: c.status || '未知', cls: 'tag-info' };
+                        tag.textContent = s.text;
+                        tag.className = 'tag ' + s.cls;
+                    }
+                }
+            });
+        }
+    } catch(e) {}
+});
+
+function editCourse(el) {
+    var card = el.closest('.img-card');
+    var id = card.getAttribute('data-course-id');
+    var name = (card.querySelector('h4') || {}).textContent || '';
+    showToast('正在编辑课程：' + name + (id ? '（#' + id + '）' : ''), 'info');
+}
+
+function toggleCourse(el, action) {
+    var card = el.closest('.img-card');
+    var name = (card.querySelector('h4') || {}).textContent || '';
+    var tag = card.querySelector('.tag');
+    if (action === 'offline') {
+        tag.textContent = '已下架';
+        tag.className = 'tag tag-warning';
+        showToast('已下架课程：' + name, 'success');
+    } else {
+        tag.textContent = '已上线';
+        tag.className = 'tag tag-success';
+        showToast('已上线课程：' + name, 'success');
+    }
+}
+
+function approveCourse(el) {
+    var card = el.closest('.img-card');
+    var name = (card.querySelector('h4') || {}).textContent || '';
+    var tag = card.querySelector('.tag');
+    tag.textContent = '已上线';
+    tag.className = 'tag tag-success';
+    var btnRow = el.parentNode;
+    btnRow.innerHTML = '<a href="javascript:void(0)" onclick="editCourse(this)" class="btn btn-sm btn-outline">编辑</a>' +
+                       '<a href="javascript:void(0)" onclick="toggleCourse(this,\'offline\')" class="btn btn-sm btn-outline text-danger">下架</a>';
+    showToast('已审核通过：' + name, 'success');
+}
+
+function rejectCourse(el) {
+    var card = el.closest('.img-card');
+    var name = (card.querySelector('h4') || {}).textContent || '';
+    var tag = card.querySelector('.tag');
+    tag.textContent = '已驳回';
+    tag.className = 'tag tag-danger';
+    showToast('已驳回：' + name, 'warning');
+}
+</script>
+</body>
+</html>

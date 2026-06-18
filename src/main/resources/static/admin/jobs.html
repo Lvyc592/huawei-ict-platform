@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>就业管理 - 华技云管理端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="main-layout">
+    <aside class="sidebar">
+        <div class="sidebar-header" style="background:linear-gradient(135deg,#062c5a,#094086);"><h1><i class="bi bi-shield-lock-fill"></i>管理端</h1></div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">核心管理</div>
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-speedometer2"></i>管理仪表盘</a>
+            <a href="users.html" class="menu-item"><i class="bi bi-people"></i>用户管理</a>
+            <a href="courses.html" class="menu-item"><i class="bi bi-book"></i>课程管理</a>
+            <a href="certifications.html" class="menu-item"><i class="bi bi-award"></i>认证管理</a>
+            <div class="menu-section">运营管理</div>
+            <a href="labs.html" class="menu-item"><i class="bi bi-cloud-haze"></i>实训管理</a>
+            <a href="competitions.html" class="menu-item"><i class="bi bi-trophy"></i>赛事管理</a>
+            <a href="jobs.html" class="menu-item active"><i class="bi bi-briefcase"></i>就业管理</a>
+            <div class="menu-section">数据与系统</div>
+            <a href="analytics.html" class="menu-item"><i class="bi bi-graph-up"></i>数据统计</a>
+            <a href="settings.html" class="menu-item"><i class="bi bi-gear"></i>系统设置</a>
+        </nav>
+        <div class="sidebar-footer"><div class="user-info"><div class="user-avatar" style="background:#e8a838;">管</div><div class="user-details"><div class="user-name">管理员</div><div class="user-role">系统管理员</div></div></div></div>
+    </aside>
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left"><div class="header-nav"><a href="dashboard.html">仪表盘</a><a href="users.html">用户管理</a><a href="courses.html">课程管理</a><a href="analytics.html">数据统计</a><a href="settings.html">系统设置</a></div></div>
+            <div class="header-right"><a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a></div>
+        </header>
+        <div class="page-content">
+            <div class="page-title"><h2><i class="bi bi-briefcase me-2"></i>就业管理</h2><p>管理华为生态企业招聘信息和就业推荐</p></div>
+            <div class="stat-cards mb-4">
+                <div class="stat-card"><div class="stat-icon blue"><i class="bi bi-building"></i></div><div class="stat-info"><h3>52</h3><p>合作企业</p></div></div>
+                <div class="stat-card"><div class="stat-icon green"><i class="bi bi-briefcase-fill"></i></div><div class="stat-info"><h3>186</h3><p>在招岗位</p></div></div>
+                <div class="stat-card"><div class="stat-icon orange"><i class="bi bi-person-check"></i></div><div class="stat-info"><h3>342</h3><p>投递简历数</p></div></div>
+                <div class="stat-card"><div class="stat-icon red"><i class="bi bi-graph-up-arrow"></i></div><div class="stat-info"><h3>92%</h3><p>就业率</p></div></div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-header"><h3>岗位发布管理</h3><button class="btn btn-sm btn-primary" onclick="showToast('正在发布新岗位...','info')"><i class="bi bi-plus-lg me-1"></i>发布岗位</button></div>
+                <div class="card-body">
+                    <table class="data-table">
+                        <thead><tr><th>岗位名称</th><th>企业</th><th>薪资</th><th>投递数</th><th>状态</th><th>操作</th></tr></thead>
+                        <tbody>
+                            <tr><td>华为云解决方案工程师</td><td>华为技术有限公司</td><td>15-25K</td><td>45人</td><td><span class="tag tag-success">招聘中</span></td><td><a href="javascript:void(0)" onclick="showToast('岗位编辑功能开发中','info')" class="btn btn-sm btn-outline">编辑</a></td></tr>
+                            <tr><td>数据通信网络工程师</td><td>中软国际</td><td>10-18K</td><td>32人</td><td><span class="tag tag-success">招聘中</span></td><td><a href="javascript:void(0)" onclick="showToast('岗位编辑功能开发中','info')" class="btn btn-sm btn-outline">编辑</a></td></tr>
+                            <tr><td>云计算运维工程师</td><td>软通动力</td><td>18-28K</td><td>28人</td><td><span class="tag tag-success">招聘中</span></td><td><a href="javascript:void(0)" onclick="showToast('岗位编辑功能开发中','info')" class="btn btn-sm btn-outline">编辑</a></td></tr>
+                            <tr><td>网络安全工程师</td><td>深信服科技</td><td>12-20K</td><td>18人</td><td><span class="tag tag-warning">审核中</span></td><td><a href="javascript:void(0)" onclick="showToast('岗位审核功能开发中','info')" class="btn btn-sm btn-primary">审核</a></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/common.js"></script>
+<script>document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        const res = await apiRequest('/admin/jobs');
+        if (res && res.success && res.data) {
+            const tbody = document.querySelector('.data-table tbody');
+            if (tbody) tbody.innerHTML = res.data.map(function(j) {
+                return '<tr><td>' + j.title + '</td><td>' + j.company + '</td><td>' + (j.salary||'') + '</td><td>' + (j.applyCount||0) + '人</td><td><span class="tag tag-success">招聘中</span></td><td><a href="javascript:void(0)" onclick="showToast(\'岗位编辑功能开发中\',\'info\')" class="btn btn-sm btn-outline">编辑</a></td></tr>';
+            }).join('');
+        }
+    } catch(e) {}
+});</script>
+</body>
+</html>

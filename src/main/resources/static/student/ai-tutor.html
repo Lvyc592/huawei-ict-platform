@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>助学智能体 - 华技云学生端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .ai-bubble {
+            display:flex; gap:10px; margin-bottom:16px; align-items:flex-start;
+        }
+        .ai-bubble .avatar {
+            width:36px; height:36px; border-radius:50%;
+            background:linear-gradient(135deg,#094086,#1a6bc4);
+            color:white; display:flex; align-items:center; justify-content:center;
+            font-size:12px; font-weight:600; flex-shrink:0;
+        }
+        .ai-bubble.user { flex-direction:row-reverse; }
+        .ai-bubble.user .avatar {
+            background:linear-gradient(135deg,#94a3b8,#64748b);
+        }
+        .ai-bubble .bubble {
+            background:white; padding:12px 16px;
+            border-radius:12px 12px 12px 0;
+            box-shadow:0 1px 3px rgba(0,0,0,0.05);
+            max-width:78%;
+            font-size:14px; line-height:1.7; color:#1f2937;
+            word-break:break-word;
+        }
+        .ai-bubble.user .bubble {
+            background:linear-gradient(135deg,#094086,#1a6bc4);
+            color:white; border-radius:12px 12px 0 12px;
+        }
+        .ai-bubble .bubble p { margin:0 0 6px; }
+        .ai-bubble .bubble p:last-child { margin-bottom:0; }
+        .ai-bubble .bubble ol, .ai-bubble .bubble ul { margin:6px 0 6px 20px; }
+        .ai-bubble .bubble li { margin-bottom:4px; }
+        .ai-bubble .bubble code {
+            background:#f1f5f9; color:#e11d48; padding:1px 6px; border-radius:4px;
+            font-family:"Consolas",monospace; font-size:13px;
+        }
+        .ai-bubble.user .bubble code {
+            background:rgba(255,255,255,0.2); color:#fef3c7;
+        }
+        .ai-bubble .bubble pre {
+            background:#1e293b; color:#e2e8f0; padding:10px 12px; border-radius:6px;
+            font-family:"Consolas",monospace; font-size:12.5px; line-height:1.6;
+            overflow-x:auto; margin:6px 0;
+        }
+        .ai-bubble .bubble pre code { background:transparent; color:inherit; padding:0; }
+        .typing-dot {
+            display:inline-flex; gap:4px; padding:4px 0;
+        }
+        .typing-dot span {
+            width:6px; height:6px; background:#94a3b8; border-radius:50%;
+            animation: typingBounce 1.2s infinite;
+        }
+        .typing-dot span:nth-child(2) { animation-delay: 0.15s; }
+        .typing-dot span:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes typingBounce {
+            0%, 60%, 100% { transform:translateY(0); opacity:0.4; }
+            30% { transform:translateY(-4px); opacity:1; }
+        }
+        .model-badge {
+            display:inline-flex; align-items:center; gap:4px;
+            font-size:11px; color:#64748b; margin-top:4px;
+        }
+        .model-badge i { color:#1a6bc4; }
+        #chatMessages::-webkit-scrollbar { width:6px; }
+        #chatMessages::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:3px; }
+        .quick-ask {
+            display:inline-block; padding:5px 12px; margin:3px 4px 3px 0;
+            background:white; border:1px solid #e5e7eb; border-radius:16px;
+            font-size:12px; color:#475569; cursor:pointer; transition:all 0.2s;
+        }
+        .quick-ask:hover { background:#1a6bc4; color:white; border-color:#1a6bc4; }
+    </style>
+</head>
+<body>
+<div class="main-layout">
+    <aside class="sidebar">
+        <div class="sidebar-header"><h1><i class="bi bi-cloud-fill"></i>华技云</h1></div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">主要功能</div>
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-house-door"></i>工作台</a>
+            <a href="courses.html" class="menu-item"><i class="bi bi-book"></i>课程学习</a>
+            <a href="practice.html" class="menu-item"><i class="bi bi-journal-check"></i>题库练习</a>
+            <a href="mock-exams.html" class="menu-item"><i class="bi bi-clock-history"></i>模拟考试</a>
+            <a href="cloud-lab.html" class="menu-item"><i class="bi bi-cloud-haze"></i>华为云实训</a>
+            <a href="ai-tutor.html" class="menu-item active"><i class="bi bi-robot"></i>助学智能体</a>
+            <div class="menu-section">扩展功能</div>
+            <a href="competitions.html" class="menu-item"><i class="bi bi-trophy"></i>赛事训练</a>
+            <a href="jobs.html" class="menu-item"><i class="bi bi-briefcase"></i>就业岗位</a>
+            <a href="analytics.html" class="menu-item"><i class="bi bi-bar-chart"></i>学情数据</a>
+            <a href="settings.html" class="menu-item"><i class="bi bi-gear"></i>个人设置</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">学</div>
+                <div class="user-details"><div class="user-name">学生用户</div><div class="user-role">华为ICT学员</div></div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <div class="header-nav">
+                    <a href="dashboard.html">首页</a>
+                    <a href="courses.html">课程学习</a>
+                    <a href="practice.html">题库练习</a>
+                    <a href="mock-exams.html">模拟考试</a>
+                    <a href="cloud-lab.html">云端实训</a>
+                    <a href="competitions.html">赛事中心</a>
+                    </div>
+            </div>
+            <div class="header-right">
+                <div class="header-icon" title="消息"><i class="bi bi-bell"></i><span class="badge"></span></div>
+                <a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <div class="page-title">
+                <h2><i class="bi bi-robot me-2"></i>助学智能体</h2>
+                <p>基于 <strong style="color:#1a6bc4;">本地大模型 + 内置知识库</strong>双引擎驱动的个性化学习助手，专注力监测+智能答疑（无需任何 Key、注册或网络）</p>
+            </div>
+
+            <div class="row-2">
+                <!-- 智能对话 -->
+                <div class="card" style="display:flex;flex-direction:column;height:600px;">
+                    <div class="card-header">
+                        <h3><i class="bi bi-chat-dots me-2"></i>AI 学习助手</h3>
+                        <span class="tag tag-success" id="aiStatus"><i class="bi bi-circle-fill" style="font-size:6px;"></i> 本地引擎</span>
+                    </div>
+
+                    <div style="padding:10px 16px;border-bottom:1px solid #f1f5f9;background:#fafbfc;">
+                        <span class="quick-ask" onclick="quickAsk('请简述OSPF协议的工作原理')">OSPF 原理</span>
+                        <span class="quick-ask" onclick="quickAsk('HCIA-Datacom 考试重点有哪些？')">HCIA 重点</span>
+                        <span class="quick-ask" onclick="quickAsk('VPC 和 传统网络的区别是什么？')">VPC vs 传统网络</span>
+                        <span class="quick-ask" onclick="quickAsk('如何学习华为云ECS？')">学习路线</span>
+                        <span class="quick-ask" onclick="quickAsk('写出VLAN间路由的两种实现方式')">VLAN 间路由</span>
+                    </div>
+
+                    <div style="flex:1;padding:16px;overflow-y:auto;background:#f8fafc;" id="chatMessages">
+                        <div class="ai-bubble">
+                            <div class="avatar">华小智</div>
+                            <div class="bubble">
+                                <p>你好！我是华技云AI助学智能体「华小智」👋</p>
+                                <ul>
+                                    <li>解答华为 HCIA / HCIP / HCIE 认证知识点</li>
+                                    <li>辅导数通、云计算、安全、鸿蒙等课程</li>
+                                    <li>分析实验报错、优化代码、生成学习路径</li>
+                                </ul>
+                                <p>试试点击上方的快捷问题，或者直接在下方输入吧！</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding:16px;border-top:1px solid #e5e7eb;display:flex;gap:10px;background:white;">
+                        <input type="text" id="chatInput" placeholder="输入你的问题...按 Enter 发送" style="flex:1;padding:10px 16px;border:1px solid #e5e7eb;border-radius:6px;font-size:14px;">
+                        <button type="button" class="btn btn-primary" id="sendBtn"><i class="bi bi-send"></i></button>
+                    </div>
+                </div>
+
+                <!-- 右侧功能 -->
+                <div style="display:flex;flex-direction:column;gap:20px;">
+                    <!-- 专注力监测 -->
+                    <div class="card">
+                        <div class="card-header"><h3><i class="bi bi-eye-fill me-2"></i>专注力监测</h3></div>
+                        <div class="card-body" style="text-align:center;">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2991/2991108.png" style="width:64px;margin-bottom:12px;">
+                            <h3 style="font-size:32px;color:#094086;">86%</h3>
+                            <p style="color:#666;font-size:13px;">当前专注度</p>
+                            <div class="progress-bar" style="margin:12px 0 8px;">
+                                <div class="progress-fill" style="width:86%"></div>
+                            </div>
+                            <p style="font-size:12px;color:#999;">今日已学习 2小时16分钟</p>
+                        </div>
+                    </div>
+                    <!-- 学习建议 -->
+                    <div class="card">
+                        <div class="card-header"><h3><i class="bi bi-lightbulb me-2"></i>智能建议</h3></div>
+                        <div class="card-body">
+                            <div style="display:flex;flex-direction:column;gap:12px;">
+                                <div style="padding:10px;background:#f0f5fc;border-radius:6px;font-size:13px;">
+                                    <i class="bi bi-check-circle-fill text-primary me-2"></i>建议今日完成HCIA模拟卷（二），距离目标仅差12题
+                                </div>
+                                <div style="padding:10px;background:#fff8e1;border-radius:6px;font-size:13px;">
+                                    <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>OSPF区域划分知识点掌握度较低，建议复习
+                                </div>
+                                <div style="padding:10px;background:#e8f8f0;border-radius:6px;font-size:13px;">
+                                    <i class="bi bi-star-fill text-success me-2"></i>连续学习7天，获得"坚持之星"勋章！
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/common.js"></script>
+<script>
+(function() {
+    'use strict';
+
+    // ---- 工具函数 ----
+    function escapeHtml(s) {
+        return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function renderMarkdown(text) {
+        if (!text) return '';
+        text = text.replace(/```(\w*)\n([\s\S]*?)```/g, function(m, lang, code) {
+            return '<pre><code>' + escapeHtml(code) + '</code></pre>';
+        });
+        text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+        text = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        var lines = text.split('\n');
+        var html = '';
+        var inOl = false, inUl = false;
+        for (var i = 0; i < lines.length; i++) {
+            var line = lines[i];
+            if (/^\d+\.\s+/.test(line)) {
+                if (inUl) { html += '</ul>'; inUl = false; }
+                if (!inOl) { html += '<ol>'; inOl = true; }
+                html += '<li>' + line.replace(/^\d+\.\s+/, '') + '</li>';
+            } else if (/^[-*]\s+/.test(line)) {
+                if (inOl) { html += '</ol>'; inOl = false; }
+                if (!inUl) { html += '<ul>'; inUl = true; }
+                html += '<li>' + line.replace(/^[-*]\s+/, '') + '</li>';
+            } else {
+                if (inOl) { html += '</ol>'; inOl = false; }
+                if (inUl) { html += '</ul>'; inUl = false; }
+                if (line.trim() === '') html += '<br/>';
+                else html += '<p>' + line + '</p>';
+            }
+        }
+        if (inOl) html += '</ol>';
+        if (inUl) html += '</ul>';
+        return html;
+    }
+
+    // ---- DOM 引用 ----
+    var chatMessages, chatInput, sendBtn, aiStatus;
+
+    // ---- 内部方法（闭包）----
+    function appendUser(text) {
+        if (!chatMessages) return;
+        var wrap = document.createElement('div');
+        wrap.className = 'ai-bubble user';
+        wrap.innerHTML = '<div class="avatar">我</div><div class="bubble"><p>' + escapeHtml(text) + '</p></div>';
+        chatMessages.appendChild(wrap);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    function appendAiPlaceholder() {
+        if (!chatMessages) return null;
+        var wrap = document.createElement('div');
+        wrap.className = 'ai-bubble';
+        wrap.id = 'aiTyping';
+        wrap.innerHTML = '<div class="avatar">华小智</div><div class="bubble"><div class="typing-dot"><span></span><span></span><span></span></div></div>';
+        chatMessages.appendChild(wrap);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        return wrap;
+    }
+    function appendAiFinal(text) {
+        if (!chatMessages) return;
+        var wrap = document.createElement('div');
+        wrap.className = 'ai-bubble';
+        wrap.innerHTML = '<div class="avatar">华小智</div><div class="bubble">' + renderMarkdown(text) + '<div class="model-badge"><i class="bi bi-cpu"></i> 本地引擎 · 零依赖</div></div>';
+        chatMessages.appendChild(wrap);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // ---- 核心：发送消息 ----
+    function doSend() {
+        if (!chatInput || !sendBtn) {
+            console.error('[AI] 元素未就绪');
+            return;
+        }
+        var text = chatInput.value.trim();
+        if (!text) return;
+        appendUser(text);
+        chatInput.value = '';
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+
+        var placeholder = appendAiPlaceholder();
+        var fullAnswer = '';
+        var token = localStorage.getItem('huawei_token');
+        console.log('[AI] 发送消息 token长度=' + (token ? token.length : 0) + ' text=' + text);
+
+        // 关闭占位（兼容 null）
+        function clearPlaceholder() {
+            try { if (placeholder && placeholder.remove) placeholder.remove(); } catch (e) {}
+        }
+
+        fetch('/api/student/ai/chat/stream', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({ message: text })
+        }).then(function(resp) {
+            console.log('[AI] 流式响应状态:', resp.status, resp.statusText);
+            if (!resp.ok || !resp.body) {
+                throw new Error('HTTP ' + resp.status);
+            }
+            var reader = resp.body.getReader();
+            var decoder = new TextDecoder('utf-8');
+            var buf = '';
+            var bubbleDiv = placeholder ? placeholder.querySelector('.bubble') : null;
+            if (bubbleDiv) {
+                bubbleDiv.innerHTML = '<p></p>';
+            }
+            var contentP = bubbleDiv ? bubbleDiv.querySelector('p') : null;
+
+            function pump() {
+                return reader.read().then(function(r) {
+                    if (r.done) return null;
+                    buf += decoder.decode(r.value, { stream: true });
+                    var lines = buf.split('\n');
+                    buf = lines.pop() || '';
+                    for (var i = 0; i < lines.length; i++) {
+                        var line = lines[i];
+                        if (!line || !line.startsWith('data:')) continue;
+                        var data = line.substring(5).trim();
+                        if (data === '[DONE]' || data === '') continue;
+                        try {
+                            var obj = JSON.parse(data);
+                            if (obj.content) fullAnswer += obj.content;
+                            else if (obj.answer) fullAnswer += obj.answer;
+                            else fullAnswer += data;
+                        } catch (e) {
+                            fullAnswer += data;
+                        }
+                        if (contentP) {
+                            contentP.innerHTML = renderMarkdown(fullAnswer) +
+                                '<span style="display:inline-block;width:6px;height:14px;background:#1a6bc4;margin-left:2px;animation:blink 1s infinite;"></span>';
+                        }
+                        if (chatMessages) chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }
+                    return pump();
+                });
+            }
+            return pump().then(function() {
+                clearPlaceholder();
+                appendAiFinal(fullAnswer || '（空响应）');
+            });
+        }).catch(function(streamErr) {
+            console.warn('[AI] 流式失败，回落到非流式:', streamErr && streamErr.message);
+            // 回落到非流式
+            return fetch('/api/student/ai/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (token || '') },
+                body: JSON.stringify({ message: text })
+            }).then(function(r) { return r.json(); }).then(function(data) {
+                clearPlaceholder();
+                if (data && data.success) {
+                    appendAiFinal(data.data.answer || '（空响应）');
+                } else {
+                    appendAiFinal('【后端报错】' + (data && data.message ? data.message : ('HTTP ' + streamErr.message)));
+                }
+            }).catch(function(netErr) {
+                clearPlaceholder();
+                appendAiFinal('【网络异常】' + (netErr.message || '无法连接后端'));
+            });
+        }).then(function() {
+            sendBtn.disabled = false;
+            sendBtn.innerHTML = '<i class="bi bi-send"></i>';
+        });
+    }
+
+    // ---- 全局暴露（内联 onclick / quickAsk 使用）----
+    window.quickAsk = function(text) {
+        if (chatInput) chatInput.value = text;
+        doSend();
+    };
+    window.__sendMessage = doSend;
+
+    // ---- 初始化 ----
+    function init() {
+        chatMessages = document.getElementById('chatMessages');
+        chatInput = document.getElementById('chatInput');
+        sendBtn = document.getElementById('sendBtn');
+        aiStatus = document.getElementById('aiStatus');
+
+        if (!chatInput || !sendBtn) {
+            console.error('[AI] 关键 DOM 元素未找到 chatInput/sendBtn');
+            return;
+        }
+        console.log('[AI] 初始化完成，绑定事件');
+
+        // 回车发送
+        chatInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                console.log('[AI] Enter 触发');
+                doSend();
+            }
+        });
+        // 点击发送
+        sendBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('[AI] 点击发送按钮');
+            doSend();
+        });
+        console.log('[AI] 事件绑定完成');
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        // 脚本已位于 body 末尾，DOM 应已就绪
+        init();
+    }
+
+    // ---- blink 动画 ----
+    var blinkStyle = document.createElement('style');
+    blinkStyle.textContent = '@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}';
+    document.head.appendChild(blinkStyle);
+})();
+</script>
+</body>
+</html>

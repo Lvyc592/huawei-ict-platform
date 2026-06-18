@@ -1,0 +1,365 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>华为云实训 - 华技云学生端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="main-layout">
+    <aside class="sidebar">
+        <div class="sidebar-header"><h1><i class="bi bi-cloud-fill"></i>华技云</h1></div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">主要功能</div>
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-house-door"></i>工作台</a>
+            <a href="courses.html" class="menu-item"><i class="bi bi-book"></i>课程学习</a>
+            <a href="practice.html" class="menu-item"><i class="bi bi-journal-check"></i>题库练习</a>
+            <a href="mock-exams.html" class="menu-item"><i class="bi bi-clock-history"></i>模拟考试</a>
+            <a href="cloud-lab.html" class="menu-item active"><i class="bi bi-cloud-haze"></i>华为云实训</a>
+            <a href="ai-tutor.html" class="menu-item"><i class="bi bi-robot"></i>助学智能体</a>
+            <div class="menu-section">扩展功能</div>
+            <a href="competitions.html" class="menu-item"><i class="bi bi-trophy"></i>赛事训练</a>
+            <a href="jobs.html" class="menu-item"><i class="bi bi-briefcase"></i>就业岗位</a>
+            <a href="analytics.html" class="menu-item"><i class="bi bi-bar-chart"></i>学情数据</a>
+            <a href="settings.html" class="menu-item"><i class="bi bi-gear"></i>个人设置</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">学</div>
+                <div class="user-details"><div class="user-name">学生用户</div><div class="user-role">华为ICT学员</div></div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <div class="header-nav">
+                    <a href="dashboard.html">首页</a>
+                    <a href="courses.html">课程学习</a>
+                    <a href="practice.html">题库练习</a>
+                    <a href="mock-exams.html">模拟考试</a>
+                    <a href="cloud-lab.html" class="active">云端实训</a>
+                    <a href="competitions.html">赛事中心</a>
+                    </div>
+            </div>
+            <div class="header-right">
+                <div class="header-icon" title="消息"><i class="bi bi-bell"></i><span class="badge"></span></div>
+                <a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <div class="page-title"><h2><i class="bi bi-cloud-haze me-2"></i>华为云实训</h2><p>全真华为云实验环境，动手实践掌握技能</p></div>
+
+            <!-- 实训环境状态 -->
+            <div class="card mb-4" style="background:linear-gradient(135deg,#094086,#1a6bc4);color:white;border:none;">
+                <div class="card-body" style="display:flex;align-items:center;justify-content:space-between;">
+                    <div style="flex:1;">
+                        <h3 style="color:white;">我的实训环境</h3>
+                        <p style="opacity:0.9;margin:8px 0;">云服务器：2台运行中 | 剩余时长：<strong>36小时</strong></p>
+
+                        <!-- 内嵌命令框（直接在此卡片内输入命令） -->
+                        <div id="inlineConsole" style="margin-top:10px;background:rgba(0,0,0,0.32);border:1px solid rgba(255,255,255,0.18);border-radius:6px;font-family:'Consolas','Monaco',monospace;">
+                            <div style="display:flex;align-items:center;gap:6px;padding:5px 10px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:11px;color:rgba(255,255,255,0.7);">
+                                <span style="display:inline-block;width:8px;height:8px;background:#9ece6a;border-radius:50%;"></span>
+                                <span><i class="bi bi-terminal-fill" style="color:#9ece6a;"></i> 华为云实训控制台 — root@huawei-ecs:~$</span>
+                                <a href="javascript:void(0)" onclick="openConsole()" style="margin-left:auto;color:rgba(255,255,255,0.75);text-decoration:none;font-size:11px;" title="打开全屏终端"><i class="bi bi-arrows-fullscreen"></i> 展开</a>
+                            </div>
+                            <div id="inlineOutput" style="padding:8px 12px;height:120px;overflow-y:auto;font-size:12.5px;line-height:1.55;color:#e8eaf0;" onclick="focusInlineInput()">
+                                <div id="inlineOutputBody">
+                                    <div style="color:rgba(255,255,255,0.55);">输入 <span style="color:#9ece6a;">help</span> 查看可用命令 · 支持 <span style="color:#9ece6a;">huawei / hcloud / ls / docker / kubectl / neofetch</span> 等</div>
+                                </div>
+                                <div style="display:flex;align-items:center;margin-top:4px;">
+                                    <span style="color:#9ece6a;white-space:nowrap;flex-shrink:0;">root@huawei-ecs<span style="color:#bb9af7;">:</span><span style="color:#7aa2f7;">~</span><span style="color:#bb9af7;">$&nbsp;</span></span>
+                                    <input type="text" id="inlineInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="输入命令后回车…" style="background:transparent;border:none;color:#fff;outline:none;font-family:inherit;font-size:12.5px;flex:1;caret:#9ece6a;" onkeydown="handleInlineKey(event)" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <img src="https://cdn-icons-png.flaticon.com/512/841/841364.png" style="width:90px;filter:brightness(0) invert(1);opacity:0.7;margin-left:24px;">
+                </div>
+            </div>
+
+            <div class="grid-3 mb-4">
+                <div class="stat-card"><div class="stat-icon blue"><i class="bi bi-server"></i></div><div class="stat-info"><h3>2</h3><p>运行中实例</p></div></div>
+                <div class="stat-card"><div class="stat-icon green"><i class="bi bi-clock"></i></div><div class="stat-info"><h3>36h</h3><p>剩余实训时长</p></div></div>
+                <div class="stat-card"><div class="stat-icon orange"><i class="bi bi-journal-text"></i></div><div class="stat-info"><h3>8</h3><p>已完成实验</p></div></div>
+            </div>
+
+            <!-- 实验列表 -->
+            <div class="card">
+                <div class="card-header"><h3>实验列表</h3><a href="javascript:void(0)" onclick="createNewLab()" class="btn btn-sm btn-primary"><i class="bi bi-plus-circle me-1"></i>创建新实验</a></div>
+                <div class="card-body">
+                    <table class="data-table">
+                        <thead><tr><th>实验名称</th><th>类型</th><th>难度</th><th>状态</th><th>操作</th></tr></thead>
+                        <tbody>
+                            <tr data-lab-id="ecs-001" data-lab-name="华为云ECS服务器部署实战" data-lab-desc="学习华为云ECS弹性云服务器的创建、登录及基本配置。">
+                                <td><i class="bi bi-play-circle-fill text-primary me-2"></i>华为云ECS服务器部署实战</td>
+                                <td>云计算</td><td><span class="tag tag-success">初级</span></td><td><span class="tag tag-success">已完成</span></td>
+                                <td><a href="javascript:void(0)" onclick="viewReport(this)" class="btn btn-sm btn-outline">查看报告</a></td>
+                            </tr>
+                            <tr data-lab-id="vpc-001" data-lab-name="VPC虚拟私有云网络配置" data-lab-desc="动手配置VPC、子网、路由表、安全组等网络组件。">
+                                <td><i class="bi bi-hourglass-split text-warning me-2"></i>VPC虚拟私有云网络配置</td>
+                                <td>网络</td><td><span class="tag tag-warning">中级</span></td><td><span class="tag tag-warning">进行中</span></td>
+                                <td><a href="javascript:void(0)" onclick="startLab(this)" class="btn btn-sm btn-primary">继续实验</a></td>
+                            </tr>
+                            <tr data-lab-id="obs-001" data-lab-name="对象存储OBS实战应用" data-lab-desc="掌握OBS对象存储的桶创建、文件上传、权限管理。">
+                                <td><i class="bi bi-circle-fill text-muted me-2"></i>对象存储OBS实战应用</td>
+                                <td>存储</td><td><span class="tag tag-success">初级</span></td><td><span class="tag tag-info">未开始</span></td>
+                                <td><a href="javascript:void(0)" onclick="startLab(this)" class="btn btn-sm btn-outline">开始实验</a></td>
+                            </tr>
+                            <tr data-lab-id="rds-001" data-lab-name="RDS关系型数据库部署" data-lab-desc="完成RDS MySQL实例创建、数据库初始化、远程连接。">
+                                <td><i class="bi bi-circle-fill text-muted me-2"></i>RDS关系型数据库部署</td>
+                                <td>数据库</td><td><span class="tag tag-warning">中级</span></td><td><span class="tag tag-info">未开始</span></td>
+                                <td><a href="javascript:void(0)" onclick="startLab(this)" class="btn btn-sm btn-outline">开始实验</a></td>
+                            </tr>
+                            <tr data-lab-id="cce-001" data-lab-name="CCE容器引擎Kubernetes实战" data-lab-desc="通过CCE部署K8s集群并发布容器化应用。">
+                                <td><i class="bi bi-circle-fill text-muted me-2"></i>CCE容器引擎Kubernetes实战</td>
+                                <td>容器</td><td><span class="tag tag-danger">高级</span></td><td><span class="tag tag-info">未开始</span></td>
+                                <td><a href="javascript:void(0)" onclick="startLab(this)" class="btn btn-sm btn-outline">开始实验</a></td>
+                            </tr>
+                            <tr data-lab-id="harmony-001" data-lab-name="鸿蒙智慧台灯项目" data-lab-desc="基于HarmonyOS的智能台灯设备端开发实战。">
+                                <td><i class="bi bi-circle-fill text-muted me-2"></i>鸿蒙智慧台灯项目</td>
+                                <td>鸿蒙OS</td><td><span class="tag tag-warning">中级</span></td><td><span class="tag tag-info">未开始</span></td>
+                                <td><a href="javascript:void(0)" onclick="startLab(this)" class="btn btn-sm btn-outline">开始实验</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- ========== 云端控制台模态框 ========== -->
+<div class="modal fade" id="consoleModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-xl modal-fullscreen-lg-down" style="max-width:95%;">
+        <div class="modal-content" style="background:#1a1b26;border-radius:10px;border:1px solid #3d4470;overflow:hidden;">
+            <div class="modal-header" style="background:#16161e;border-bottom:1px solid #3d4470;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;">
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <div style="display:flex;gap:6px;">
+                        <span onclick="closeConsole()" style="width:12px;height:12px;border-radius:50%;background:#f7768e;cursor:pointer;"></span>
+                        <span style="width:12px;height:12px;border-radius:50%;background:#e0af68;"></span>
+                        <span style="width:12px;height:12px;border-radius:50%;background:#9ece6a;"></span>
+                    </div>
+                    <span style="color:#a9b1d6;font-size:13px;font-family:'Consolas','Monaco',monospace;"><i class="bi bi-terminal-fill" style="color:#7aa2f7;"></i> 华为云实训控制台 — root@huawei-ecs:~</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#565f89;">
+                    <span style="display:inline-block;width:8px;height:8px;background:#9ece6a;border-radius:50%;margin-right:4px;"></span>已连接
+                    <span style="border-left:1px solid #3d4470;padding-left:8px;margin-left:4px;">ecs-huawei-lab-01 | Ubuntu 22.04</span>
+                    <button onclick="closeConsole()" class="btn btn-sm" style="background:none;color:#f7768e;border:1px solid #f7768e44;font-size:11px;padding:2px 10px;"><i class="bi bi-x-lg"></i></button>
+                </div>
+            </div>
+            <div style="background:#1e2030;border-bottom:1px solid #3d4470;padding:6px 16px;display:flex;align-items:center;gap:8px;">
+                <button onclick="execCmd('clear')" style="background:none;border:1px solid #3d4470;color:#a9b1d6;font-size:12px;padding:3px 10px;cursor:pointer;border-radius:4px;"><i class="bi bi-eraser"></i> 清屏</button>
+                <button onclick="execCmd('ls -la')" style="background:none;border:1px solid #3d4470;color:#a9b1d6;font-size:12px;padding:3px 10px;cursor:pointer;border-radius:4px;"><i class="bi bi-folder2-open"></i> ls</button>
+                <button onclick="execCmd('pwd')" style="background:none;border:1px solid #3d4470;color:#a9b1d6;font-size:12px;padding:3px 10px;cursor:pointer;border-radius:4px;"><i class="bi bi-signpost-split"></i> pwd</button>
+                <button onclick="execCmd('docker ps')" style="background:none;border:1px solid #3d4470;color:#a9b1d6;font-size:12px;padding:3px 10px;cursor:pointer;border-radius:4px;"><i class="bi bi-boxes"></i> Docker</button>
+                <button onclick="execCmd('kubectl get nodes')" style="background:none;border:1px solid #3d4470;color:#a9b1d6;font-size:12px;padding:3px 10px;cursor:pointer;border-radius:4px;"><i class="bi bi-diagram-3"></i> K8s</button>
+                <button onclick="execCmd('huawei')" style="background:none;border:1px solid #3d4470;color:#7dcfff;font-size:12px;padding:3px 10px;cursor:pointer;border-radius:4px;"><i class="bi bi-cloud-fill"></i> 华为云</button>
+                <button onclick="execCmd('help')" style="background:none;border:1px solid #3d4470;color:#7dcfff;font-size:12px;padding:3px 10px;cursor:pointer;border-radius:4px;"><i class="bi bi-question-circle"></i> 帮助</button>
+            </div>
+            <div id="terminalBody" class="modal-body" style="background:#1a1b26;padding:14px 18px;overflow-y:auto;height:calc(100vh - 200px);min-height:420px;font-family:'Consolas','Monaco','Courier New',monospace;font-size:13px;line-height:1.55;color:#c0caf5;" onclick="focusInput()">
+                <div id="terminalOutput"></div>
+                <div style="display:flex;align-items:flex-start;gap:0;">
+                    <span style="color:#7aa2f7;white-space:nowrap;user-select:none;flex-shrink:0;">root@huawei-ecs<span style="color:#bb9af7">:</span><span style="color:#9ece6a">~</span><span style="color:#bb9af7">$</span>&nbsp;</span>
+                    <input type="text" id="termInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="background:transparent;border:none;color:#c0caf5;outline:none;font-family:inherit;font-size:13px;flex:1;caret:#7aa2f7;" onkeydown="handleInputKey(event)" />
+                </div>
+            </div>
+            <div style="background:#16161e;border-top:1px solid #3d4470;padding:4px 16px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#565f89;font-family:'Consolas',monospace;">
+                <div>实例: ecs-huawei-01 (2vCPU/4GB) | IP: 192.168.100.42</div>
+                <div>运行: <span id="consoleUptime">00:00:00</span> | 命令: <span id="cmdCount">0</span> | <span style="color:#f7768e;">⚠ 沙箱环境</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/common.js"></script>
+<script>
+// ========== 云端控制台 ==========
+var consoleModalInstance = null;
+var commandHistory = [];
+var historyIndex = -1;
+var cmdCountNum = 0;
+var uptimeSeconds = 0;
+var uptimeInterval = null;
+var currentDir = '~';
+
+function openConsole() {
+    consoleModalInstance = new bootstrap.Modal(document.getElementById('consoleModal'));
+    consoleModalInstance.show();
+    setTimeout(function() {
+        var output = document.getElementById('terminalOutput');
+        output.innerHTML =
+            '<div style="margin-bottom:8px;color:#7aa2f7;">╔═══════════════════════════════════════════════════╗</div>\n' +
+            '<div style="margin-bottom:8px;color:#7aa2f7;">║     <span style="color:#e0af68;font-weight:bold;font-size:15px;">☁ 华为云ICT智慧实训平台 — 终端控制台</span>        ║</div>\n' +
+            '<div style="margin-bottom:8px;color:#7aa2f7;">╠═══════════════════════════════════════════════════╣</div>\n' +
+            '<div style="margin-bottom:4px;color:#565f89;">  实例ID:  ecs-huawei-lab-01 | 镜像: Ubuntu 22.04 LTS</div>\n' +
+            '<div style="margin-bottom:4px;color:#565f89;">  规格:    2 vCPU | 4 GB RAM | 40 GB SSD</div>\n' +
+            '<div style="margin-bottom:4px;color:#565f89;">  内网IP:  192.168.100.42 | 区域: cn-north-4</div>\n' +
+            '<div style="margin-bottom:12px;color:#7aa2f7;">╚═══════════════════════════════════════════════════╝</div>\n' +
+            '<div style="margin-bottom:8px;color:#9ece6a;">欢迎使用华为云实训终端！输入 <span style="color:#7dcfff;">help</span> 获取可用命令。</div>\n';
+        document.getElementById('termInput').focus();
+        uptimeSeconds = 0;
+        if (uptimeInterval) clearInterval(uptimeInterval);
+        uptimeInterval = setInterval(function() {
+            uptimeSeconds++;
+            var h=Math.floor(uptimeSeconds/3600).toString().padStart(2,'0');
+            var m=Math.floor((uptimeSeconds%3600)/60).toString().padStart(2,'0');
+            var s=(uptimeSeconds%60).toString().padStart(2,'0');
+            var el=document.getElementById('consoleUptime'); if(el) el.textContent=h+':'+m+':'+s;
+        }, 1000);
+    }, 300);
+    document.getElementById('consoleModal').addEventListener('hidden.bs.modal', function() {
+        if (uptimeInterval) { clearInterval(uptimeInterval); uptimeInterval = null; }
+    }, { once: true });
+}
+function closeConsole() {
+    if (uptimeInterval) { clearInterval(uptimeInterval); uptimeInterval = null; }
+    if (consoleModalInstance) consoleModalInstance.hide();
+}
+function focusInput() { var i=document.getElementById('termInput'); if(i) i.focus(); }
+
+// ========== 内嵌命令框（卡片内直接用） ==========
+function focusInlineInput() { var i=document.getElementById('inlineInput'); if(i) i.focus(); }
+function handleInlineKey(e) {
+    if (e.key === 'Enter') executeInlineCommand();
+    else if (e.key === 'ArrowUp') { e.preventDefault(); navigateHistory(-1, 'inline'); }
+    else if (e.key === 'ArrowDown') { e.preventDefault(); navigateHistory(1, 'inline'); }
+    else if (e.key === 'Tab') { e.preventDefault(); autoComplete('inline'); }
+    else if (e.key === 'l' && e.ctrlKey) { e.preventDefault(); clearInlineOutput(); }
+}
+function clearInlineOutput() { var o=document.getElementById('inlineOutputBody'); if(o) o.innerHTML=''; }
+function appendInline(html) { var o=document.getElementById('inlineOutputBody'); if(!o) return; var d=document.createElement('div'); d.innerHTML=html; o.appendChild(d); var box=document.getElementById('inlineOutput'); if(box) box.scrollTop=box.scrollHeight; }
+function executeInlineCommand() {
+    var input = document.getElementById('inlineInput');
+    if (!input) return;
+    var cmd = input.value.trim();
+    var dirDisplay = currentDir === '/home/student' ? '~' : currentDir;
+    appendInline('<div><span style="color:#9ece6a;">root@huawei-ecs<span style="color:#bb9af7;">:</span><span style="color:#7aa2f7;">' + dirDisplay + '</span><span style="color:#bb9af7;">$ </span></span>' + escapeHtml(cmd) + '</div>');
+    if (cmd) {
+        commandHistory.push(cmd); historyIndex = commandHistory.length;
+        var result = getCommandOutput(cmd);
+        if (result !== null && result !== undefined && result !== '') {
+            appendInline('<div style="white-space:pre-wrap;color:#cfd2e0;">' + result + '</div>');
+        }
+        cmdCountNum++;
+        var el=document.getElementById('cmdCount'); if(el) el.textContent=cmdCountNum;
+    }
+    input.value = '';
+    var box=document.getElementById('inlineOutput'); if(box) box.scrollTop=box.scrollHeight;
+}
+// 复用 navigateHistory / autoComplete / getCommandOutput（已存在）
+
+function handleInputKey(e) {
+    if (e.key === 'Enter') executeCommand();
+    else if (e.key === 'ArrowUp') { e.preventDefault(); navigateHistory(-1); }
+    else if (e.key === 'ArrowDown') { e.preventDefault(); navigateHistory(1); }
+    else if (e.key === 'Tab') { e.preventDefault(); autoComplete(); }
+    else if (e.key === 'l' && e.ctrlKey) { e.preventDefault(); execCmd('clear'); }
+}
+
+function executeCommand() {
+    var input = document.getElementById('termInput');
+    var cmd = input.value.trim();
+    var dirDisplay = currentDir === '/home/student' ? '~' : currentDir;
+    appendToTerminal('<div><span style="color:#7aa2f7;">root@huawei-ecs<span style="color:#bb9af7">:</span><span style="color:#9ece6a">' + dirDisplay + '</span><span style="color:#bb9af7">$ </span></span>' + escapeHtml(cmd) + '</div>');
+    if (cmd) {
+        commandHistory.push(cmd); historyIndex = commandHistory.length;
+        var result = getCommandOutput(cmd);
+        if (result !== null && result !== undefined && result !== '') {
+            appendToTerminal('<div style="white-space:pre-wrap;color:#a9b1d6;">' + result + '</div>');
+        }
+        cmdCountNum++;
+        var el = document.getElementById('cmdCount'); if(el) el.textContent = cmdCountNum;
+    }
+    input.value = ''; scrollToBottom();
+}
+function execCmd(cmd) { document.getElementById('termInput').value = cmd; executeCommand(); }
+function appendToTerminal(html) { var o = document.getElementById('terminalOutput'); var d = document.createElement('div'); d.innerHTML = html; o.appendChild(d); }
+function scrollToBottom() { var b = document.getElementById('terminalBody'); b.scrollTop = b.scrollHeight; }
+function navigateHistory(dir, target) { if(!commandHistory.length) return; historyIndex += dir; if(historyIndex<0) historyIndex=0; if(historyIndex>=commandHistory.length) historyIndex=commandHistory.length; var i=document.getElementById(target==='inline'?'inlineInput':'termInput'); if(i) i.value = commandHistory[historyIndex] || ''; }
+function autoComplete(target) { var i=document.getElementById(target==='inline'?'inlineInput':'termInput'); if(!i) return; var v=i.value; var cmds=['ls','cd','pwd','cat','echo','clear','help','exit','ps','top','free','df','docker','kubectl','ping','curl','git','vim','nano','python3','npm','neofetch','history','whoami','hostname','date','uptime','uname','ifconfig','ip','sudo','apt','huawei','hcloud','man','chmod','grep','find','touch','mkdir','rm','cp','mv','tail','head','wget','tar','ssh','scp','htop','kill']; var m=cmds.find(function(c){return c.startsWith(v);}); if(m) i.value=m; }
+function escapeHtml(str) { var d=document.createElement('div'); d.appendChild(document.createTextNode(str)); return d.innerHTML; }
+
+function getCommandOutput(cmd) {
+    var c=cmd.trim().toLowerCase(); var args=cmd.trim().split(/\s+/); var baseCmd=args[0]?args[0].toLowerCase():'';
+    if(!baseCmd) return null;
+    if(baseCmd==='help') return '<span style="color:#7dcfff;">可用命令: ls, cd, pwd, cat, echo, clear, help, exit, ps, top, free, df, docker, kubectl, ping, curl, git, vim, neofetch, history, whoami, hostname, date, uptime, uname, huawei, python3, npm, apt, sudo ...</span>';
+    if(baseCmd==='clear'||baseCmd==='cls') { var t=document.getElementById('terminalOutput'); if(t) t.innerHTML=''; var i=document.getElementById('inlineOutputBody'); if(i) i.innerHTML=''; return null; }
+    if(baseCmd==='pwd') return currentDir;
+    if(baseCmd==='whoami') return 'root';
+    if(baseCmd==='hostname') return 'huawei-ecs-lab-01';
+    if(baseCmd==='date') return new Date().toString();
+    if(baseCmd==='uptime') { var h=Math.floor(uptimeSeconds/3600),m=Math.floor((uptimeSeconds%3600)/60),s=uptimeSeconds%60; return ' '+h.toString().padStart(2,'0')+':'+m.toString().padStart(2,'0')+':'+s.toString().padStart(2,'0')+' up, load average: 0.12, 0.18'; }
+    if(baseCmd==='uname'&&args.includes('-a')) return 'Linux huawei-ecs-lab-01 5.15.0-105 x86_64 GNU/Linux';
+    if(baseCmd==='uname') return 'Linux';
+    if(baseCmd==='cat'&&args.includes('/etc/os-release')) return 'PRETTY_NAME="Ubuntu 22.04.3 LTS"\nID=ubuntu\nVERSION="22.04"\nCLOUD_NAME="HuaweiCloud"';
+    if(baseCmd==='ls') { var showLong=args.includes('-l')||args.includes('-la')||args.includes('-al'); var items=['bin','etc','home','root','usr','var','tmp','opt','.bashrc','.profile']; if(showLong) return items.map(function(f){var isDir=f==='.'||f==='..'||!f.includes('.')||f==='bin'||f==='etc'||f==='home'||f==='root'||f==='usr'||f==='var'||f==='tmp'||f==='opt'; return (isDir?'drwxr-xr-x':'-rw-r--r--')+' 1 root root 4096 Jan 15 10:30 <span style="color:'+((isDir)?'#7aa2f7':'#9ece6a')+'">'+f+'</span>';}).join('\n'); else return items.map(function(f){var isDir=f==='bin'||f==='etc'||f==='home'||f==='root'||f==='usr'||f==='var'||f==='tmp'||f==='opt'; return isDir?'<span style="color:#7aa2f7;font-weight:bold;">'+f+'</span>':f;}).join('  '); }
+    if(baseCmd==='cd') { var dest=args[1]||'~'; if(dest==='~'||dest==='') currentDir='~'; else if(dest==='..') { if(currentDir!=='/'&&currentDir!=='~') { var p=currentDir.split('/'); p.pop(); currentDir=p.join('/')||'/'; } } else if(dest==='/') currentDir='/'; else if(currentDir==='~') currentDir='/home/student/'+dest; else currentDir=currentDir+'/'+dest; return ''; }
+    if(baseCmd==='echo') return cmd.replace(/^echo\s+/,'');
+    if(baseCmd==='ps') return 'USER PID %CPU %MEM COMMAND\nroot 1 0.0 0.3 /sbin/init\nroot 1234 0.5 2.1 dockerd\nroot 1567 0.3 1.8 kubelet\nroot 2345 0.1 0.8 bash';
+    if(baseCmd==='top') return 'top - up '+Math.floor(uptimeSeconds/3600)+'h, 1 user, load: 0.12, 0.18, 0.24\nTasks: 128 total, 1 running\n%Cpu(s): 3.2 us, 95.2 id\nMiB Mem: 4096.0 total, 1845.2 free, 1423.4 used\n  PID USER %CPU %MEM COMMAND\n 1567 root 2.8 1.8 kubelet\n 1234 root 1.5 2.2 dockerd';
+    if(baseCmd==='free') return ' total used free\nMem: 4096 1423 1845\nSwap: 2048 0 2048';
+    if(baseCmd==='df') return 'Filesystem Size Used Avail Use%\n/dev/vda1 40G 12G 26G 32%\n/dev/vdb 100G 15G 81G 16%';
+    if(baseCmd==='ip'&&args.includes('addr')) return '1: lo: inet 127.0.0.1\n2: eth0: inet 192.168.100.42/24\n3: docker0: inet 172.17.0.1/16';
+    if(baseCmd==='ifconfig') return 'eth0: inet 192.168.100.42 netmask 255.255.255.0\nlo: inet 127.0.0.1';
+    if(baseCmd==='docker'&&args[1]=='ps') return 'CONTAINER ID IMAGE STATUS PORTS NAMES\na1b2c3 nginx:latest Up 2h 80->80 lab-web\nf6e5d4 mysql:8.0 Up 2h 3306 lab-db\nc3b2d1 redis:7 Up 2h 6379 lab-cache';
+    if(baseCmd==='docker') return 'Usage: docker [ps|images|exec|logs|stop|start]';
+    if(baseCmd==='kubectl'&&args.includes('get')) return 'NAME STATUS AGE\nhuawei-node-1 Ready 48h\nhuawei-node-2 Ready 47h\nhuawei-node-3 Ready 47h';
+    if(baseCmd==='kubectl') return 'Usage: kubectl [get|create|delete|logs|describe]';
+    if(baseCmd==='ping') { var t=args[1]||'www.huaweicloud.com'; return 'PING '+t+' (119.3.20.45): 64 bytes, ttl=64, time=1.23ms\n3 packets transmitted, 3 received, 0% loss'; }
+    if(baseCmd==='curl') return '{\n  "service": "华为云实训API",\n  "status": "running",\n  "version": "v2.0"\n}';
+    if(baseCmd==='git') return 'git version 2.34.1';
+    if(baseCmd==='python3'||baseCmd==='python') return 'Python 3.11.6 on linux\nType "help" for more information.';
+    if(baseCmd==='npm') return '9.8.1';
+    if(baseCmd==='apt') return 'apt 2.4.9 (amd64)';
+    if(baseCmd==='sudo') return '[sudo] password: ***\n操作已执行（沙箱环境）';
+    if(baseCmd==='history') return commandHistory.map(function(c,i){return ' '+String(i+1).padStart(4)+' '+c;}).join('\n') || '(empty)';
+    if(baseCmd==='neofetch') return 'root@huawei-ecs\nOS: Ubuntu 22.04.3 LTS\nHost: HuaweiCloud ECS\nCPU: Intel Xeon (2) @ 2.6GHz\nMemory: 1423MiB / 4096MiB\n☁ 华为云ICT智慧实训平台';
+    if(baseCmd==='vim'||baseCmd==='nano') return 'Opening '+args[1]+'...\n[编辑器已启动]';
+    if(baseCmd==='huawei'||baseCmd==='hcloud') return '<span style="color:#e0af68;">华为云CLI — Region: cn-north-4\n可用服务:\n  ECS  云服务器 — 2实例运行中\n  EVS  云硬盘 — 200GB SSD\n  VPC  虚拟网络 — 已配置\n  OBS  对象存储 — 50GB\n  RDS  关系型数据库 — MySQL 8.0\n  CCE  容器引擎 — K8s 3节点</span>';
+    if(baseCmd==='exit') { closeConsole(); return null; }
+    return '<span style="color:#f7768e;">bash: '+baseCmd+': command not found</span>\n输入 <span style="color:#7dcfff;">help</span> 查看可用命令';
+}
+
+document.addEventListener('DOMContentLoaded', async function() {
+    // 加载后端真实实验列表（如果有）
+    try {
+        const res = await apiRequest('/student/labs');
+        if (res && res.success && res.data && res.data.length > 0) {
+            // 真实数据接入预留：保留 mock 数据为主，覆盖逻辑可在此扩展
+            console.log('实验列表已从后端获取，共', res.data.length, '个');
+        }
+    } catch(e) {}
+});
+
+// 开始实验：跳转到加载页
+function startLab(btn) {
+    const tr = btn.closest('tr');
+    const labId = tr.getAttribute('data-lab-id') || '';
+    const labName = tr.getAttribute('data-lab-name') || '云端实验';
+    const labDesc = tr.getAttribute('data-lab-desc') || '正在为您分配云端实验资源...';
+    window.location.href = 'lab-loading.html?id=' + encodeURIComponent(labId) + '&name=' + encodeURIComponent(labName) + '&desc=' + encodeURIComponent(labDesc);
+}
+
+// 查看报告
+function viewReport(btn) {
+    showToast('正在加载实验报告...', 'info');
+    setTimeout(() => { showToast('实验报告已生成，等待展示', 'success'); }, 1200);
+}
+
+// 创建新实验
+function createNewLab() {
+    showToast('正在为您创建实验沙箱环境...', 'info');
+    setTimeout(() => {
+        window.location.href = 'lab-loading.html?id=new-lab-' + Date.now() + '&name=' + encodeURIComponent('新建实验环境') + '&desc=' + encodeURIComponent('正在为您分配云端实验资源，预计需要 8-15 秒');
+    }, 800);
+}</script>
+</body>
+</html>

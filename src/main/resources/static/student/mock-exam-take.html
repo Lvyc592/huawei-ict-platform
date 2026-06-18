@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模拟考试 - 考试进行中</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="main-layout">
+    <aside class="sidebar">
+        <div class="sidebar-header"><h1><i class="bi bi-cloud-fill"></i>华技云</h1></div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">主要功能</div>
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-house-door"></i>工作台</a>
+            <a href="courses.html" class="menu-item"><i class="bi bi-book"></i>课程学习</a>
+            <a href="practice.html" class="menu-item"><i class="bi bi-journal-check"></i>题库练习</a>
+            <a href="mock-exams.html" class="menu-item active"><i class="bi bi-clock-history"></i>模拟考试</a>
+            <a href="cloud-lab.html" class="menu-item"><i class="bi bi-cloud-haze"></i>华为云实训</a>
+            <a href="ai-tutor.html" class="menu-item"><i class="bi bi-robot"></i>助学智能体</a>
+            <div class="menu-section">扩展功能</div>
+            <a href="competitions.html" class="menu-item"><i class="bi bi-trophy"></i>赛事训练</a>
+            <a href="jobs.html" class="menu-item"><i class="bi bi-briefcase"></i>就业岗位</a>
+            <a href="analytics.html" class="menu-item"><i class="bi bi-bar-chart"></i>学情数据</a>
+            <a href="settings.html" class="menu-item"><i class="bi bi-gear"></i>个人设置</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">学</div>
+                <div class="user-details"><div class="user-name">学生用户</div><div class="user-role">华为ICT学员</div></div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <div class="header-nav">
+                    <a href="dashboard.html">首页</a>
+                    <a href="courses.html">课程学习</a>
+                    <a href="practice.html">题库练习</a>
+                    <a href="mock-exams.html" class="active">模拟考试</a>
+                    <a href="cloud-lab.html">云端实训</a>
+                    <a href="competitions.html">赛事中心</a>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-icon" title="消息"><i class="bi bi-bell"></i><span class="badge"></span></div>
+                <a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <!-- 考试头部信息 -->
+            <div class="card mb-4" id="examHeader" style="background:linear-gradient(135deg,#062c5a,#094086);color:white;border:none;">
+                <div class="card-body" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                    <div>
+                        <h2 id="examTitle" style="color:white;margin-bottom:4px;">加载中...</h2>
+                        <p id="examMeta" style="opacity:0.8;margin:0;font-size:14px;"></p>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:12px;">
+                        <div style="background:rgba(255,255,255,0.15);padding:12px 20px;border-radius:8px;text-align:center;">
+                            <div style="font-size:12px;opacity:0.7;">剩余时间</div>
+                            <div id="timer" style="font-size:24px;font-weight:700;font-family:monospace;">--:--</div>
+                        </div>
+                        <button class="btn btn-warning" onclick="submitExam()" style="font-weight:600;"><i class="bi bi-check-lg"></i> 交卷</button>
+                    </div>
+                </div>
+           </div>
+            <!-- 行为追踪提示条 -->
+            <div style="background:linear-gradient(90deg,#fff8e1,#fff3cd);border:1px solid #ffeeba;border-radius:8px;padding:10px 20px;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+                <i class="bi bi-eye-fill" style="color:#e8a838;font-size:18px;"></i>
+                <span style="font-size:13px;color:#856404;flex:1;">
+                    <strong>行为追踪功能已开启</strong>，请眼睛正视屏幕。眼睛长时间离开屏幕会判违规。
+                </span>
+                <span id="violationCount" style="font-size:13px;color:#dc3545;font-weight:600;white-space:nowrap;">违规: 0 次</span>
+            </div>
+
+            <!-- 进度条 -->
+            <div class="card mb-3">
+                <div class="card-body" style="padding:12px 20px;">
+                    <div style="display:flex;justify-content:space-between;font-size:13px;color:#666;margin-bottom:8px;">
+                        <span id="progressText">第 1 题 / 共 0 题</span>
+                        <span id="answeredCount">已答: 0 题</span>
+                    </div>
+                    <div class="progress-bar" style="height:6px;">
+                        <div id="progressBar" class="progress-fill" style="width:0%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 题目导航 + 答题区 -->
+            <div style="display:grid;grid-template-columns:1fr 280px;gap:20px;">
+                <div>
+                    <div class="card" id="questionCard">
+                        <div class="card-header">
+                            <h3><span id="qNumber" style="background:#094086;color:white;padding:2px 10px;border-radius:4px;font-size:14px;margin-right:8px;">1</span>
+                            <span id="qType" class="tag tag-info">单选题</span></h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="qContent" style="font-size:16px;line-height:1.7;margin-bottom:20px;min-height:60px;"></div>
+                            <div id="qOptions" style="display:flex;flex-direction:column;gap:10px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧导航 -->
+                <div>
+                    <!-- 摄像头画面 -->
+                    <div class="card mb-3">
+                        <div class="card-header" style="padding:10px 14px;">
+                            <h3 style="font-size:13px;"><i class="bi bi-camera-video-fill" style="color:#094086;"></i> 考场监控</h3>
+                        </div>
+                        <div class="card-body" style="padding:8px;text-align:center;">
+                            <div id="cameraContainer" style="position:relative;border-radius:6px;overflow:hidden;background:#f5f5f5;">
+                                <video id="cameraFeed" autoplay muted playsinline style="width:100%;display:block;border-radius:6px;transform:scaleX(-1);"></video>
+                                <div id="cameraPlaceholder" style="padding:30px 10px;color:#999;font-size:13px;">
+                                    <i class="bi bi-camera" style="font-size:28px;display:block;margin-bottom:8px;"></i>
+                                    摄像头加载中...
+                                </div>
+                                <div id="cameraError" style="display:none;padding:30px 10px;color:#dc3545;font-size:13px;">
+                                    <i class="bi bi-exclamation-triangle" style="font-size:28px;display:block;margin-bottom:8px;"></i>
+                                    摄像头无法访问
+                                </div>
+                                <div id="faceOverlay" style="display:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
+                                    <div style="width:120px;height:120px;border:3px solid rgba(9,64,134,0.6);border-radius:50%;"></div>
+                                </div>
+                            </div>
+                            <div id="cameraStatus" style="font-size:11px;color:#28a745;margin-top:6px;">
+                                <i class="bi bi-check-circle-fill"></i> 摄像头正常运行
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header"><h3>答题卡</h3></div>
+                        <div class="card-body">
+                            <div id="questionNav" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:16px;"></div>
+                            <div style="display:flex;gap:12px;font-size:12px;color:#666;">
+                                <span><span style="display:inline-block;width:14px;height:14px;background:#094086;border-radius:3px;vertical-align:middle;margin-right:4px;"></span>已答</span>
+                                <span><span style="display:inline-block;width:14px;height:14px;background:#e5e7eb;border-radius:3px;vertical-align:middle;margin-right:4px;"></span>未答</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div style="display:flex;justify-content:space-between;margin-top:20px;">
+                <button class="btn btn-outline" onclick="prevQuestion()"><i class="bi bi-chevron-left"></i> 上一题</button>
+                <button class="btn btn-primary" onclick="nextQuestion()">下一题 <i class="bi bi-chevron-right"></i></button>
+            </div>
+        </div>
+    </main>
+</div>
+<!-- 交卷违规确认模态框 -->
+<div class="modal fade" id="violationModal" tabindex="-1">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body" style="text-align:center;padding:30px;">
+                <i class="bi bi-exclamation-triangle-fill" style="font-size:40px;color:#dc3545;display:block;margin-bottom:16px;"></i>
+                <h5 style="font-weight:600;margin-bottom:8px;">违规提醒</h5>
+                <p style="font-size:14px;color:#666;margin-bottom:0;" id="violationModalMsg">检测到您的视线长时间离开屏幕，请正视屏幕继续作答。</p>
+            </div>
+            <div class="modal-footer" style="justify-content:center;border:none;padding-top:0;">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="resetAbeyanceTimer()">我知道了</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/common.js"></script>
+<script>
+var examData = null;
+var questions = [];
+var currentIndex = 0;
+var answers = {};
+var resultId = null;
+var timerInterval = null;
+var endTime = null;
+
+// 摄像头与行为追踪
+var cameraStream = null;
+var faceTrackInterval = null;
+var violationCount = 0;
+var abeyanceSeconds = 0;        // 离开屏幕累计秒数
+var ABEYANCE_THRESHOLD = 8;     // 超过多少秒判违规
+var lastFaceDetected = true;
+var cameraReady = false;
+var cameraInitAttempted = false;
+
+// 从URL获取examId
+var urlParams = new URLSearchParams(window.location.search);
+var examId = urlParams.get('examId');
+
+// ============== 摄像头初始化和行为追踪 ==============
+// 摄像头初始化（与题目加载解耦）
+function initCamera() {
+    if (cameraInitAttempted) return;
+    cameraInitAttempted = true;
+    startCamera();
+    setTimeout(function() {
+        if (!cameraReady && !cameraStream) {
+            document.getElementById('cameraPlaceholder').style.display = 'none';
+            document.getElementById('cameraError').style.display = 'block';
+            document.getElementById('cameraError').innerHTML = '<i class="bi bi-exclamation-triangle" style="font-size:28px;display:block;margin-bottom:8px;"></i>摄像头连接超时<br><span style="font-size:11px;">请检查摄像头权限设置后<a href="javascript:location.reload()" style="color:#094086;">刷新页面</a>重试</span>';
+            document.getElementById('cameraStatus').innerHTML = '<i class="bi bi-exclamation-circle-fill" style="color:#dc3545;"></i> 摄像头连接超时';
+            document.getElementById('cameraStatus').style.color = '#dc3545';
+        }
+    }, 5000);
+}
+
+async function startCamera() {
+    if (cameraReady) return;
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        document.getElementById('cameraPlaceholder').style.display = 'none';
+        document.getElementById('cameraError').style.display = 'block';
+        document.getElementById('cameraError').innerHTML = '<i class="bi bi-exclamation-triangle" style="font-size:28px;display:block;margin-bottom:8px;"></i>当前浏览器不支持摄像头<br><span style="font-size:11px;">请使用 HTTPS 或 localhost 访问</span>';
+        document.getElementById('cameraStatus').innerHTML = '<i class="bi bi-exclamation-circle-fill" style="color:#dc3545;"></i> 浏览器不支持摄像头';
+        document.getElementById('cameraStatus').style.color = '#dc3545';
+        return;
+    }
+    try {
+        var stream = await navigator.mediaDevices.getUserMedia({
+            video: { width: { ideal: 320 }, height: { ideal: 240 }, facingMode: 'user', frameRate: { ideal: 15 } },
+            audio: false
+        });
+        cameraStream = stream;
+        var video = document.getElementById('cameraFeed');
+        video.srcObject = stream;
+        try {
+            await video.play();
+            document.getElementById('cameraPlaceholder').style.display = 'none';
+            document.getElementById('faceOverlay').style.display = 'block';
+            cameraReady = true;
+            startFaceTracking();
+        } catch(playErr) {
+            console.warn('视频播放失败:', playErr);
+        }
+    } catch (e) { showCameraError(e); }
+}
+
+function showCameraError(e) {
+    var errMsg = '摄像头调用失败';
+    var errDetail = '';
+    if (e.name === 'NotAllowedError' || e.name === 'PermissionDeniedError') {
+        errMsg = '摄像头权限被拒绝';
+        errDetail = '请在浏览器设置中允许摄像头访问，然后<a href="javascript:location.reload()" style="color:#094086;">刷新页面</a>';
+    } else if (e.name === 'NotFoundError') {
+        errMsg = '未检测到摄像头设备';
+        errDetail = '请检查摄像头连接';
+    } else if (e.name === 'NotReadableError') {
+        errMsg = '摄像头被其他应用占用';
+        errDetail = '请关闭其他使用摄像头的应用';
+    } else {
+        errMsg = '摄像头错误: ' + (e.message || e.name || '未知错误');
+        errDetail = '请检查 HTTPS/localhost 访问';
+    }
+    document.getElementById('cameraPlaceholder').style.display = 'none';
+    document.getElementById('cameraError').style.display = 'block';
+    document.getElementById('cameraError').innerHTML = '<i class="bi bi-exclamation-triangle" style="font-size:28px;display:block;margin-bottom:8px;"></i>' + errMsg + '<br><span style="font-size:11px;">' + errDetail + '</span>';
+    document.getElementById('cameraStatus').innerHTML = '<i class="bi bi-exclamation-circle-fill" style="color:#dc3545;"></i> ' + errMsg;
+    document.getElementById('cameraStatus').style.color = '#dc3545';
+}
+// ============== 初始化 ==============
+document.addEventListener('DOMContentLoaded', function() {
+    if (!examId) {
+        document.getElementById('examTitle').textContent = '参数错误';
+        showToast('缺少考试ID', 'danger');
+        return;
+    }
+    initExam();
+});
+
+async function initExam() {
+    try {
+        // 获取考试信息
+        var r1 = await apiRequest('/student/exams/' + examId);
+        if (!r1 || !r1.success) { showToast('加载考试信息失败', 'danger'); return; }
+        examData = r1.data;
+
+        document.getElementById('examTitle').textContent = examData.title;
+        document.getElementById('examMeta').textContent = '分类: ' + (examData.category || '-') + ' | 时长: ' + (examData.duration || 60) + '分钟 | 总分: ' + (examData.totalScore || 100) + '分 | 及格: ' + (examData.passScore || 60) + '分';
+
+        // 获取题目
+        var r2 = await apiRequest('/student/exams/' + examId + '/questions');
+        if (!r2 || !r2.success) { showToast('加载题目失败', 'danger'); return; }
+        questions = r2.data || [];
+
+        if (questions.length === 0) {
+            showToast('该考试暂无题目', 'danger');
+            return;
+        }
+
+        // 开始考试
+        var r3 = await apiRequest('/student/exams/' + examId + '/start', { method: 'POST' });
+        if (!r3 || !r3.success) {
+            showToast(r3 ? r3.message : '开始考试失败', 'danger');
+            return;
+        }
+        resultId = r3.data.id;
+
+        // 启动计时器
+        var duration = (examData.duration || 60) * 60;
+        endTime = new Date(Date.now() + duration * 1000);
+        startTimer();
+        startCamera();
+        enableKioskMode();
+
+        renderQuestionNav();
+        showQuestion(0);
+    } catch(e) { showToast('初始化失败', 'danger'); }
+}
+
+function startFaceTracking() {
+    var video = document.getElementById('cameraFeed');
+    var canvas = document.createElement('canvas');
+    canvas.width = 160;
+    canvas.height = 120;
+    var ctx = canvas.getContext('2d');
+
+    faceTrackInterval = setInterval(function() {
+        if (!cameraReady || video.readyState < 2) return;
+        ctx.drawImage(video, 0, 0, 160, 120);
+        var imageData = ctx.getImageData(0, 0, 160, 120);
+        var data = imageData.data;
+        var skinPixels = 0;
+        var totalCenterPixels = 0;
+
+        for (var y = 35; y < 85; y++) {
+            for (var x = 55; x < 105; x++) {
+                var idx = (y * 160 + x) * 4;
+                var r = data[idx];
+                var g = data[idx + 1];
+                var b = data[idx + 2];
+                totalCenterPixels++;
+                if (r > 60 && g > 40 && b > 20 &&
+                    r > g && r > b &&
+                    Math.abs(r - g) > 10 &&
+                    r - b > 10 &&
+                    g - b > 5 &&
+                    r < 240 && g < 220 && b < 200) {
+                    skinPixels++;
+                }
+            }
+        }
+
+        var skinRatio = totalCenterPixels > 0 ? skinPixels / totalCenterPixels : 0;
+        var facePresent = skinRatio > 0.05;
+
+        if (facePresent) {
+            document.getElementById('faceOverlay').style.borderColor = 'rgba(9,64,134,0.6)';
+            abeyanceSeconds = 0;
+            lastFaceDetected = true;
+        } else {
+            document.getElementById('faceOverlay').style.borderColor = 'rgba(220,53,69,0.8)';
+            abeyanceSeconds++;
+            lastFaceDetected = false;
+        }
+
+        var statusEl = document.getElementById('cameraStatus');
+        if (abeyanceSeconds > 3) {
+            statusEl.innerHTML = '<i class="bi bi-exclamation-circle-fill" style="color:#dc3545;"></i> ' + abeyanceSeconds + '秒未检测到人脸';
+            statusEl.style.color = '#dc3545';
+        } else {
+            statusEl.innerHTML = '<i class="bi bi-check-circle-fill" style="color:#28a745;"></i> 摄像头正常运行';
+            statusEl.style.color = '#28a745';
+        }
+
+        if (abeyanceSeconds >= ABEYANCE_THRESHOLD) {
+            violationCount++;
+            document.getElementById('violationCount').textContent = '违规: ' + violationCount + ' 次';
+            try {
+                var modal = new bootstrap.Modal(document.getElementById('violationModal'));
+                modal.show();
+            } catch(e) {}
+            abeyanceSeconds = 0;
+        }
+    }, 1000);
+}
+
+function resetAbeyanceTimer() {
+    abeyanceSeconds = 0;
+}
+
+// ============== 计时器 ==============
+function startTimer() {
+    timerInterval = setInterval(function() {
+        var now = new Date();
+        var diff = Math.max(0, Math.floor((endTime - now) / 1000));
+        var min = Math.floor(diff / 60);
+        var sec = diff % 60;
+        document.getElementById('timer').textContent =
+            String(min).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+        if (diff <= 0) {
+            clearInterval(timerInterval);
+            showToast('时间到，自动交卷！', 'warning');
+            submitExam();
+        }
+    }, 1000);
+}
+
+// ============== 题目显示 ==============
+function showQuestion(index) {
+    if (index < 0 || index >= questions.length) return;
+    currentIndex = index;
+    var q = questions[index];
+
+    var typeMap = { 'SINGLE': '单选题', 'MULTI': '多选题', 'JUDGE': '判断题', 'FILL': '填空题' };
+    document.getElementById('qNumber').textContent = (index + 1);
+    document.getElementById('qType').textContent = typeMap[q.type] || q.type;
+    document.getElementById('qContent').textContent = q.content;
+    var progress = ((index + 1) / questions.length * 100).toFixed(0);
+    document.getElementById('progressText').textContent = '第 ' + (index + 1) + ' 题 / 共 ' + questions.length + ' 题';
+    document.getElementById('progressBar').style.width = progress + '%';
+
+    var optionsDiv = document.getElementById('qOptions');
+    optionsDiv.innerHTML = '';
+
+    var savedAnswer = answers[index] || '';
+
+    if (q.type === 'JUDGE') {
+        ['对', '错'].forEach(function(opt) {
+            var div = document.createElement('div');
+            div.style.cssText = 'padding:12px 16px;border:2px solid ' + (savedAnswer === opt ? '#094086' : '#e5e7eb') + ';border-radius:8px;cursor:pointer;transition:all 0.2s;';
+            div.onmouseenter = function() { if (savedAnswer !== opt) div.style.borderColor = '#094086'; };
+            div.onmouseleave = function() { if (savedAnswer !== opt) div.style.borderColor = '#e5e7eb'; };
+            div.onclick = function() { selectOption(index, opt); };
+            div.innerHTML = '<span style="display:inline-flex;width:24px;height:24px;background:' + (savedAnswer === opt ? '#094086' : '#f0f0f0') + ';color:' + (savedAnswer === opt ? 'white' : '#666') + ';border-radius:50%;align-items:center;justify-content:center;font-size:13px;font-weight:600;margin-right:12px;">' + opt + '</span>' + opt;
+            optionsDiv.appendChild(div);
+        });
+    } else if (q.type === 'SINGLE' && q.options) {
+        try {
+            var opts = JSON.parse(q.options);
+            Object.keys(opts).forEach(function(key) {
+                var val = opts[key];
+                var div = document.createElement('div');
+                var isSelected = savedAnswer === key;
+                div.style.cssText = 'padding:12px 16px;border:2px solid ' + (isSelected ? '#094086' : '#e5e7eb') + ';border-radius:8px;cursor:pointer;transition:all 0.2s;';
+                div.onmouseenter = function() { if (!isSelected) div.style.borderColor = '#094086'; };
+                div.onmouseleave = function() { if (!isSelected) div.style.borderColor = '#e5e7eb'; };
+                div.onclick = function() { selectOption(index, key); };
+                div.innerHTML = '<span style="display:inline-flex;width:24px;height:24px;background:' + (isSelected ? '#094086' : '#f0f0f0') + ';color:' + (isSelected ? 'white' : '#666') + ';border-radius:50%;align-items:center;justify-content:center;font-size:13px;font-weight:600;margin-right:12px;">' + key + '</span>' + val;
+                optionsDiv.appendChild(div);
+            });
+        } catch(e) {}
+    } else if (q.type === 'FILL') {
+        var input = document.createElement('input');
+        input.className = 'form-control';
+        input.placeholder = '请输入答案';
+        input.value = savedAnswer;
+        input.onchange = function() { answers[index] = this.value; updateNav(); };
+        optionsDiv.appendChild(input);
+    }
+
+    updateNav();
+}
+
+function selectOption(index, key) {
+    var q = questions[index];
+    if (q.type === 'SINGLE' || q.type === 'JUDGE') {
+        answers[index] = key;
+        showQuestion(index);
+    }
+    updateNav();
+}
+
+function nextQuestion() {
+    if (currentIndex < questions.length - 1) showQuestion(currentIndex + 1);
+}
+
+function prevQuestion() {
+    if (currentIndex > 0) showQuestion(currentIndex - 1);
+}
+
+// ============== 答题卡 ==============
+function renderQuestionNav() {
+    var nav = document.getElementById('questionNav');
+    nav.innerHTML = questions.map(function(q, i) {
+        return '<div id="nav-' + i + '" onclick="showQuestion(' + i + ')" style="background:' + (answers[i] ? '#094086' : '#e5e7eb') + ';color:' + (answers[i] ? 'white' : '#666') + ';aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:4px;cursor:pointer;font-size:13px;font-weight:600;transition:all 0.2s;">' + (i + 1) + '</div>';
+    }).join('');
+}
+
+function updateNav() {
+    var answered = Object.keys(answers).length;
+    document.getElementById('answeredCount').textContent = '已答: ' + answered + ' 题';
+    renderQuestionNav();
+}
+
+// ============== 霸屏模式 ==============
+var isKioskActive = false;
+
+function enableKioskMode() {
+    if (isKioskActive) return;
+    isKioskActive = true;
+
+    requestFullscreen();
+    document.addEventListener('fullscreenchange', onFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden && isKioskActive && resultId) {
+            violationCount++;
+            document.getElementById('violationCount').textContent = '违规: ' + violationCount + ' 次';
+            showToast('检测到切屏操作，已记录违规！', 'warning');
+        }
+    });
+
+    document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+    document.addEventListener('copy', function(e) { e.preventDefault(); });
+    document.addEventListener('cut', function(e) { e.preventDefault(); });
+    document.addEventListener('paste', function(e) { e.preventDefault(); });
+
+    window.addEventListener('beforeunload', function(e) {
+        if (isKioskActive && resultId) {
+            e.preventDefault();
+            e.returnValue = '考试正在进行中，确定要离开吗？';
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' ||
+            (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i')) ||
+            (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.key === 'S' || e.key === 's' || e.key === 'C' || e.key === 'c'))) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    history.pushState(null, null, location.href);
+    window.addEventListener('popstate', function() {
+        if (isKioskActive) {
+            history.pushState(null, null, location.href);
+        }
+    });
+}
+
+function requestFullscreen() {
+    var el = document.documentElement;
+    if (el.requestFullscreen) {
+        el.requestFullscreen().catch(function() {});
+    } else if (el.webkitRequestFullscreen) {
+        el.webkitRequestFullscreen();
+    } else if (el.msRequestFullscreen) {
+        el.msRequestFullscreen();
+    }
+}
+
+function onFullscreenChange() {
+    if (!document.fullscreenElement && !document.webkitFullscreenElement && isKioskActive) {
+        violationCount++;
+        document.getElementById('violationCount').textContent = '违规: ' + violationCount + ' 次';
+        showToast('检测到退出全屏，已记录违规！', 'warning');
+        requestFullscreen();
+    }
+}
+// ============== 交卷 ==============
+async function submitExam() {
+    if (!resultId) return;
+    var answered = Object.keys(answers).length;
+    if (answered < questions.length) {
+        if (!confirm('还有 ' + (questions.length - answered) + ' 题未作答，确定交卷吗？')) return;
+    } else {
+        if (!confirm('确定要交卷吗？提交后无法修改。')) return;
+    }
+
+    clearInterval(timerInterval);
+
+    var answerList = [];
+    questions.forEach(function(q, i) {
+        answerList.push({ questionId: q.id, answer: answers[i] || '' });
+    });
+
+    try {
+        var r = await apiRequest('/student/exams/submit', {
+            method: 'POST',
+            body: JSON.stringify({ resultId: resultId, answers: answerList })
+        });
+        if (r && r.success) {
+            var data = r.data;
+            var pass = data.score >= (examData.passScore || 60);
+            showToast('交卷成功！得分: ' + data.score + '/' + data.totalScore, pass ? 'success' : 'danger');
+            setTimeout(function() {
+                window.location.href = 'mock-exams.html';
+            }, 1500);
+        } else {
+            showToast(r ? r.message : '交卷失败', 'danger');
+        }
+    } catch(e) { showToast('交卷失败', 'danger'); }
+    if (cameraStream) {
+        cameraStream.getTracks().forEach(function(track) { track.stop(); });
+    }
+    if (faceTrackInterval) {
+        clearInterval(faceTrackInterval);
+    }
+}
+</script>
+</body>
+</html>

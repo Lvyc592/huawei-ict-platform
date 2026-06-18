@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考试管理 - 华技云管理端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="main-layout">
+    <aside class="sidebar">
+        <div class="sidebar-header" style="background:linear-gradient(135deg,#062c5a,#094086);"><h1><i class="bi bi-shield-lock-fill"></i>管理端</h1></div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">核心管理</div>
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-speedometer2"></i>管理仪表盘</a>
+            <a href="users.html" class="menu-item"><i class="bi bi-people"></i>用户管理</a>
+            <a href="courses.html" class="menu-item"><i class="bi bi-book"></i>课程管理</a>
+            <a href="exams.html" class="menu-item active"><i class="bi bi-journal-check"></i>考试管理</a>
+            <a href="certifications.html" class="menu-item"><i class="bi bi-award"></i>认证管理</a>
+            <div class="menu-section">运营管理</div>
+            <a href="labs.html" class="menu-item"><i class="bi bi-cloud-haze"></i>实训管理</a>
+            <a href="competitions.html" class="menu-item"><i class="bi bi-trophy"></i>赛事管理</a>
+            <a href="jobs.html" class="menu-item"><i class="bi bi-briefcase"></i>就业管理</a>
+            <div class="menu-section">数据与系统</div>
+            <a href="analytics.html" class="menu-item"><i class="bi bi-graph-up"></i>数据统计</a>
+            <a href="settings.html" class="menu-item"><i class="bi bi-gear"></i>系统设置</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar" style="background:#e8a838;">管</div>
+                <div class="user-details"><div class="user-name">管理员</div><div class="user-role">系统管理员</div></div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <div class="header-nav">
+                    <a href="dashboard.html">仪表盘</a>
+                    <a href="users.html">用户管理</a>
+                    <a href="courses.html">课程管理</a>
+                    <a href="exams.html" class="active">考试管理</a>
+                    <a href="analytics.html">数据统计</a>
+                    <a href="settings.html">系统设置</a>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-icon" title="消息"><i class="bi bi-bell"></i><span class="badge"></span></div>
+                <div class="header-icon" title="设置"><i class="bi bi-gear"></i></div>
+                <a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <div class="page-title" style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                    <h2><i class="bi bi-journal-check me-2"></i>考试管理</h2>
+                    <p>管理考试题库、试卷和考试记录</p>
+                </div>
+                <button class="btn btn-primary" onclick="showCreateExamModal()"><i class="bi bi-plus-lg"></i> 新建考试</button>
+            </div>
+
+            <!-- 统计概览 -->
+            <div class="stat-cards mb-4" id="statsOverview">
+                <div class="stat-card"><div class="stat-icon blue"><i class="bi bi-file-text"></i></div><div class="stat-info"><h3>0</h3><p>题库总数</p></div></div>
+                <div class="stat-card"><div class="stat-icon green"><i class="bi bi-question-circle"></i></div><div class="stat-info"><h3>0</h3><p>题目总数</p></div></div>
+                <div class="stat-card"><div class="stat-icon orange"><i class="bi bi-people"></i></div><div class="stat-info"><h3>0</h3><p>考试人次</p></div></div>
+                <div class="stat-card"><div class="stat-icon red"><i class="bi bi-check-circle"></i></div><div class="stat-info"><h3>0</h3><p>已完成</p></div></div>
+            </div>
+
+            <!-- 筛选与搜索 -->
+            <div class="card mb-4">
+                <div class="card-body" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                    <div class="btn-group" role="group" id="categoryFilter">
+                        <button class="btn btn-sm btn-primary" onclick="filterByCategory('')">全部</button>
+                        <button class="btn btn-sm btn-outline" onclick="filterByCategory('HCIA')">HCIA</button>
+                        <button class="btn btn-sm btn-outline" onclick="filterByCategory('HCIP')">HCIP</button>
+                        <button class="btn btn-sm btn-outline" onclick="filterByCategory('HCIE')">HCIE</button>
+                        <button class="btn btn-sm btn-outline" onclick="filterByCategory('Cloud')">Cloud</button>
+                    </div>
+                    <div class="search-box" style="margin-left:auto;">
+                        <i class="bi bi-search"></i>
+                        <input type="text" placeholder="搜索考试名称..." id="searchInput" oninput="renderExams()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 考试列表 -->
+            <div class="card">
+                <div class="card-body" style="padding:0;">
+                    <table class="data-table" id="examTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>考试名称</th>
+                                <th>分类</th>
+                                <th>题量</th>
+                                <th>时长(分)</th>
+                                <th>总分</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="examTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- 创建/编辑考试模态框 -->
+<div class="modal fade" id="examModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title" id="examModalTitle">新建考试</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <input type="hidden" id="examId">
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        <label class="form-label">考试名称</label>
+                        <input class="form-control" id="examTitle" placeholder="例如：HCIA-Datacom 模拟卷（一）">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">分类</label>
+                        <select class="form-select" id="examCategory">
+                            <option value="HCIA">HCIA</option>
+                            <option value="HCIP">HCIP</option>
+                            <option value="HCIE">HCIE</option>
+                            <option value="Cloud">Cloud</option>
+                            <option value="BigData">BigData</option>
+                            <option value="AI">AI</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">考试时长(分钟)</label>
+                        <input type="number" class="form-control" id="examDuration" value="60">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">总分</label>
+                        <input type="number" class="form-control" id="examTotalScore" value="100">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">及格分</label>
+                        <input type="number" class="form-control" id="examPassScore" value="60">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="saveExam()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 题目管理模态框 -->
+<div class="modal fade" id="questionModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">题目管理 - <span id="questionExamTitle"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                    <span id="questionCount" style="font-size:14px;color:#666;">共 0 题</span>
+                    <button class="btn btn-sm btn-primary" onclick="showAddQuestionForm()"><i class="bi bi-plus-lg"></i> 新增题目</button>
+                </div>
+                <div id="questionsList"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" data-bs-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 新增/编辑题目模态框 -->
+<div class="modal fade" id="addQuestionModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title" id="addQuestionTitle">新增题目</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <input type="hidden" id="questionEditId">
+                <div class="mb-3">
+                    <label class="form-label">题目类型</label>
+                    <select class="form-select" id="questionType">
+                        <option value="SINGLE">单选题</option>
+                        <option value="MULTI">多选题</option>
+                        <option value="JUDGE">判断题</option>
+                        <option value="FILL">填空题</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">题目内容</label>
+                    <textarea class="form-control" id="questionContent" rows="3" placeholder="请输入题目内容"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">选项 (JSON格式，例如 {"A":"选项A","B":"选项B"})</label>
+                    <textarea class="form-control" id="questionOptions" rows="3" placeholder='{"A":"选项A","B":"选项B","C":"选项C","D":"选项D"}'></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">正确答案</label>
+                    <input class="form-control" id="questionAnswer" placeholder="例如：A 或 ABC 或 对/错">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="saveQuestion()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/common.js"></script>
+<script>
+var currentExamId = null;
+var currentCategory = '';
+var allExams = [];
+var examModals = {};
+
+// ============== 主列表 ==============
+async function loadExams() {
+    try {
+        var r = await apiRequest('/admin/exams');
+        if (r && r.success) {
+            allExams = r.data || [];
+            renderExams();
+            renderStats();
+        }
+    } catch(e) {}
+}
+
+function renderExams() {
+    var search = (document.getElementById('searchInput').value || '').toLowerCase();
+    var filtered = allExams.filter(function(e) {
+        if (currentCategory && e.category !== currentCategory) return false;
+        if (search && !e.title.toLowerCase().includes(search)) return false;
+        return true;
+    });
+    var tbody = document.getElementById('examTableBody');
+    tbody.innerHTML = filtered.map(function(e) {
+        var statusColor = e.status === 'NOT_STARTED' ? 'tag-info' : e.status === 'IN_PROGRESS' ? 'tag-warning' : 'tag-success';
+        var statusText = e.status === 'NOT_STARTED' ? '未开始' : e.status === 'IN_PROGRESS' ? '进行中' : '已完成';
+        return '<tr>' +
+            '<td>' + e.id + '</td>' +
+            '<td><strong>' + e.title + '</strong></td>' +
+            '<td><span class="tag tag-info">' + (e.category || '-') + '</span></td>' +
+            '<td>' + (e.questionCount || 0) + '</td>' +
+            '<td>' + (e.duration || 60) + '</td>' +
+            '<td>' + (e.totalScore || 100) + '</td>' +
+            '<td><span class="tag ' + statusColor + '">' + statusText + '</span></td>' +
+            '<td style="white-space:nowrap;">' +
+                '<button class="btn btn-sm btn-outline" onclick="manageQuestions(' + e.id + ',\'' + e.title.replace(/'/g,"\\'") + '\')" title="管理题目"><i class="bi bi-list-ul"></i></button> ' +
+                '<button class="btn btn-sm btn-outline" onclick="editExam(' + e.id + ')" title="编辑"><i class="bi bi-pencil"></i></button> ' +
+                '<button class="btn btn-sm btn-outline" onclick="deleteExam(' + e.id + ')" title="删除" style="color:#dc3545;"><i class="bi bi-trash"></i></button>' +
+            '</td></tr>';
+    }).join('');
+    if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;color:#999;">暂无考试数据</td></tr>';
+    }
+}
+
+function renderStats() {
+    var totalQuestions = 0;
+    allExams.forEach(function(e) { totalQuestions += (e.questionCount || 0); });
+    var cards = document.querySelectorAll('#statsOverview .stat-card .stat-info h3');
+    if (cards.length > 0) cards[0].textContent = allExams.length;
+    if (cards.length > 1) cards[1].textContent = totalQuestions;
+}
+
+function filterByCategory(cat) {
+    currentCategory = cat;
+    document.querySelectorAll('#categoryFilter .btn').forEach(function(b) { b.className = 'btn btn-sm btn-outline'; });
+    event.target.className = 'btn btn-sm btn-primary';
+    renderExams();
+}
+
+// ============== 考试 CRUD ==============
+function showCreateExamModal() {
+    document.getElementById('examModalTitle').textContent = '新建考试';
+    document.getElementById('examId').value = '';
+    document.getElementById('examTitle').value = '';
+    document.getElementById('examCategory').value = 'HCIA';
+    document.getElementById('examDuration').value = 60;
+    document.getElementById('examTotalScore').value = 100;
+    document.getElementById('examPassScore').value = 60;
+    new bootstrap.Modal(document.getElementById('examModal')).show();
+}
+
+function editExam(id) {
+    var exam = allExams.find(function(e) { return e.id === id; });
+    if (!exam) return;
+    document.getElementById('examModalTitle').textContent = '编辑考试';
+    document.getElementById('examId').value = exam.id;
+    document.getElementById('examTitle').value = exam.title;
+    document.getElementById('examCategory').value = exam.category || 'HCIA';
+    document.getElementById('examDuration').value = exam.duration || 60;
+    document.getElementById('examTotalScore').value = exam.totalScore || 100;
+    document.getElementById('examPassScore').value = exam.passScore || 60;
+    new bootstrap.Modal(document.getElementById('examModal')).show();
+}
+
+async function saveExam() {
+    var id = document.getElementById('examId').value;
+    var data = {
+        title: document.getElementById('examTitle').value,
+        category: document.getElementById('examCategory').value,
+        duration: parseInt(document.getElementById('examDuration').value) || 60,
+        totalScore: parseInt(document.getElementById('examTotalScore').value) || 100,
+        passScore: parseInt(document.getElementById('examPassScore').value) || 60,
+        status: 'NOT_STARTED'
+    };
+    if (!data.title) { showToast('请输入考试名称', 'danger'); return; }
+    try {
+        var r;
+        if (id) {
+            r = await apiRequest('/admin/exams/' + id, { method: 'PUT', body: JSON.stringify(data) });
+        } else {
+            r = await apiRequest('/admin/exams', { method: 'POST', body: JSON.stringify(data) });
+        }
+        if (r && r.success) {
+            showToast('保存成功', 'success');
+            bootstrap.Modal.getInstance(document.getElementById('examModal')).hide();
+            loadExams();
+        } else {
+            showToast(r ? r.message : '保存失败', 'danger');
+        }
+    } catch(e) { showToast('保存失败', 'danger'); }
+}
+
+async function deleteExam(id) {
+    if (!confirm('确定要删除该考试吗？')) return;
+    try {
+        var r = await apiRequest('/admin/exams/' + id, { method: 'DELETE' });
+        if (r && r.success) { showToast('删除成功', 'success'); loadExams(); }
+        else { showToast('删除失败', 'danger'); }
+    } catch(e) { showToast('删除失败', 'danger'); }
+}
+
+// ============== 题目管理 ==============
+async function manageQuestions(examId, examTitle) {
+    currentExamId = examId;
+    document.getElementById('questionExamTitle').textContent = examTitle;
+    await loadQuestions();
+    new bootstrap.Modal(document.getElementById('questionModal')).show();
+}
+
+async function loadQuestions() {
+    if (!currentExamId) return;
+    try {
+        var r = await apiRequest('/admin/exams/' + currentExamId + '/questions');
+        if (r && r.success) {
+            var questions = r.data || [];
+            document.getElementById('questionCount').textContent = '共 ' + questions.length + ' 题';
+            var list = document.getElementById('questionsList');
+            list.innerHTML = questions.map(function(q, i) {
+                var typeMap = { 'SINGLE': '单选题', 'MULTI': '多选题', 'JUDGE': '判断题', 'FILL': '填空题' };
+                return '<div class="card mb-2" style="border-left:3px solid #094086;">' +
+                    '<div class="card-body" style="padding:12px 16px;display:flex;justify-content:space-between;align-items:center;">' +
+                    '<div style="flex:1;">' +
+                    '<div style="font-size:13px;color:#666;margin-bottom:4px;"><span class="tag tag-info" style="font-size:11px;">' + (typeMap[q.type] || q.type) + '</span> 第' + (i+1) + '题</div>' +
+                    '<div style="font-size:14px;font-weight:500;">' + (q.content || '').substring(0, 80) + (q.content && q.content.length > 80 ? '...' : '') + '</div>' +
+                    '<div style="font-size:12px;color:#999;margin-top:4px;">答案: ' + (q.answer || '-') + '</div></div>' +
+                    '<div style="white-space:nowrap;">' +
+                    '<button class="btn btn-sm btn-outline" onclick="editQuestion(' + q.id + ')" title="编辑"><i class="bi bi-pencil"></i></button> ' +
+                    '<button class="btn btn-sm btn-outline" onclick="deleteQuestion(' + q.id + ')" title="删除" style="color:#dc3545;"><i class="bi bi-trash"></i></button></div></div></div>';
+            }).join('');
+            if (questions.length === 0) {
+                list.innerHTML = '<div style="text-align:center;padding:40px;color:#999;"><i class="bi bi-inbox" style="font-size:40px;display:block;margin-bottom:12px;"></i>暂无题目，点击右上角新增</div>';
+            }
+        }
+    } catch(e) {}
+}
+
+function showAddQuestionForm() {
+    document.getElementById('addQuestionTitle').textContent = '新增题目';
+    document.getElementById('questionEditId').value = '';
+    document.getElementById('questionType').value = 'SINGLE';
+    document.getElementById('questionContent').value = '';
+    document.getElementById('questionOptions').value = '';
+    document.getElementById('questionAnswer').value = '';
+    new bootstrap.Modal(document.getElementById('addQuestionModal')).show();
+}
+
+async function editQuestion(id) {
+    var r = await apiRequest('/admin/exams/' + currentExamId + '/questions');
+    if (!r || !r.success) return;
+    var q = (r.data || []).find(function(x) { return x.id === id; });
+    if (!q) return;
+    document.getElementById('addQuestionTitle').textContent = '编辑题目';
+    document.getElementById('questionEditId').value = q.id;
+    document.getElementById('questionType').value = q.type || 'SINGLE';
+    document.getElementById('questionContent').value = q.content || '';
+    document.getElementById('questionOptions').value = q.options || '';
+    document.getElementById('questionAnswer').value = q.answer || '';
+    new bootstrap.Modal(document.getElementById('addQuestionModal')).show();
+}
+
+async function saveQuestion() {
+    var editId = document.getElementById('questionEditId').value;
+    var data = {
+        content: document.getElementById('questionContent').value,
+        options: document.getElementById('questionOptions').value,
+        answer: document.getElementById('questionAnswer').value,
+        type: document.getElementById('questionType').value
+    };
+    if (!data.content) { showToast('请输入题目内容', 'danger'); return; }
+    try {
+        var r;
+        if (editId) {
+            r = await apiRequest('/admin/questions/' + editId, { method: 'PUT', body: JSON.stringify(data) });
+        } else {
+            r = await apiRequest('/admin/exams/' + currentExamId + '/questions', { method: 'POST', body: JSON.stringify(data) });
+        }
+        if (r && r.success) {
+            showToast('保存成功', 'success');
+            bootstrap.Modal.getInstance(document.getElementById('addQuestionModal')).hide();
+            loadQuestions();
+            loadExams();
+        } else {
+            showToast(r ? r.message : '保存失败', 'danger');
+        }
+    } catch(e) { showToast('保存失败', 'danger'); }
+}
+
+async function deleteQuestion(id) {
+    if (!confirm('确定要删除该题目吗？')) return;
+    try {
+        var r = await apiRequest('/admin/questions/' + id, { method: 'DELETE' });
+        if (r && r.success) { showToast('删除成功', 'success'); loadQuestions(); loadExams(); }
+        else { showToast('删除失败', 'danger'); }
+    } catch(e) { showToast('删除失败', 'danger'); }
+}
+
+// ============== 初始化 ==============
+document.addEventListener('DOMContentLoaded', function() {
+    loadExams();
+});
+</script>
+</body>
+</html>

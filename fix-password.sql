@@ -1,0 +1,1 @@
+UPDATE users SET password='$2a$10$tUd4j.kzXxJ0L/6Fw8AKheQ0ma1f/v1Ho057YgMmluyuf32CASlHW' WHERE username IN ('guanli','xuesheng','laoshi','zhangsan','lisi','zhaowu');

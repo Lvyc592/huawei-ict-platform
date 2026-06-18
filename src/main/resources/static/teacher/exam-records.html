@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考试记录 - 华技云教师端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .sidebar-header.teacher { background: linear-gradient(135deg, #064e3b, #059669); }
+        .menu-item.active { background: #f0fdf4; color: #059669; border-left: 3px solid #059669; }
+        .menu-item:hover { background: #f0fdf4; color: #059669; }
+        .record-card { background: #fff; border-radius: 12px; padding: 16px; box-shadow: var(--shadow); margin-bottom: 12px; transition: all .2s; }
+        .record-card:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+        .record-head { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+        .avatar-md { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #10b981, #059669); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; flex-shrink: 0; }
+        .score-circle { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+        .score-pass { background: #d1fae5; color: #047857; }
+        .score-fail { background: #fee2e2; color: #b91c1c; }
+        .score-inprogress { background: #fef3c7; color: #92400e; }
+        .record-meta { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: #6b7280; margin-top: 8px; }
+        .stat-mini { display: flex; gap: 16px; padding: 10px 16px; background: #f0fdf4; border-radius: 8px; margin-bottom: 16px; }
+        .stat-mini > div { flex: 1; text-align: center; }
+        .stat-mini strong { display: block; font-size: 22px; color: #047857; }
+        .stat-mini span { font-size: 12px; color: #6b7280; }
+        .detail-question { border-left: 4px solid #e5e7eb; padding: 12px 16px; margin-bottom: 12px; background: #f9fafb; border-radius: 0 8px 8px 0; }
+        .detail-question.correct { border-left-color: #10b981; }
+        .detail-question.wrong { border-left-color: #ef4444; }
+        .detail-question.unanswered { border-left-color: #9ca3af; }
+        .option-item { display: block; padding: 4px 0; font-size: 13px; color: #374151; }
+        .empty-state { text-align: center; color: #999; padding: 50px; }
+        .modal-xl { max-width: 960px; }
+    </style>
+</head>
+<body>
+<div class="main-layout">
+    <aside class="sidebar">
+        <div class="sidebar-header teacher"><h1><i class="bi bi-person-workspace"></i>教师端</h1></div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">教学工作台</div>
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-speedometer2"></i>教学仪表盘</a>
+            <a href="courses.html" class="menu-item"><i class="bi bi-book"></i>我的课程</a>
+            <a href="students.html" class="menu-item"><i class="bi bi-people"></i>学员管理</a>
+            <a href="exam-records.html" class="menu-item active"><i class="bi bi-journal-check"></i>考试记录</a>
+            <a href="analytics.html" class="menu-item"><i class="bi bi-graph-up"></i>学情分析</a>
+            <div class="menu-section">个人</div>
+            <a href="../index.html" class="menu-item"><i class="bi bi-box-arrow-right"></i>退出登录</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar" style="background:#059669;">师</div>
+                <div class="user-details"><div class="user-name">教师用户</div><div class="user-role">华技云讲师</div></div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <div class="header-nav">
+                    <a href="dashboard.html">工作台</a>
+                    <a href="courses.html">我的课程</a>
+                    <a href="students.html">学员管理</a>
+                    <a href="exam-records.html" class="active">考试记录</a>
+                    <a href="analytics.html">学情分析</a>
+                </div>
+            </div>
+            <div class="header-right">
+                <a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <div class="page-title"><h2><i class="bi bi-journal-check me-2"></i>考试记录</h2><p>查看学员模拟考试情况，与学生端模拟考试数据实时同步</p></div>
+
+            <!-- 概览统计 -->
+            <div class="stat-mini" id="miniStats">
+                <div><strong id="msTotal">--</strong><span>考试记录</span></div>
+                <div><strong id="msCompleted">--</strong><span>已完成</span></div>
+                <div><strong id="msInProgress">--</strong><span>进行中</span></div>
+                <div><strong id="msPassRate">--%</strong><span>合格率</span></div>
+            </div>
+
+            <!-- 筛选栏 -->
+            <div class="card mb-3">
+                <div class="card-body" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                    <div style="position:relative;flex:1;min-width:240px;">
+                        <i class="bi bi-search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#6b7280;"></i>
+                        <input type="text" class="form-control" id="searchInput" placeholder="搜索学员姓名 / 学号 / 考试名称" style="padding-left:32px;">
+                    </div>
+                    <select class="form-select" id="filterStatus" style="width:auto;">
+                        <option value="">全部状态</option>
+                        <option value="COMPLETED">已完成</option>
+                        <option value="IN_PROGRESS">进行中</option>
+                    </select>
+                    <select class="form-select" id="filterExam" style="width:auto;min-width:180px;">
+                        <option value="">全部考试</option>
+                    </select>
+                    <button class="btn btn-outline" id="btnRefresh" style="color:#047857;border-color:#047857;"><i class="bi bi-arrow-clockwise"></i> 刷新</button>
+                </div>
+            </div>
+
+            <div id="recordList">
+                <div style="text-align:center;color:#999;padding:40px;">加载中…</div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- 详情模态框 -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#f0fdf4;">
+                <h5 class="modal-title" style="color:#064e3b;font-weight:600;"><i class="bi bi-journal-text me-2"></i>考试详情</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="detailBody">
+                <div style="text-align:center;color:#999;padding:30px;">加载中…</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/common.js"></script>
+<script>
+var allRecords = [];
+var allExams = [];
+
+function statusTag(status) {
+    if (status === 'COMPLETED') return '<span class="tag tag-success">已完成</span>';
+    return '<span class="tag tag-warning">进行中</span>';
+}
+
+function scoreClass(score, total, passScore, status) {
+    if (status !== 'COMPLETED') return 'score-inprogress';
+    if (total > 0 && passScore > 0 && score >= passScore) return 'score-pass';
+    return 'score-fail';
+}
+
+function renderRecord(r) {
+    var initial = (r.name || r.username || '学').charAt(0);
+    var scorePct = r.totalScore > 0 ? Math.round(r.score / r.totalScore * 100) : 0;
+    var scoreCls = scoreClass(r.score, r.totalScore, r.passScore, r.status);
+    var scoreText = r.status === 'COMPLETED' ? scorePct + '%' : '进行中';
+    var passBadge = r.status === 'COMPLETED'
+        ? (r.passed ? '<span class="tag tag-success" style="margin-left:8px;"><i class="bi bi-check-circle"></i> 合格</span>'
+                    : '<span class="tag tag-danger" style="margin-left:8px;background:#fee2e2;color:#b91c1c;"><i class="bi bi-x-circle"></i> 不合格</span>')
+        : '';
+    return '<div class="record-card">' +
+        '<div class="record-head">' +
+        '<div class="avatar-md">' + initial + '</div>' +
+        '<div style="flex:1;">' +
+        '<div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:4px;">' +
+        '<div style="font-size:15px;font-weight:600;color:#064e3b;">' + (r.name || r.username) + '</div>' +
+        statusTag(r.status) + passBadge +
+        '</div>' +
+        '<div style="font-size:13px;color:#374151;font-weight:500;">' + (r.examTitle || '未知考试') + '</div>' +
+        '<div class="record-meta">' +
+        '<span><i class="bi bi-person-badge"></i> ' + (r.studentId || r.username) + '</span>' +
+        '<span><i class="bi bi-tag"></i> ' + (r.examCategory || '未分类') + '</span>' +
+        '<span><i class="bi bi-check-square"></i> 正确 ' + (r.correctCount || 0) + ' / ' + (r.questionCount || 0) + '</span>' +
+        '<span><i class="bi bi-clock"></i> 开始 ' + (r.startedAt || '-') + '</span>' +
+        (r.status === 'COMPLETED' ? '<span><i class="bi bi-calendar-check"></i> 完成 ' + (r.completedAt || '-') + '</span>' : '') +
+        '</div>' +
+        '</div>' +
+        '<div style="text-align:center;">' +
+        '<div class="score-circle ' + scoreCls + '">' + scoreText + '</div>' +
+        '<div style="font-size:11px;color:#6b7280;margin-top:4px;">' + (r.score || 0) + ' / ' + (r.totalScore || 0) + '</div>' +
+        '</div>' +
+        '</div>' +
+        '<div style="display:flex;gap:8px;justify-content:flex-end;">' +
+        '<button class="btn btn-sm btn-outline" onclick="viewDetail(' + r.resultId + ')" style="color:#047857;border-color:#047857;"><i class="bi bi-eye"></i> 查看详情</button>' +
+        '</div>' +
+        '</div>';
+}
+
+async function loadRecords() {
+    try {
+        var r = await apiRequest('/teacher/exam-records');
+        if (!r || !r.success) {
+            document.getElementById('recordList').innerHTML = '<div class="empty-state">加载失败：' + (r ? r.message : '') + '</div>';
+            return;
+        }
+        allRecords = r.data || [];
+        updateStats();
+        populateExamFilter();
+        applyFilter();
+    } catch (e) {
+        document.getElementById('recordList').innerHTML = '<div class="empty-state">加载失败</div>';
+    }
+}
+
+function updateStats() {
+    var total = allRecords.length;
+    var completed = allRecords.filter(function(r){ return r.status === 'COMPLETED'; }).length;
+    var inProgress = total - completed;
+    var passed = allRecords.filter(function(r){ return r.status === 'COMPLETED' && r.passed; }).length;
+    var passRate = completed > 0 ? Math.round(passed / completed * 100) : 0;
+    document.getElementById('msTotal').textContent = total;
+    document.getElementById('msCompleted').textContent = completed;
+    document.getElementById('msInProgress').textContent = inProgress;
+    document.getElementById('msPassRate').textContent = passRate + '%';
+}
+
+function populateExamFilter() {
+    var examIds = {};
+    allRecords.forEach(function(r) { examIds[r.examId] = r.examTitle; });
+    var select = document.getElementById('filterExam');
+    var current = select.value;
+    select.innerHTML = '<option value="">全部考试</option>';
+    for (var id in examIds) {
+        select.innerHTML += '<option value="' + id + '">' + escapeHtml(examIds[id]) + '</option>';
+    }
+    select.value = current;
+}
+
+function escapeHtml(text) {
+    if (!text) return '';
+    return String(text).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function applyFilter() {
+    var kw = document.getElementById('searchInput').value.trim().toLowerCase();
+    var status = document.getElementById('filterStatus').value;
+    var examId = document.getElementById('filterExam').value;
+    var list = allRecords.slice();
+    if (kw) {
+        list = list.filter(function(r) {
+            return (r.name || '').toLowerCase().indexOf(kw) >= 0
+                || (r.username || '').toLowerCase().indexOf(kw) >= 0
+                || (r.studentId || '').toLowerCase().indexOf(kw) >= 0
+                || (r.examTitle || '').toLowerCase().indexOf(kw) >= 0;
+        });
+    }
+    if (status) list = list.filter(function(r){ return r.status === status; });
+    if (examId) list = list.filter(function(r){ return String(r.examId) === examId; });
+
+    var html = '';
+    if (list.length === 0) {
+        html = '<div class="empty-state"><i class="bi bi-inbox" style="font-size:40px;display:block;margin-bottom:12px;color:#ccc;"></i>暂无符合条件的考试记录</div>';
+    } else {
+        html = list.map(renderRecord).join('');
+    }
+    document.getElementById('recordList').innerHTML = html;
+}
+
+async function viewDetail(resultId) {
+    var modal = new bootstrap.Modal(document.getElementById('detailModal'));
+    modal.show();
+    document.getElementById('detailBody').innerHTML = '<div style="text-align:center;color:#999;padding:30px;">加载中…</div>';
+    try {
+        var r = await apiRequest('/teacher/exam-records/' + resultId);
+        if (!r || !r.success) {
+            document.getElementById('detailBody').innerHTML = '<div class="empty-state">加载失败：' + (r ? r.message : '') + '</div>';
+            return;
+        }
+        var d = r.data;
+        var passRate = d.totalScore > 0 ? Math.round(d.score / d.totalScore * 100) : 0;
+        var passCls = d.passed ? 'text-success' : 'text-danger';
+        var passText = d.status === 'COMPLETED' ? (d.passed ? '合格' : '不合格') : '进行中';
+        var options = [];
+        if (d.options) {
+            try { options = JSON.parse(d.options); } catch(e) {}
+        }
+
+        var html = '<div class="row mb-3">' +
+            '<div class="col-md-6">' +
+            '<div style="font-size:14px;color:#6b7280;">学员</div>' +
+            '<div style="font-size:18px;font-weight:600;color:#064e3b;">' + (d.name || d.username) + ' <span style="font-size:13px;color:#6b7280;font-weight:400;">' + (d.studentId || '') + '</span></div>' +
+            '</div>' +
+            '<div class="col-md-6">' +
+            '<div style="font-size:14px;color:#6b7280;">考试</div>' +
+            '<div style="font-size:18px;font-weight:600;color:#064e3b;">' + (d.examTitle || '-') + ' <span class="tag tag-info" style="font-size:12px;">' + (d.examCategory || '') + '</span></div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="row mb-4">' +
+            '<div class="col-6 col-md-3"><div class="card" style="padding:12px;text-align:center;"><div style="font-size:22px;font-weight:700;' + passCls + '">' + passRate + '%</div><div style="font-size:12px;color:#6b7280;">得分 ' + (d.score || 0) + '/' + (d.totalScore || 0) + '</div></div></div>' +
+            '<div class="col-6 col-md-3"><div class="card" style="padding:12px;text-align:center;"><div style="font-size:22px;font-weight:700;color:#047857;">' + (d.correctCount || 0) + '/' + (d.questionCount || 0) + '</div><div style="font-size:12px;color:#6b7280;">正确题数</div></div></div>' +
+            '<div class="col-6 col-md-3"><div class="card" style="padding:12px;text-align:center;"><div style="font-size:22px;font-weight:700;color:#047857;">' + passText + '</div><div style="font-size:12px;color:#6b7280;">状态</div></div></div>' +
+            '<div class="col-6 col-md-3"><div class="card" style="padding:12px;text-align:center;"><div style="font-size:22px;font-weight:700;color:#047857;">' + (d.duration || 60) + '</div><div style="font-size:12px;color:#6b7280;">考试时长(分)</div></div></div>' +
+            '</div>' +
+            '<div style="margin-bottom:16px;font-size:13px;color:#6b7280;">' +
+            '<span class="me-3"><i class="bi bi-clock"></i> 开始：' + (d.startedAt || '-') + '</span>' +
+            '<span class="me-3"><i class="bi bi-calendar-check"></i> 完成：' + (d.completedAt || '-') + '</span>' +
+            '</div>';
+
+        if (!d.questions || d.questions.length === 0) {
+            html += '<div class="empty-state">暂无答题明细</div>';
+        } else {
+            html += '<h6 style="color:#064e3b;margin-bottom:16px;"><i class="bi bi-list-ol me-2"></i>答题明细</h6>';
+            d.questions.forEach(function(q) {
+                var cls = q.answered ? (q.isCorrect ? 'correct' : 'wrong') : 'unanswered';
+                var icon = q.answered ? (q.isCorrect ? 'bi-check-circle-fill text-success' : 'bi-x-circle-fill text-danger') : 'bi-question-circle-fill text-secondary';
+                var ansText = q.answered ? ('学生答案：' + (q.studentAnswer || '-')) : '未作答';
+                html += '<div class="detail-question ' + cls + '">' +
+                    '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;">' +
+                    '<div style="font-weight:600;color:#111827;">' + q.index + '. ' + (q.content || '-') + '</div>' +
+                    '<i class="bi ' + icon + '" style="font-size:18px;flex-shrink:0;"></i>' +
+                    '</div>' +
+                    '<div style="font-size:13px;color:#6b7280;margin-bottom:8px;">题型：' + (q.type || '-') + '</div>';
+                if (q.options) {
+                    try {
+                        var opts = typeof q.options === 'string' ? JSON.parse(q.options) : q.options;
+                        if (Array.isArray(opts)) {
+                            html += '<div style="margin-bottom:8px;">';
+                            opts.forEach(function(opt) {
+                                html += '<span class="option-item">' + opt + '</span>';
+                            });
+                            html += '</div>';
+                        }
+                    } catch(e) {}
+                }
+                html += '<div style="display:flex;gap:20px;font-size:13px;flex-wrap:wrap;">' +
+                    '<span style="color:#059669;"><i class="bi bi-check"></i> 正确答案：' + (q.correctAnswer || '-') + '</span>' +
+                    '<span style="color:' + (q.isCorrect ? '#059669' : '#dc3545') + ';"><i class="bi bi-person"></i> ' + ansText + '</span>' +
+                    '</div>' +
+                    '</div>';
+            });
+        }
+        document.getElementById('detailBody').innerHTML = html;
+    } catch (e) {
+        document.getElementById('detailBody').innerHTML = '<div class="empty-state">加载失败</div>';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadRecords();
+    document.getElementById('searchInput').addEventListener('input', applyFilter);
+    document.getElementById('filterStatus').addEventListener('change', applyFilter);
+    document.getElementById('filterExam').addEventListener('change', applyFilter);
+    document.getElementById('btnRefresh').addEventListener('click', loadRecords);
+});
+</script>
+</body>
+</html>

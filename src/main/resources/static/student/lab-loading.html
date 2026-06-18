@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实验环境启动中 - 华技云</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; overflow: hidden; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #eef3ff 0%, #f5f7fc 50%, #e8eef9 100%);
+            color: #1d3557;
+            position: relative;
+        }
+        /* 背景柔和图形 */
+        body::before, body::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+        }
+        body::before {
+            width: 480px; height: 480px;
+            background: radial-gradient(circle, rgba(122,162,247,0.25), transparent 70%);
+            top: -120px; left: -120px;
+        }
+        body::after {
+            width: 520px; height: 520px;
+            background: radial-gradient(circle, rgba(158,206,106,0.22), transparent 70%);
+            bottom: -150px; right: -150px;
+        }
+
+        .wrap {
+            position: relative; z-index: 1;
+            height: 100vh;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 8%;
+        }
+        .left-zone { flex: 1; max-width: 560px; }
+        .brand {
+            font-size: 18px; color: #1a6bc4; font-weight: 600;
+            margin-bottom: 30px; display: flex; align-items: center; gap: 10px;
+        }
+        .brand i { font-size: 24px; }
+        .title {
+            font-size: 46px; font-weight: 700; color: #1a3a8a;
+            margin-bottom: 16px; line-height: 1.2;
+        }
+        .subtitle {
+            font-size: 16px; color: #5a6b8c; margin-bottom: 36px; line-height: 1.7;
+        }
+        .status-list { list-style: none; padding: 0; margin-bottom: 30px; }
+        .status-list li {
+            display: flex; align-items: center; gap: 12px;
+            padding: 8px 0; font-size: 14px; color: #3a4a6c;
+            opacity: 0; transform: translateX(-10px);
+            animation: slideIn 0.5s ease forwards;
+        }
+        .status-list li:nth-child(1) { animation-delay: 0.3s; }
+        .status-list li:nth-child(2) { animation-delay: 0.8s; }
+        .status-list li:nth-child(3) { animation-delay: 1.3s; }
+        .status-list li:nth-child(4) { animation-delay: 1.8s; }
+        .status-list li .dot {
+            width: 18px; height: 18px; border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            background: #e8eef9; color: #adb5bd; font-size: 11px;
+        }
+        .status-list li.done .dot { background: #9ece6a; color: white; }
+        .status-list li.active .dot { background: #7aa2f7; color: white; animation: pulse 1.2s infinite; }
+
+        .progress-wrap {
+            background: white; border-radius: 12px; padding: 18px 20px;
+            box-shadow: 0 6px 20px rgba(9,64,134,0.08);
+            margin-bottom: 24px;
+        }
+        .progress-label {
+            display: flex; justify-content: space-between;
+            font-size: 13px; color: #5a6b8c; margin-bottom: 10px;
+        }
+        .progress-num { color: #1a6bc4; font-weight: 600; font-size: 15px; }
+        .progress-bar-bg { height: 6px; background: #eef2f9; border-radius: 3px; overflow: hidden; }
+        .progress-bar-fg {
+            height: 100%; width: 0%;
+            background: linear-gradient(90deg, #1a6bc4, #7aa2f7);
+            border-radius: 3px;
+            transition: width 0.4s ease;
+        }
+
+        .btn-start {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 36px; border-radius: 30px;
+            background: linear-gradient(135deg, #1a6bc4, #094086);
+            color: white; font-size: 15px; font-weight: 500;
+            border: none; cursor: pointer;
+            box-shadow: 0 8px 20px rgba(26,107,196,0.35);
+            transition: all 0.3s ease;
+            opacity: 0.5; pointer-events: none;
+        }
+        .btn-start.ready {
+            opacity: 1; pointer-events: auto;
+            animation: bounce 1.5s infinite;
+        }
+        .btn-start:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(26,107,196,0.45); }
+
+        /* 右侧装饰区 */
+        .right-zone { flex: 1; display: flex; justify-content: center; align-items: center; }
+        .deco-card {
+            position: relative; width: 480px; height: 360px;
+        }
+        .deco-card .layer {
+            position: absolute; border-radius: 18px;
+            background: white;
+            box-shadow: 0 20px 50px rgba(9,64,134,0.12);
+            padding: 20px;
+        }
+        .deco-card .l1 { top: 0; left: 0; width: 320px; height: 180px; transform: rotate(-3deg); }
+        .deco-card .l2 { top: 80px; left: 120px; width: 320px; height: 220px; transform: rotate(2deg); }
+        .deco-card .l3 { top: 200px; left: 60px; width: 280px; height: 140px; transform: rotate(-1deg); }
+        .deco-card .line {
+            height: 10px; border-radius: 5px; background: #eef2f9; margin-bottom: 10px;
+        }
+        .deco-card .line.short { width: 60%; }
+        .deco-card .line.middle { width: 80%; }
+        .deco-card .icon-pill {
+            width: 36px; height: 36px; border-radius: 10px;
+            background: linear-gradient(135deg, #1a6bc4, #7aa2f7);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 18px; margin-bottom: 12px;
+        }
+        .deco-card .float-circle {
+            position: absolute; width: 100px; height: 100px; border-radius: 50%;
+            background: linear-gradient(135deg, #9ece6a, #7dcfff);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 38px; font-weight: bold;
+            box-shadow: 0 12px 30px rgba(158,206,106,0.4);
+            top: 240px; left: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(122,162,247,0.6); }
+            50% { box-shadow: 0 0 0 8px rgba(122,162,247,0); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(3deg); }
+        }
+
+        @media (max-width: 992px) {
+            .right-zone { display: none; }
+            .wrap { padding: 0 5%; }
+            .title { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="left-zone">
+        <div class="brand"><i class="bi bi-cloud-haze2-fill"></i> 华技云 · 华为ICT智慧实训平台</div>
+        <div class="title" id="labTitle">鸿蒙智慧台灯项目</div>
+        <div class="subtitle" id="labDesc">正在为您分配云端实验资源，预计需要 8-15 秒，请稍候...</div>
+
+        <ul class="status-list">
+            <li id="st1"><span class="dot"><i class="bi bi-check"></i></span>资源调度中 — 已分配专属实验沙箱</li>
+            <li id="st2"><span class="dot"><i class="bi bi-check"></i></span>环境初始化 — DevEco Studio 模拟工作区</li>
+            <li id="st3"><span class="dot"><i class="bi bi-three-dots"></i></span>加载项目代码模板</li>
+            <li id="st4"><span class="dot"><i class="bi bi-three-dots"></i></span>挂载实验指导手册</li>
+        </ul>
+
+        <div class="progress-wrap">
+            <div class="progress-label">
+                <span>环境就绪度</span>
+                <span class="progress-num" id="progressNum">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fg" id="progressBar"></div>
+            </div>
+        </div>
+
+        <button class="btn-start" id="enterBtn" onclick="enterLab()">
+            <i class="bi bi-rocket-takeoff-fill"></i> 开启实验
+        </button>
+    </div>
+
+    <div class="right-zone">
+        <div class="deco-card">
+            <div class="layer l1">
+                <div class="icon-pill"><i class="bi bi-code-slash"></i></div>
+                <div class="line middle"></div>
+                <div class="line short"></div>
+                <div class="line"></div>
+            </div>
+            <div class="layer l2">
+                <div class="icon-pill" style="background:linear-gradient(135deg,#9ece6a,#7dcfff);"><i class="bi bi-terminal"></i></div>
+                <div class="line"></div>
+                <div class="line middle"></div>
+                <div class="line short"></div>
+                <div class="line middle"></div>
+            </div>
+            <div class="layer l3">
+                <div class="line short"></div>
+                <div class="line middle"></div>
+                <div class="line short"></div>
+            </div>
+            <div class="float-circle">{'</>'}</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 从 URL 读取实验信息
+    const params = new URLSearchParams(window.location.search);
+    const labId = params.get('id') || '';
+    const labName = params.get('name') || '鸿蒙智慧台灯项目';
+    const labDesc = params.get('desc') || '正在为您分配云端实验资源，预计需要 8-15 秒，请稍候...';
+
+    document.getElementById('labTitle').textContent = labName;
+    document.getElementById('labDesc').textContent = labDesc;
+
+    const steps = [
+        { id: 'st1', delay: 200 },
+        { id: 'st2', delay: 800 },
+        { id: 'st3', delay: 1500 },
+        { id: 'st4', delay: 2300 }
+    ];
+
+    let progress = 0;
+    const progressBar = document.getElementById('progressBar');
+    const progressNum = document.getElementById('progressNum');
+
+    // 模拟加载步骤
+    steps.forEach((step, idx) => {
+        setTimeout(() => {
+            if (idx > 0) {
+                const prev = document.getElementById(steps[idx-1].id);
+                prev.classList.remove('active');
+                prev.classList.add('done');
+                prev.querySelector('.dot').innerHTML = '<i class="bi bi-check"></i>';
+            }
+            const cur = document.getElementById(step.id);
+            cur.classList.add('active');
+        }, step.delay);
+    });
+
+    // 进度条动画
+    const progressTimer = setInterval(() => {
+        progress += Math.random() * 4 + 1;
+        if (progress >= 100) {
+            progress = 100;
+            clearInterval(progressTimer);
+            // 完成所有步骤
+            steps.forEach(s => {
+                const el = document.getElementById(s.id);
+                el.classList.remove('active');
+                el.classList.add('done');
+                el.querySelector('.dot').innerHTML = '<i class="bi bi-check"></i>';
+            });
+            // 启用按钮
+            document.getElementById('enterBtn').classList.add('ready');
+        }
+        progressBar.style.width = progress + '%';
+        progressNum.textContent = Math.floor(progress) + '%';
+    }, 200);
+
+    function enterLab() {
+        window.location.href = 'lab-env.html?id=' + encodeURIComponent(labId) + '&name=' + encodeURIComponent(labName);
+    }
+</script>
+</body>
+</html>

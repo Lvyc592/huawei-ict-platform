@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>就业岗位 - 华技云学生端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="main-layout">
+    <aside class="sidebar">
+        <div class="sidebar-header"><h1><i class="bi bi-cloud-fill"></i>华技云</h1></div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">主要功能</div>
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-house-door"></i>工作台</a>
+            <a href="courses.html" class="menu-item"><i class="bi bi-book"></i>课程学习</a>
+            <a href="practice.html" class="menu-item"><i class="bi bi-journal-check"></i>题库练习</a>
+            <a href="mock-exams.html" class="menu-item"><i class="bi bi-clock-history"></i>模拟考试</a>
+            <a href="cloud-lab.html" class="menu-item"><i class="bi bi-cloud-haze"></i>华为云实训</a>
+            <a href="ai-tutor.html" class="menu-item"><i class="bi bi-robot"></i>助学智能体</a>
+            <div class="menu-section">扩展功能</div>
+            <a href="competitions.html" class="menu-item"><i class="bi bi-trophy"></i>赛事训练</a>
+            <a href="jobs.html" class="menu-item active"><i class="bi bi-briefcase"></i>就业岗位</a>
+            <a href="analytics.html" class="menu-item"><i class="bi bi-bar-chart"></i>学情数据</a>
+            <a href="settings.html" class="menu-item"><i class="bi bi-gear"></i>个人设置</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">学</div>
+                <div class="user-details"><div class="user-name">学生用户</div><div class="user-role">华为ICT学员</div></div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <div class="header-nav">
+                    <a href="dashboard.html">首页</a>
+                    <a href="courses.html">课程学习</a>
+                    <a href="practice.html">题库练习</a>
+                    <a href="mock-exams.html">模拟考试</a>
+                    <a href="cloud-lab.html">云端实训</a>
+                    <a href="competitions.html">赛事中心</a>
+                    </div>
+            </div>
+            <div class="header-right">
+                <div class="header-icon" title="消息"><i class="bi bi-bell"></i><span class="badge"></span></div>
+                <a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <div class="page-title"><h2><i class="bi bi-briefcase me-2"></i>就业岗位</h2><p>华为生态企业就业推荐，精准岗位匹配</p></div>
+
+            <!-- 搜索 -->
+            <div class="card mb-4">
+                <div class="card-body" style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
+                    <input type="text" placeholder="搜索职位名称..." style="flex:1;min-width:200px;padding:10px 16px;border:1px solid #e5e7eb;border-radius:6px;">
+                    <select style="padding:10px 16px;border:1px solid #e5e7eb;border-radius:6px;font-size:14px;">
+                        <option>全部城市</option><option>北京</option><option>上海</option><option>深圳</option><option>杭州</option>
+                    </select>
+                    <select style="padding:10px 16px;border:1px solid #e5e7eb;border-radius:6px;font-size:14px;">
+                        <option>全部薪资</option><option>5-8K</option><option>8-12K</option><option>12-20K</option><option>20K+</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="showToast('正在搜索匹配岗位...','info')"><i class="bi bi-search me-2"></i>搜索</button>
+                </div>
+            </div>
+
+            <!-- 岗位列表 -->
+            <div style="display:flex;flex-direction:column;gap:16px;">
+                <div class="card">
+                    <div class="card-body" style="display:flex;justify-content:space-between;align-items:center;">
+                        <div style="flex:1;">
+                            <h4 style="font-size:16px;margin-bottom:6px;">华为云解决方案工程师 <span class="tag tag-success" style="margin-left:8px;">HCIP及以上</span></h4>
+                            <p style="font-size:13px;color:#999;margin-bottom:8px;"><i class="bi bi-geo-alt me-1"></i>深圳 · 3-5年 · 本科</p>
+                            <p style="font-size:13px;color:#666;">负责华为云产品解决方案设计，要求熟悉华为云ECS、OBS、VPC等产品...</p>
+                        </div>
+                        <div style="text-align:right;margin-left:24px;">
+                            <h4 style="font-size:18px;color:#e8a838;">15-25K·13薪</h4>
+                            <button class="btn btn-sm btn-primary mt-2" onclick="showToast('简历已投递成功！请关注企业反馈','success')">立即投递</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body" style="display:flex;justify-content:space-between;align-items:center;">
+                        <div style="flex:1;">
+                            <h4 style="font-size:16px;margin-bottom:6px;">数据通信网络工程师 <span class="tag tag-info" style="margin-left:8px;">HCIA及以上</span></h4>
+                            <p style="font-size:13px;color:#999;margin-bottom:8px;"><i class="bi bi-geo-alt me-1"></i>北京 · 1-3年 · 本科</p>
+                            <p style="font-size:13px;color:#666;">负责企业网络规划与设计，要求掌握路由器交换机配置，有HCIA认证优先...</p>
+                        </div>
+                        <div style="text-align:right;margin-left:24px;">
+                            <h4 style="font-size:18px;color:#e8a838;">10-18K·14薪</h4>
+                            <button class="btn btn-sm btn-primary mt-2" onclick="showToast('简历已投递成功！请关注企业反馈','success')">立即投递</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body" style="display:flex;justify-content:space-between;align-items:center;">
+                        <div style="flex:1;">
+                            <h4 style="font-size:16px;margin-bottom:6px;">云计算运维工程师 <span class="tag tag-success" style="margin-left:8px;">HCIP及以上</span></h4>
+                            <p style="font-size:13px;color:#999;margin-bottom:8px;"><i class="bi bi-geo-alt me-1"></i>杭州 · 3-5年 · 本科</p>
+                            <p style="font-size:13px;color:#666;">负责华为云Stack私有云运维，要求熟悉OpenStack、Kubernetes...</p>
+                        </div>
+                        <div style="text-align:right;margin-left:24px;">
+                            <h4 style="font-size:18px;color:#e8a838;">18-28K·13薪</h4>
+                            <button class="btn btn-sm btn-primary mt-2" onclick="showToast('简历已投递成功！请关注企业反馈','success')">立即投递</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/common.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    (async function() {
+        try {
+            console.log('JOBS PAGE: Loading jobs data...');
+            var res = await apiRequest('/student/jobs');
+            console.log('JOBS PAGE: API response:', res);
+            if (res && res.success) {
+                var container = document.querySelector('.page-content > div:last-child');
+                console.log('JOBS PAGE: Container found:', container);
+                if (container && res.data && res.data.length > 0) {
+                    container.innerHTML = '';
+                    for (var i = 0; i < res.data.length; i++) {
+                        var j = res.data[i];
+                        var card = document.createElement('div');
+                        card.className = 'card';
+                        card.innerHTML = '<div class="card-body" style="display:flex;justify-content:space-between;align-items:center;">' +
+                            '<div style="flex:1;"><h4 style="font-size:16px;margin-bottom:6px;">' + (j.title||'') + ' <span class="tag tag-success">' + (j.education||'') + '</span></h4>' +
+                            '<p style="font-size:13px;color:#999;margin-bottom:8px;"><i class="bi bi-geo-alt me-1"></i>' + (j.location||'') + ' · ' + (j.experience||'') + ' · ' + (j.education||'') + '</p>' +
+                            '<p style="font-size:13px;color:#666;">' + (j.description||'').substring(0,100) + '...</p></div>' +
+                            '<div style="text-align:right;"><h4 style="font-size:18px;color:#e8a838;">' + (j.salary||'') + '</h4><button class="btn btn-sm btn-primary mt-2" onclick="showToast('简历已投递成功！请关注企业反馈','success')">立即投递</button></div></div>';
+                        container.appendChild(card);
+                    }
+                    console.log('JOBS PAGE: Updated with ' + res.data.length + ' jobs');
+                }
+            } else {
+                console.error('JOBS PAGE: API returned error:', res);
+            }
+        } catch(e) {
+            console.error('JOBS PAGE: Error:', e);
+        }
+    })();
+});
+</script>
+</body>
+</html>

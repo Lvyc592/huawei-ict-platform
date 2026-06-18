@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>题库练习 - 华技云学生端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="main-layout">
+    <aside class="sidebar">
+        <div class="sidebar-header"><h1><i class="bi bi-cloud-fill"></i>华技云</h1></div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">主要功能</div>
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-house-door"></i>工作台</a>
+            <a href="courses.html" class="menu-item"><i class="bi bi-book"></i>课程学习</a>
+            <a href="practice.html" class="menu-item active"><i class="bi bi-journal-check"></i>题库练习</a>
+            <a href="mock-exams.html" class="menu-item"><i class="bi bi-clock-history"></i>模拟考试</a>
+            <a href="cloud-lab.html" class="menu-item"><i class="bi bi-cloud-haze"></i>华为云实训</a>
+            <a href="ai-tutor.html" class="menu-item"><i class="bi bi-robot"></i>助学智能体</a>
+            <div class="menu-section">扩展功能</div>
+            <a href="competitions.html" class="menu-item"><i class="bi bi-trophy"></i>赛事训练</a>
+            <a href="jobs.html" class="menu-item"><i class="bi bi-briefcase"></i>就业岗位</a>
+            <a href="analytics.html" class="menu-item"><i class="bi bi-bar-chart"></i>学情数据</a>
+            <a href="settings.html" class="menu-item"><i class="bi bi-gear"></i>个人设置</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">学</div>
+                <div class="user-details"><div class="user-name">学生用户</div><div class="user-role">华为ICT学员</div></div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <div class="header-nav">
+                    <a href="dashboard.html">首页</a>
+                    <a href="courses.html">课程学习</a>
+                    <a href="practice.html" class="active">题库练习</a>
+                    <a href="mock-exams.html">模拟考试</a>
+                    <a href="cloud-lab.html">云端实训</a>
+                    <a href="competitions.html">赛事中心</a>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-icon" title="消息"><i class="bi bi-bell"></i><span class="badge"></span></div>
+                <a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <!-- 练习头部信息 -->
+            <div class="card mb-4" id="examHeader" style="background:linear-gradient(135deg,#062c5a,#094086);color:white;border:none;">
+                <div class="card-body" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                    <div>
+                        <h2 id="examTitle" style="color:white;margin-bottom:4px;">加载中...</h2>
+                        <p id="examMeta" style="opacity:0.8;margin:0;font-size:14px;"></p>
+                    </div>
+                    <div>
+                        <a href="practice.html" class="btn btn-outline-light btn-sm"><i class="bi bi-arrow-left"></i> 返回题库</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 进度条 -->
+            <div class="card mb-3">
+                <div class="card-body" style="padding:12px 20px;">
+                    <div style="display:flex;justify-content:space-between;font-size:13px;color:#666;margin-bottom:8px;">
+                        <span id="progressText">第 1 题 / 共 0 题</span>
+                        <span id="answeredCount">已答: 0 题</span>
+                    </div>
+                    <div class="progress-bar" style="height:6px;">
+                        <div id="progressBar" class="progress-fill" style="width:0%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 题目导航 + 答题区 -->
+            <div style="display:grid;grid-template-columns:1fr 280px;gap:20px;">
+                <div>
+                    <div class="card" id="questionCard">
+                        <div class="card-header">
+                            <h3><span id="qNumber" style="background:#094086;color:white;padding:2px 10px;border-radius:4px;font-size:14px;margin-right:8px;">1</span>
+                            <span id="qType" class="tag tag-info">单选题</span></h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="qContent" style="font-size:16px;line-height:1.7;margin-bottom:20px;min-height:60px;"></div>
+                            <div id="qOptions" style="display:flex;flex-direction:column;gap:10px;"></div>
+                            <!-- 即时反馈 -->
+                            <div id="feedbackArea" style="display:none;margin-top:20px;padding:16px;border-radius:8px;">
+                                <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                                    <i id="feedbackIcon" class="bi"></i>
+                                    <span id="feedbackText" style="font-weight:600;"></span>
+                                </div>
+                                <div id="feedbackAnswer" style="font-size:14px;color:#666;margin-bottom:12px;"></div>
+                                <!-- AI 解析 -->
+                                <div id="aiExplanationBox" style="display:none;border-top:1px dashed rgba(0,0,0,0.1);padding-top:12px;">
+                                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                                        <i class="bi bi-robot" style="color:#094086;"></i>
+                                        <span style="font-weight:600;color:#094086;">华小智 · AI 解析</span>
+                                    </div>
+                                    <div id="aiExplanationContent" style="font-size:14px;line-height:1.7;color:#333;white-space:pre-wrap;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧导航 -->
+                <div>
+                    <div class="card">
+                        <div class="card-header"><h3>答题卡</h3></div>
+                        <div class="card-body">
+                            <div id="questionNav" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:16px;"></div>
+                            <div style="display:flex;gap:12px;font-size:12px;color:#666;">
+                                <span><span style="display:inline-block;width:14px;height:14px;background:#28a745;border-radius:3px;vertical-align:middle;margin-right:4px;"></span>正确</span>
+                                <span><span style="display:inline-block;width:14px;height:14px;background:#dc3545;border-radius:3px;vertical-align:middle;margin-right:4px;"></span>错误</span>
+                                <span><span style="display:inline-block;width:14px;height:14px;background:#e5e7eb;border-radius:3px;vertical-align:middle;margin-right:4px;"></span>未答</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div style="display:flex;justify-content:space-between;margin-top:20px;">
+                <button class="btn btn-outline" onclick="prevQuestion()"><i class="bi bi-chevron-left"></i> 上一题</button>
+                <button class="btn btn-primary" onclick="nextQuestion()">下一题 <i class="bi bi-chevron-right"></i></button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/common.js"></script>
+<script>
+var examData = null;
+var questions = [];
+var currentIndex = 0;
+var answers = {};      // index -> selected answer
+var results = {};      // index -> { correct: boolean, correctAnswer: string, submitted: boolean }
+
+// 从URL获取examId
+var urlParams = new URLSearchParams(window.location.search);
+var examId = urlParams.get('examId');
+
+document.addEventListener('DOMContentLoaded', function() {
+    if (!examId) {
+        document.getElementById('examTitle').textContent = '参数错误';
+        showToast('缺少题库ID', 'danger');
+        return;
+    }
+    initPractice();
+});
+
+async function initPractice() {
+    try {
+        var r1 = await apiRequest('/student/practice/exams/' + examId);
+        if (!r1 || !r1.success) { showToast('加载题库信息失败', 'danger'); return; }
+        examData = r1.data;
+
+        document.getElementById('examTitle').textContent = examData.title;
+        document.getElementById('examMeta').textContent = '分类: ' + (examData.category || '-') + ' | 题量: ' + (examData.questionCount || 0) + '题';
+
+        var r2 = await apiRequest('/student/practice/exams/' + examId + '/questions');
+        if (!r2 || !r2.success) { showToast('加载题目失败', 'danger'); return; }
+        questions = r2.data || [];
+
+        if (questions.length === 0) {
+            showToast('该题库暂无题目', 'danger');
+            return;
+        }
+
+        renderQuestionNav();
+        showQuestion(0);
+    } catch(e) { showToast('初始化失败', 'danger'); }
+}
+
+// ============== 题目显示 ==============
+function showQuestion(index) {
+    if (index < 0 || index >= questions.length) return;
+    currentIndex = index;
+    var q = questions[index];
+
+    var typeMap = { 'SINGLE': '单选题', 'MULTI': '多选题', 'JUDGE': '判断题', 'FILL': '填空题' };
+    document.getElementById('qNumber').textContent = (index + 1);
+    document.getElementById('qType').textContent = typeMap[q.type] || q.type;
+    document.getElementById('qContent').textContent = q.content;
+    var progress = ((index + 1) / questions.length * 100).toFixed(0);
+    document.getElementById('progressText').textContent = '第 ' + (index + 1) + ' 题 / 共 ' + questions.length + ' 题';
+    document.getElementById('progressBar').style.width = progress + '%';
+
+    // 隐藏反馈
+    var feedback = document.getElementById('feedbackArea');
+    feedback.style.display = 'none';
+
+    // 渲染选项
+    var optionsDiv = document.getElementById('qOptions');
+    optionsDiv.innerHTML = '';
+
+    var savedAnswer = answers[index] || '';
+    var result = results[index] || {};
+    var disabled = result.submitted === true;
+
+    if (q.type === 'JUDGE') {
+        ['对', '错'].forEach(function(opt) {
+            var div = createOptionDiv(index, opt, opt, savedAnswer === opt, disabled, result);
+            optionsDiv.appendChild(div);
+        });
+    } else if (q.type === 'SINGLE' && q.options) {
+        try {
+            var opts = JSON.parse(q.options);
+            Object.keys(opts).forEach(function(key) {
+                var val = opts[key];
+                var div = createOptionDiv(index, key, val, savedAnswer === key, disabled, result);
+                optionsDiv.appendChild(div);
+            });
+        } catch(e) {}
+    } else if (q.type === 'FILL') {
+        var input = document.createElement('input');
+        input.className = 'form-control';
+        input.placeholder = '请输入答案';
+        input.value = savedAnswer;
+        input.disabled = disabled;
+        input.onchange = function() { submitAnswer(index, this.value); };
+        input.onblur = function() { if (this.value && !results[index]) submitAnswer(index, this.value); };
+        optionsDiv.appendChild(input);
+        if (result.submitted) showFeedback(index);
+    }
+
+    updateNav();
+}
+
+function createOptionDiv(index, key, text, isSelected, disabled, result) {
+    var div = document.createElement('div');
+    var borderColor = '#e5e7eb';
+    if (result.submitted) {
+        if (result.correct && isSelected) borderColor = '#28a745';
+        else if (!result.correct && isSelected) borderColor = '#dc3545';
+    } else if (isSelected) {
+        borderColor = '#094086';
+    }
+    div.style.cssText = 'padding:12px 16px;border:2px solid ' + borderColor + ';border-radius:8px;cursor:' + (disabled ? 'default' : 'pointer') + ';transition:all 0.2s;';
+    if (!disabled) {
+        div.onmouseenter = function() { if (!isSelected && !results[index]) div.style.borderColor = '#094086'; };
+        div.onmouseleave = function() { if (!isSelected && !results[index]) div.style.borderColor = '#e5e7eb'; };
+        div.onclick = function() { submitAnswer(index, key); };
+    }
+    var bg = isSelected ? '#094086' : '#f0f0f0';
+    var color = isSelected ? 'white' : '#666';
+    if (result.submitted) {
+        if (result.correct && isSelected) { bg = '#28a745'; color = 'white'; }
+        else if (!result.correct && isSelected) { bg = '#dc3545'; color = 'white'; }
+    }
+    div.innerHTML = '<span style="display:inline-flex;width:24px;height:24px;background:' + bg + ';color:' + color + ';border-radius:50%;align-items:center;justify-content:center;font-size:13px;font-weight:600;margin-right:12px;">' + key + '</span>' + text;
+    return div;
+}
+
+async function submitAnswer(index, answer) {
+    if (results[index] && results[index].submitted) return; // 已提交过，不重复提交
+    var q = questions[index];
+    if (!answer || answer.trim() === '') return;
+
+    answers[index] = answer;
+
+    try {
+        var r = await apiRequest('/student/practice/answers', {
+            method: 'POST',
+            body: JSON.stringify({ questionId: q.id, answer: answer })
+        });
+        if (r && r.success) {
+            results[index] = {
+                submitted: true,
+                correct: r.data.correct,
+                correctAnswer: r.data.correctAnswer,
+                explanation: r.data.explanation || ''
+            };
+            showQuestion(index); // 重新渲染，显示正确/错误状态
+            showFeedback(index);
+            updateNav();
+        } else {
+            showToast(r ? r.message : '提交失败', 'danger');
+        }
+    } catch(e) { showToast('提交失败', 'danger'); }
+}
+
+function showFeedback(index) {
+    var result = results[index];
+    if (!result || !result.submitted) return;
+    var feedback = document.getElementById('feedbackArea');
+    var icon = document.getElementById('feedbackIcon');
+    var text = document.getElementById('feedbackText');
+    var answer = document.getElementById('feedbackAnswer');
+    var aiBox = document.getElementById('aiExplanationBox');
+    var aiContent = document.getElementById('aiExplanationContent');
+
+    feedback.style.display = 'block';
+    if (result.correct) {
+        feedback.style.background = '#d4edda';
+        feedback.style.border = '1px solid #c3e6cb';
+        icon.className = 'bi bi-check-circle-fill';
+        icon.style.color = '#28a745';
+        text.textContent = '回答正确';
+        text.style.color = '#28a745';
+        aiBox.style.display = 'none';
+    } else {
+        feedback.style.background = '#f8d7da';
+        feedback.style.border = '1px solid #f5c6cb';
+        icon.className = 'bi bi-x-circle-fill';
+        icon.style.color = '#dc3545';
+        text.textContent = '回答错误';
+        text.style.color = '#dc3545';
+        if (result.explanation && result.explanation.trim()) {
+            aiBox.style.display = 'block';
+            aiContent.textContent = result.explanation;
+        } else {
+            aiBox.style.display = 'none';
+        }
+    }
+    answer.textContent = '正确答案：' + (result.correctAnswer || '-');
+}
+
+function nextQuestion() {
+    if (currentIndex < questions.length - 1) showQuestion(currentIndex + 1);
+}
+
+function prevQuestion() {
+    if (currentIndex > 0) showQuestion(currentIndex - 1);
+}
+
+// ============== 答题卡 ==============
+function renderQuestionNav() {
+    var nav = document.getElementById('questionNav');
+    nav.innerHTML = questions.map(function(q, i) {
+        var bg = '#e5e7eb';
+        var color = '#666';
+        if (results[i] && results[i].submitted) {
+            bg = results[i].correct ? '#28a745' : '#dc3545';
+            color = 'white';
+        } else if (answers[i]) {
+            bg = '#094086';
+            color = 'white';
+        }
+        return '<div id="nav-' + i + '" onclick="showQuestion(' + i + ')" style="background:' + bg + ';color:' + color + ';aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:4px;cursor:pointer;font-size:13px;font-weight:600;transition:all 0.2s;">' + (i + 1) + '</div>';
+    }).join('');
+}
+
+function updateNav() {
+    var answered = Object.keys(answers).length;
+    document.getElementById('answeredCount').textContent = '已答: ' + answered + ' 题';
+    renderQuestionNav();
+}
+</script>
+</body>
+</html>

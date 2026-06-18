@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学情数据分析 - 华技云学生端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="main-layout">
+    <aside class="sidebar">
+        <div class="sidebar-header"><h1><i class="bi bi-cloud-fill"></i>华技云</h1></div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">主要功能</div>
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-house-door"></i>工作台</a>
+            <a href="courses.html" class="menu-item"><i class="bi bi-book"></i>课程学习</a>
+            <a href="practice.html" class="menu-item"><i class="bi bi-journal-check"></i>题库练习</a>
+            <a href="mock-exams.html" class="menu-item"><i class="bi bi-clock-history"></i>模拟考试</a>
+            <a href="cloud-lab.html" class="menu-item"><i class="bi bi-cloud-haze"></i>华为云实训</a>
+            <a href="ai-tutor.html" class="menu-item"><i class="bi bi-robot"></i>助学智能体</a>
+            <div class="menu-section">扩展功能</div>
+            <a href="competitions.html" class="menu-item"><i class="bi bi-trophy"></i>赛事训练</a>
+            <a href="jobs.html" class="menu-item"><i class="bi bi-briefcase"></i>就业岗位</a>
+            <a href="analytics.html" class="menu-item active"><i class="bi bi-bar-chart"></i>学情数据</a>
+            <a href="settings.html" class="menu-item"><i class="bi bi-gear"></i>个人设置</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">学</div>
+                <div class="user-details"><div class="user-name">学生用户</div><div class="user-role">华为ICT学员</div></div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <div class="header-nav">
+                    <a href="dashboard.html">首页</a>
+                    <a href="courses.html">课程学习</a>
+                    <a href="practice.html">题库练习</a>
+                    <a href="mock-exams.html">模拟考试</a>
+                    <a href="cloud-lab.html">云端实训</a>
+                    <a href="competitions.html">赛事中心</a>
+                    </div>
+            </div>
+            <div class="header-right">
+                <div class="header-icon" title="消息"><i class="bi bi-bell"></i><span class="badge"></span></div>
+                <a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <div class="page-title"><h2><i class="bi bi-bar-chart me-2"></i>学情数据分析</h2><p>多维度学习数据可视化分析</p></div>
+
+            <!-- 核心数据 -->
+            <div class="stat-cards mb-4">
+                <div class="stat-card"><div class="stat-icon blue"><i class="bi bi-eye-fill"></i></div><div class="stat-info"><h3>86%</h3><p>课堂专注度</p></div></div>
+                <div class="stat-card"><div class="stat-icon green"><i class="bi bi-check-circle-fill"></i></div><div class="stat-info"><h3>72%</h3><p>题库正确率</p></div></div>
+                <div class="stat-card"><div class="stat-icon orange"><i class="bi bi-clock-fill"></i></div><div class="stat-info"><h3>128h</h3><p>累计学习时长</p></div></div>
+                <div class="stat-card"><div class="stat-icon red"><i class="bi bi-book-half"></i></div><div class="stat-info"><h3>4/6</h3><p>课程完成数</p></div></div>
+            </div>
+
+            <div class="row-2">
+                <!-- 学习趋势图 -->
+                <div class="card mb-4">
+                    <div class="card-header"><h3>学习时长趋势（近7天）</h3></div>
+                    <div class="card-body">
+                        <div style="display:flex;align-items:flex-end;gap:8px;height:200px;padding:20px 0;">
+                            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+                                <div style="width:100%;background:linear-gradient(to top,#094086,#1a6bc4);border-radius:4px 4px 0 0;height:40%;min-height:20px;"></div>
+                                <span style="font-size:11px;color:#999;">周一</span>
+                            </div>
+                            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+                                <div style="width:100%;background:linear-gradient(to top,#094086,#1a6bc4);border-radius:4px 4px 0 0;height:65%;min-height:20px;"></div>
+                                <span style="font-size:11px;color:#999;">周二</span>
+                            </div>
+                            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+                                <div style="width:100%;background:linear-gradient(to top,#094086,#1a6bc4);border-radius:4px 4px 0 0;height:55%;min-height:20px;"></div>
+                                <span style="font-size:11px;color:#999;">周三</span>
+                            </div>
+                            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+                                <div style="width:100%;background:linear-gradient(to top,#094086,#1a6bc4);border-radius:4px 4px 0 0;height:80%;min-height:20px;"></div>
+                                <span style="font-size:11px;color:#999;">周四</span>
+                            </div>
+                            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+                                <div style="width:100%;background:linear-gradient(to top,#094086,#1a6bc4);border-radius:4px 4px 0 0;height:45%;min-height:20px;"></div>
+                                <span style="font-size:11px;color:#999;">周五</span>
+                            </div>
+                            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+                                <div style="width:100%;background:linear-gradient(to top,#e8a838,#f0c050);border-radius:4px 4px 0 0;height:30%;min-height:20px;"></div>
+                                <span style="font-size:11px;color:#999;">周六</span>
+                            </div>
+                            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+                                <div style="width:100%;background:linear-gradient(to top,#e8a838,#f0c050);border-radius:4px 4px 0 0;height:20%;min-height:20px;"></div>
+                                <span style="font-size:11px;color:#999;">周日</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 知识点掌握度 -->
+                <div class="card mb-4">
+                    <div class="card-header"><h3>知识点掌握度</h3></div>
+                    <div class="card-body">
+                        <div style="display:flex;flex-direction:column;gap:16px;">
+                            <div>
+                                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>IP路由基础</span><span>92%</span></div>
+                                <div class="progress-bar"><div class="progress-fill" style="width:92%;background:linear-gradient(90deg,#28a745,#5cd85a);"></div></div>
+                            </div>
+                            <div>
+                                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>OSPF协议</span><span>68%</span></div>
+                                <div class="progress-bar"><div class="progress-fill" style="width:68%;background:linear-gradient(90deg,#ffc107,#ffd54f);"></div></div>
+                            </div>
+                            <div>
+                                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>VLAN与交换</span><span>85%</span></div>
+                                <div class="progress-bar"><div class="progress-fill" style="width:85%;background:linear-gradient(90deg,#28a745,#5cd85a);"></div></div>
+                            </div>
+                            <div>
+                                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>访问控制列表</span><span>45%</span></div>
+                                <div class="progress-bar"><div class="progress-fill" style="width:45%;background:linear-gradient(90deg,#dc3545,#e4606d);"></div></div>
+                            </div>
+                            <div>
+                                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>NAT地址转换</span><span>78%</span></div>
+                                <div class="progress-bar"><div class="progress-fill" style="width:78%;background:linear-gradient(90deg,#17a2b8,#5bc0de);"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 学习报告 -->
+            <div class="card">
+                <div class="card-header"><h3>学习报告</h3><a href="javascript:void(0)" onclick="showToast('正在生成PDF学习报告...','info')" class="btn btn-sm btn-outline">导出PDF</a></div>
+                <div class="card-body">
+                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+                        <div style="padding:16px;background:#f8fafc;border-radius:8px;text-align:center;">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135710.png" style="width:48px;margin-bottom:8px;">
+                            <h4 style="font-size:14px;">HCIA认证通过率</h4>
+                            <p style="font-size:24px;font-weight:700;color:#28a745;margin:8px 0;">85%</p>
+                            <span class="tag tag-success">高于平均</span>
+                        </div>
+                        <div style="padding:16px;background:#f8fafc;border-radius:8px;text-align:center;">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135710.png" style="width:48px;margin-bottom:8px;">
+                            <h4 style="font-size:14px;">班级排名</h4>
+                            <p style="font-size:24px;font-weight:700;color:#094086;margin:8px 0;">第 <span id="rptRank">12</span> 名</p>
+                            <span class="tag tag-info">共 <span id="rptTotal">48</span> 人</span>
+                        </div>
+                        <div style="padding:16px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:8px;text-align:center;">
+                            <i class="bi bi-lightbulb-fill" style="font-size:42px;color:#f59e0b;display:block;margin-bottom:8px;"></i>
+                            <h4 style="font-size:14px;">学习建议</h4>
+                            <p id="rptSuggestionText" style="font-size:13px;color:#666;margin:8px 0;min-height:36px;">正在加载学习建议…</p>
+                            <a href="analytics-insight.html" class="btn btn-sm btn-primary mt-2" id="rptSuggestionLink">
+                                <i class="bi bi-robot me-1"></i>查看 AI 详细分析
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/common.js"></script>
+<script>document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        const [rd, rk, rf] = await Promise.all([
+            apiRequest('/student/dashboard'),
+            apiRequest('/student/knowledge-points'),
+            apiRequest('/student/dashboard/full')
+        ]);
+        if (rd && rd.success && rd.data) {
+            const s = rd.data;
+            const cards = document.querySelectorAll('.stat-card .stat-info h3');
+            if (cards.length > 0) cards[0].textContent = s.focusRate + '%';
+            if (cards.length > 1) cards[1].textContent = Number(s.accuracy || 0).toFixed(2) + '%';
+            if (cards.length > 2) cards[2].textContent = s.totalHours + 'h';
+            if (cards.length > 3) cards[3].textContent = s.completedCourses + '/' + s.totalCourses;
+            // 排名卡片
+            const rk2 = document.getElementById('rptRank'); if (rk2) rk2.textContent = s.classRank;
+            const rt = document.getElementById('rptTotal'); if (rt) rt.textContent = s.totalClassmates;
+        }
+        if (rk && rk.success && rk.data) {
+            const bars = document.querySelectorAll('.progress-fill');
+            rk.data.forEach(function(kp, i) {
+                if (i < bars.length) bars[i].style.width = (kp.masteryRate || 0) + '%';
+            });
+        }
+        // 学习建议摘要
+        if (rf && rf.success && rf.data) {
+            const ss = rf.data.studySuggestionSummary;
+            const txt = document.getElementById('rptSuggestionText');
+            if (ss) {
+                txt.textContent = ss.title + '（掌握度 ' + ss.masteryRate + '%）';
+            } else {
+                txt.textContent = '当前没有明显薄弱点，继续保持！';
+            }
+        }
+    } catch(e) {}
+});</script>
+</body>
+</html>

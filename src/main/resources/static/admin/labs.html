@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实训管理 - 华技云管理端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="main-layout">
+    <aside class="sidebar">
+        <div class="sidebar-header" style="background:linear-gradient(135deg,#062c5a,#094086);"><h1><i class="bi bi-shield-lock-fill"></i>管理端</h1></div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">核心管理</div>
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-speedometer2"></i>管理仪表盘</a>
+            <a href="users.html" class="menu-item"><i class="bi bi-people"></i>用户管理</a>
+            <a href="courses.html" class="menu-item"><i class="bi bi-book"></i>课程管理</a>
+            <a href="certifications.html" class="menu-item"><i class="bi bi-award"></i>认证管理</a>
+            <div class="menu-section">运营管理</div>
+            <a href="labs.html" class="menu-item active"><i class="bi bi-cloud-haze"></i>实训管理</a>
+            <a href="competitions.html" class="menu-item"><i class="bi bi-trophy"></i>赛事管理</a>
+            <a href="jobs.html" class="menu-item"><i class="bi bi-briefcase"></i>就业管理</a>
+            <div class="menu-section">数据与系统</div>
+            <a href="analytics.html" class="menu-item"><i class="bi bi-graph-up"></i>数据统计</a>
+            <a href="settings.html" class="menu-item"><i class="bi bi-gear"></i>系统设置</a>
+        </nav>
+        <div class="sidebar-footer"><div class="user-info"><div class="user-avatar" style="background:#e8a838;">管</div><div class="user-details"><div class="user-name">管理员</div><div class="user-role">系统管理员</div></div></div></div>
+    </aside>
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left"><div class="header-nav"><a href="dashboard.html">仪表盘</a><a href="users.html">用户管理</a><a href="courses.html">课程管理</a><a href="analytics.html">数据统计</a><a href="settings.html">系统设置</a></div></div>
+            <div class="header-right"><div class="header-icon" title="消息"><i class="bi bi-bell"></i></div><a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a></div>
+        </header>
+        <div class="page-content">
+            <div class="page-title"><h2><i class="bi bi-cloud-haze me-2"></i>实训管理</h2><p>管理华为云实训环境和实验内容</p></div>
+            <div class="stat-cards mb-4">
+                <div class="stat-card"><div class="stat-icon blue"><i class="bi bi-server"></i></div><div class="stat-info"><h3>36</h3><p>运行中实例</p></div></div>
+                <div class="stat-card"><div class="stat-icon green"><i class="bi bi-check-all"></i></div><div class="stat-info"><h3>1,024</h3><p>累计实验次数</p></div></div>
+                <div class="stat-card"><div class="stat-icon orange"><i class="bi bi-hdd"></i></div><div class="stat-info"><h3>78%</h3><p>资源使用率</p></div></div>
+                <div class="stat-card"><div class="stat-icon red"><i class="bi bi-exclamation-triangle"></i></div><div class="stat-info"><h3>2</h3><p>异常告警</p></div></div>
+            </div>
+            <div class="card">
+                <div class="card-header"><h3>实验环境管理</h3><button class="btn btn-sm btn-primary" onclick="showToast('正在创建新实验环境...','info')"><i class="bi bi-plus-lg me-1"></i>创建实验</button></div>
+                <div class="card-body">
+                    <table class="data-table">
+                        <thead><tr><th>实验名称</th><th>类型</th><th>使用人数</th><th>资源消耗</th><th>状态</th><th>操作</th></tr></thead>
+                        <tbody>
+                            <tr><td>ECS服务器部署实战</td><td>云计算</td><td>45人</td><td>2 vCPU / 4GB</td><td><span class="tag tag-success">运行中</span></td><td><a href="javascript:void(0)" onclick="showToast('正在打开实例监控面板...','info')" class="btn btn-sm btn-outline">监控</a></td></tr>
+                            <tr><td>VPC网络配置实验</td><td>网络</td><td>32人</td><td>1 vCPU / 2GB</td><td><span class="tag tag-success">运行中</span></td><td><a href="javascript:void(0)" onclick="showToast('正在打开实例监控面板...','info')" class="btn btn-sm btn-outline">监控</a></td></tr>
+                            <tr><td>OBS存储实战</td><td>存储</td><td>0人</td><td>0</td><td><span class="tag tag-info">空闲</span></td><td><a href="javascript:void(0)" onclick="showToast('实验配置功能开发中','info')" class="btn btn-sm btn-outline">配置</a></td></tr>
+                            <tr><td>Kubernetes容器实战</td><td>容器</td><td>18人</td><td>4 vCPU / 8GB</td><td><span class="tag tag-warning">高负载</span></td><td><a href="javascript:void(0)" onclick="showToast('正在提交扩容请求...','info')" class="btn btn-sm btn-outline">扩容</a></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/common.js"></script>
+<script>document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        const res = await apiRequest('/admin/labs');
+        if (res && res.success && res.data) {
+            const tbody = document.querySelector('.data-table tbody');
+            if (tbody) tbody.innerHTML = res.data.map(function(l) {
+                return '<tr><td>' + l.name + '</td><td>' + (l.type||'') + '</td><td>0人</td><td>0</td><td><span class="tag tag-info">空闲</span></td><td><a href="javascript:void(0)" onclick="showToast(\'实验配置功能开发中\',\'info\')" class="btn btn-sm btn-outline">配置</a></td></tr>';
+            }).join('');
+        }
+    } catch(e) {}
+});</script>
+</body>
+</html>

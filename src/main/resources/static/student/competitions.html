@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赛事训练 - 华技云学生端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="main-layout">
+    <aside class="sidebar">
+        <div class="sidebar-header"><h1><i class="bi bi-cloud-fill"></i>华技云</h1></div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">主要功能</div>
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-house-door"></i>工作台</a>
+            <a href="courses.html" class="menu-item"><i class="bi bi-book"></i>课程学习</a>
+            <a href="practice.html" class="menu-item"><i class="bi bi-journal-check"></i>题库练习</a>
+            <a href="mock-exams.html" class="menu-item"><i class="bi bi-clock-history"></i>模拟考试</a>
+            <a href="cloud-lab.html" class="menu-item"><i class="bi bi-cloud-haze"></i>华为云实训</a>
+            <a href="ai-tutor.html" class="menu-item"><i class="bi bi-robot"></i>助学智能体</a>
+            <div class="menu-section">扩展功能</div>
+            <a href="competitions.html" class="menu-item active"><i class="bi bi-trophy"></i>赛事训练</a>
+            <a href="jobs.html" class="menu-item"><i class="bi bi-briefcase"></i>就业岗位</a>
+            <a href="analytics.html" class="menu-item"><i class="bi bi-bar-chart"></i>学情数据</a>
+            <a href="settings.html" class="menu-item"><i class="bi bi-gear"></i>个人设置</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">学</div>
+                <div class="user-details"><div class="user-name">学生用户</div><div class="user-role">华为ICT学员</div></div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <div class="header-nav">
+                    <a href="dashboard.html">首页</a>
+                    <a href="courses.html">课程学习</a>
+                    <a href="practice.html">题库练习</a>
+                    <a href="mock-exams.html">模拟考试</a>
+                    <a href="cloud-lab.html">云端实训</a>
+                    <a href="competitions.html" class="active">赛事中心</a>
+                    </div>
+            </div>
+            <div class="header-right">
+                <div class="header-icon" title="消息"><i class="bi bi-bell"></i><span class="badge"></span></div>
+                <a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <div class="page-title"><h2><i class="bi bi-trophy me-2"></i>赛事训练</h2><p>ICT大赛赛前强化训练，提升实战能力</p></div>
+
+            <!-- 赛事横幅 -->
+            <div class="card mb-4" style="background:linear-gradient(135deg,#e8a838,#f0c050);color:white;border:none;">
+                <div class="card-body" style="display:flex;align-items:center;justify-content:space-between;">
+                    <div>
+                        <h2 style="color:white;margin-bottom:8px;">🏆 2025华为ICT大赛</h2>
+                        <p style="opacity:0.9;margin:0;">报名截止：2025年10月31日 | 比赛时间：2025年11月-2026年3月</p>
+                        <a id="bannerSignupBtn" href="javascript:void(0)" onclick="showToast('报名成功！请关注赛事通知','success')" class="btn btn-sm mt-3" style="background:rgba(255,255,255,0.3);color:white;border:none;">立即报名</a>
+                    </div>
+                    <img src="https://cdn-icons-png.flaticon.com/512/3141/3141529.png" style="width:100px;filter:brightness(0) invert(1);opacity:0.8;">
+                </div>
+            </div>
+
+            <div class="grid-3 mb-4">
+                <div class="stat-card"><div class="stat-icon orange"><i class="bi bi-trophy"></i></div><div class="stat-info"><h3>0</h3><p>可报名赛事</p></div></div>
+                <div class="stat-card"><div class="stat-icon blue"><i class="bi bi-journal-text"></i></div><div class="stat-info"><h3>12</h3><p>训练题目</p></div></div>
+                <div class="stat-card"><div class="stat-icon green"><i class="bi bi-people"></i></div><div class="stat-info"><h3>86</h3><p>同校参赛人数</p></div></div>
+            </div>
+
+            <!-- 赛事列表 -->
+            <div class="card">
+                <div class="card-header"><h3>赛事列表</h3></div>
+                <div class="card-body">
+                    <table class="data-table">
+                        <thead><tr><th>赛事名称</th><th>赛道</th><th>报名状态</th><th>截止时间</th><th>操作</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>2025华为ICT大赛-网络赛道</strong></td>
+                                <td><span class="tag tag-info">网络</span></td>
+                                <td><span class="tag tag-danger">已截止</span></td>
+                                <td>2025-10-31</td>
+                                <td><a href="javascript:void(0)" onclick="showToast('报名失败：报名时间已截止','error')" class="btn btn-sm btn-secondary" style="background:#dc3545;border-color:#dc3545;">立即报名</a></td>
+                            </tr>
+                            <tr>
+                                <td><strong>2025华为ICT大赛-云计算赛道</strong></td>
+                                <td><span class="tag tag-info">云计算</span></td>
+                                <td><span class="tag tag-danger">已截止</span></td>
+                                <td>2025-10-31</td>
+                                <td><a href="javascript:void(0)" onclick="showToast('报名失败：报名时间已截止','error')" class="btn btn-sm btn-secondary" style="background:#dc3545;border-color:#dc3545;">立即报名</a></td>
+                            </tr>
+                            <tr>
+                                <td><strong>2025华为ICT大赛-大数据赛道</strong></td>
+                                <td><span class="tag tag-info">大数据</span></td>
+                                <td><span class="tag tag-danger">已截止</span></td>
+                                <td>2025-10-31</td>
+                                <td><a href="javascript:void(0)" onclick="showToast('报名失败：报名时间已截止','error')" class="btn btn-sm btn-secondary" style="background:#dc3545;border-color:#dc3545;">立即报名</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/common.js"></script>
+<script>document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        const res = await apiRequest('/student/competitions');
+        if (res && res.success && res.data) {
+            const tbody = document.querySelector('.data-table tbody');
+            if (tbody) tbody.innerHTML = res.data.map(function(c) {
+                var isClosed = c.status === 'CLOSED' || c.status === '已截止';
+                var tag = c.status === 'OPEN' ? 'tag-success' : c.status === 'ONGOING' ? 'tag-warning' : c.status === 'CLOSED' ? 'tag-danger' : 'tag-info';
+                var tagText = c.status === 'OPEN' ? '报名中' : c.status === 'ONGOING' ? '进行中' : c.status === 'CLOSED' ? '已截止' : c.status;
+                var btn = isClosed
+                    ? '<a href="javascript:void(0)" onclick="showToast(\'报名失败：报名时间已截止\',\'error\')" class="btn btn-sm btn-secondary" style="background:#dc3545;border-color:#dc3545;">立即报名</a>'
+                    : '<a href="javascript:void(0)" onclick="showToast(\'报名成功！\',\'success\')" class="btn btn-sm btn-primary">立即报名</a>';
+                return '<tr><td><strong>' + c.name + '</strong></td><td><span class="tag tag-info">' + (c.track||'') + '</span></td><td><span class="tag ' + tag + '">' + tagText + '</span></td><td>' + (c.deadline||'') + '</td><td>' + btn + '</td></tr>';
+            }).join('');
+        }
+    } catch(e) {}
+});</script>
+</body>
+</html>

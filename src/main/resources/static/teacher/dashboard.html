@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教师工作台 - 华技云教师端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* 教师端主色调 - 墨绿渐变（与学生蓝、管理员深蓝区分） */
+        .sidebar-header.teacher { background: linear-gradient(135deg, #064e3b, #059669); }
+        .stat-card .stat-icon.green-strong { background: linear-gradient(135deg, #10b981, #059669); color: #fff; }
+        .stat-card .stat-icon.amber { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #fff; }
+        .stat-card .stat-icon.teal { background: linear-gradient(135deg, #14b8a6, #0d9488); color: #fff; }
+        .stat-card .stat-icon.rose { background: linear-gradient(135deg, #fb7185, #e11d48); color: #fff; }
+        .welcome-banner { background: linear-gradient(135deg, #064e3b 0%, #059669 60%, #10b981 100%); color: #fff; border: none; }
+        .welcome-banner h2, .welcome-banner p { color: #fff; }
+        .menu-item.active { background: #f0fdf4; color: #059669; border-left: 3px solid #059669; }
+        .menu-item:hover { background: #f0fdf4; color: #059669; }
+        .my-course-card { background: #fff; border-radius: 12px; padding: 18px; box-shadow: var(--shadow); transition: all .2s; }
+        .my-course-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .course-progress { height: 8px; background: #ecfdf5; border-radius: 4px; overflow: hidden; }
+        .course-progress > div { height: 100%; background: linear-gradient(90deg, #10b981, #059669); border-radius: 4px; }
+        .student-row { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+        .student-row:last-child { border-bottom: none; }
+        .student-avatar { width: 36px; height: 36px; border-radius: 50%; background: #d1fae5; color: #047857; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0; }
+    </style>
+</head>
+<body>
+<div class="main-layout">
+    <aside class="sidebar">
+        <div class="sidebar-header teacher"><h1><i class="bi bi-person-workspace"></i>教师端</h1></div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">教学工作台</div>
+            <a href="dashboard.html" class="menu-item active"><i class="bi bi-speedometer2"></i>教学仪表盘</a>
+            <a href="courses.html" class="menu-item"><i class="bi bi-book"></i>我的课程</a>
+            <a href="students.html" class="menu-item"><i class="bi bi-people"></i>学员管理</a>
+            <a href="exam-records.html" class="menu-item"><i class="bi bi-journal-check"></i>考试记录</a>
+            <a href="analytics.html" class="menu-item"><i class="bi bi-graph-up"></i>学情分析</a>
+            <div class="menu-section">个人</div>
+            <a href="../index.html" class="menu-item"><i class="bi bi-box-arrow-right"></i>退出登录</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar" style="background:#059669;">师</div>
+                <div class="user-details"><div class="user-name">教师用户</div><div class="user-role">华技云讲师</div></div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <div class="header-nav">
+                    <a href="dashboard.html" class="active">工作台</a>
+                    <a href="courses.html">我的课程</a>
+                    <a href="students.html">学员管理</a>
+                    <a href="exam-records.html">考试记录</a>
+                    <a href="analytics.html">学情分析</a>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-icon" title="消息"><i class="bi bi-bell"></i><span class="badge"></span></div>
+                <a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <!-- 欢迎横幅 -->
+            <div class="card welcome-banner mb-4">
+                <div class="card-body" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+                    <div>
+                        <h2 style="margin-bottom:8px;">教师工作台</h2>
+                        <p style="opacity:0.95;margin:0;">欢迎回来！您教授 <strong id="bannerCourses">--</strong> 门课程，<strong id="bannerStudents">--</strong> 名学员正在跟您学习</p>
+                    </div>
+                    <i class="bi bi-mortarboard-fill" style="font-size:64px;opacity:0.4;"></i>
+                </div>
+            </div>
+
+            <!-- 核心统计 -->
+            <div class="stat-cards mb-4">
+                <div class="stat-card">
+                    <div class="stat-icon green-strong"><i class="bi bi-book-half"></i></div>
+                    <div class="stat-info"><h3 id="statCourses">--</h3><p>所教课程</p></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon teal"><i class="bi bi-people-fill"></i></div>
+                    <div class="stat-info"><h3 id="statStudents">--</h3><p>学员总数</p></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon amber"><i class="bi bi-activity"></i></div>
+                    <div class="stat-info"><h3 id="statActive">--</h3><p>7天内活跃学员</p></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon rose"><i class="bi bi-bar-chart-line-fill"></i></div>
+                    <div class="stat-info"><h3 id="statMastery">--%</h3><p>班级平均掌握度</p></div>
+                </div>
+            </div>
+
+            <div class="row-2">
+                <!-- 我的课程速览 -->
+                <div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="bi bi-collection me-2"></i>我的课程</h3>
+                            <a href="courses.html" class="btn btn-sm btn-outline">查看全部</a>
+                        </div>
+                        <div class="card-body" id="myCoursesList" style="display:flex;flex-direction:column;gap:12px;">
+                            <div style="text-align:center;color:#999;padding:30px;">加载中…</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 学员动态 + 通知 -->
+                <div>
+                    <div class="card mb-4">
+                        <div class="card-header"><h3><i class="bi bi-person-check me-2"></i>最近活跃学员</h3></div>
+                        <div class="card-body" id="activeStudentsList">
+                            <div style="text-align:center;color:#999;padding:20px;">加载中…</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><h3><i class="bi bi-bell me-2"></i>系统通知</h3></div>
+                        <div class="card-body">
+                            <ul class="notice-list" id="notifList">
+                                <li style="color:#999;">加载中…</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/common.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        const r = await apiRequest('/teacher/dashboard/full');
+        if (!r || !r.success || !r.data) return;
+        var d = r.data;
+
+        // 顶部统计
+        document.getElementById('statCourses').textContent = d.totalCourses || 0;
+        document.getElementById('statStudents').textContent = d.totalStudents || 0;
+        document.getElementById('statActive').textContent = d.activeStudents || 0;
+        document.getElementById('statMastery').textContent = (d.avgMastery || 0) + '%';
+        document.getElementById('bannerCourses').textContent = d.totalCourses || 0;
+        document.getElementById('bannerStudents').textContent = d.totalStudents || 0;
+
+        // 我的课程
+        var list = document.getElementById('myCoursesList');
+        if (d.myCourses && d.myCourses.length > 0) {
+            list.innerHTML = d.myCourses.map(function(c) {
+                var statusMap = { PUBLISHED: '<span class="tag tag-success">已上线</span>', PENDING: '<span class="tag tag-warning">待审核</span>', DRAFT: '<span class="tag tag-info">草稿</span>' };
+                var statusTag = statusMap[c.status] || c.status;
+                var catMap = { HCIA: '数通', HCIP: '数通', HCIE: '数通', Cloud: '云', BigData: '大数据', AI: 'AI' };
+                return '<div class="my-course-card">' +
+                    '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px;">' +
+                    '<div style="font-size:15px;font-weight:600;color:#064e3b;">' + (c.name||'') + '</div>' +
+                    statusTag +
+                    '</div>' +
+                    '<div style="display:flex;gap:14px;font-size:12px;color:#6b7280;margin-bottom:10px;">' +
+                    '<span><i class="bi bi-tag-fill"></i> ' + (catMap[c.category]||c.category||'') + '</span>' +
+                    '<span><i class="bi bi-clock"></i> ' + (c.totalHours||0) + ' 学时</span>' +
+                    '<span><i class="bi bi-people"></i> ' + (c.studentCount||0) + ' 人</span>' +
+                    '<span><i class="bi bi-list-ol"></i> ' + (c.totalChapters||0) + ' 章</span>' +
+                    '</div>' +
+                    '<div style="font-size:12px;color:#6b7280;line-height:1.6;">' + (c.description||'该课程暂无简介。') + '</div>' +
+                    '</div>';
+            }).join('');
+        } else {
+            list.innerHTML = '<div style="text-align:center;color:#999;padding:30px;">暂无任课</div>';
+        }
+
+        // 通知
+        if (d.notifications && d.notifications.length > 0) {
+            var nl = document.getElementById('notifList');
+            nl.innerHTML = d.notifications.slice(0, 5).map(function(n) {
+                var tag = (n.status === 'UNREAD') ? '<span class="tag tag-warning">提醒</span>' : '<span class="tag tag-success">已读</span>';
+                return '<li><a href="javascript:void(0)" onclick="showToast(\'' + (n.title||'') + '\',\'info\')">' + (n.title||'') + '</a>' + tag + '</li>';
+            }).join('');
+        }
+
+        // 最近活跃学员：从另一个 API 拉（dashboard/full 不带）
+        try {
+            const r2 = await apiRequest('/teacher/my-students');
+            if (r2 && r2.success && r2.data) {
+                var active = r2.data.filter(function(s) { return s.active7d; }).slice(0, 6);
+                var ac = document.getElementById('activeStudentsList');
+                if (active.length > 0) {
+                    ac.innerHTML = active.map(function(s) {
+                        var initial = (s.name || s.username || '学').charAt(0);
+                        return '<div class="student-row">' +
+                            '<div class="student-avatar">' + initial + '</div>' +
+                            '<div style="flex:1;margin-left:10px;">' +
+                            '<div style="font-size:14px;font-weight:500;">' + (s.name||s.username||'') + '</div>' +
+                            '<div style="font-size:12px;color:#6b7280;">' + (s.studentId||s.username||'') + ' · ' + (s.courseCount||0) +  ' 门课</div>' +
+                            '</div>' +
+                            '<div style="text-align:right;">' +
+                            '<div style="font-size:14px;font-weight:600;color:#059669;">' + (s.avgProgress||0) + '%</div>' +
+                            '<div style="font-size:11px;color:#6b7280;">平均进度</div>' +
+                            '</div>' +
+                            '</div>';
+                    }).join('');
+                } else {
+                    ac.innerHTML = '<div style="text-align:center;color:#999;padding:20px;">最近 7 天暂无活跃学员</div>';
+                }
+            }
+        } catch(e) {}
+    } catch (e) { console.error(e); }
+});
+</script>
+</body>
+</html>

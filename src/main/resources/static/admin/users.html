@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理 - 华技云管理端</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="main-layout">
+    <aside class="sidebar">
+        <div class="sidebar-header" style="background:linear-gradient(135deg,#062c5a,#094086);"><h1><i class="bi bi-shield-lock-fill"></i>管理端</h1></div>
+        <nav class="sidebar-menu">
+            <div class="menu-section">核心管理</div>
+            <a href="dashboard.html" class="menu-item"><i class="bi bi-speedometer2"></i>管理仪表盘</a>
+            <a href="users.html" class="menu-item active"><i class="bi bi-people"></i>用户管理</a>
+            <a href="courses.html" class="menu-item"><i class="bi bi-book"></i>课程管理</a>
+            <a href="certifications.html" class="menu-item"><i class="bi bi-award"></i>认证管理</a>
+            <div class="menu-section">运营管理</div>
+            <a href="labs.html" class="menu-item"><i class="bi bi-cloud-haze"></i>实训管理</a>
+            <a href="competitions.html" class="menu-item"><i class="bi bi-trophy"></i>赛事管理</a>
+            <a href="jobs.html" class="menu-item"><i class="bi bi-briefcase"></i>就业管理</a>
+            <div class="menu-section">数据与系统</div>
+            <a href="analytics.html" class="menu-item"><i class="bi bi-graph-up"></i>数据统计</a>
+            <a href="settings.html" class="menu-item"><i class="bi bi-gear"></i>系统设置</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar" style="background:#e8a838;">管</div>
+                <div class="user-details"><div class="user-name">管理员</div><div class="user-role">系统管理员</div></div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <div class="header-nav">
+                    <a href="dashboard.html">仪表盘</a>
+                    <a href="users.html" class="active">用户管理</a>
+                    <a href="courses.html">课程管理</a>
+                    <a href="analytics.html">数据统计</a>
+                    <a href="settings.html">系统设置</a>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-icon" title="消息"><i class="bi bi-bell"></i><span class="badge"></span></div>
+                <a href="../index.html" class="btn btn-sm btn-outline" style="text-decoration:none;"><i class="bi bi-box-arrow-right"></i> 退出</a>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <div class="page-title"><h2><i class="bi bi-people me-2"></i>用户管理</h2><p>管理平台用户账号、角色和权限</p></div>
+
+            <!-- 操作栏 -->
+            <div class="card mb-4">
+                <div class="card-body" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                        <div class="search-box"><i class="bi bi-search"></i><input type="text" placeholder="搜索用户名、学号..."></div>
+                        <select style="padding:8px 12px;border:1px solid #e5e7eb;border-radius:6px;font-size:13px;">
+                            <option>全部角色</option><option>学生</option><option>教师</option><option>管理员</option>
+                        </select>
+                        <select style="padding:8px 12px;border:1px solid #e5e7eb;border-radius:6px;font-size:13px;">
+                            <option>全部状态</option><option>正常</option><option>禁用</option><option>待审核</option>
+                        </select>
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                        <button class="btn btn-primary" onclick="showToast('正在新增用户...','info')"><i class="bi bi-plus-lg me-1"></i>新增用户</button>
+                        <button class="btn btn-outline" onclick="showToast('正在导出用户数据...','info')"><i class="bi bi-download me-1"></i>导出</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 用户列表 -->
+            <div class="card">
+                <div class="card-body">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th><input type="checkbox"></th><th>用户名</th><th>学号/工号</th><th>角色</th><th>认证等级</th><th>注册时间</th><th>状态</th><th>操作</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td><div style="display:flex;align-items:center;gap:8px;"><div style="width:28px;height:28px;border-radius:50%;background:#094086;display:flex;align-items:center;justify-content:center;color:white;font-size:11px;">张</div>张同学</div></td>
+                                <td>ICT2024001</td>
+                                <td><span class="tag tag-info">学生</span></td>
+                                <td>HCIA</td>
+                                <td>2024-03-15</td>
+                                <td><span class="tag tag-success">正常</span></td>
+                                <td>
+                                    <a href="javascript:void(0)" onclick="showToast('用户编辑功能开发中','info')" class="btn btn-sm btn-outline">编辑</a>
+                                    <a href="javascript:void(0)" onclick="showToast('用户禁用功能开发中','warning')" class="btn btn-sm btn-outline text-danger">禁用</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td><div style="display:flex;align-items:center;gap:8px;"><div style="width:28px;height:28px;border-radius:50%;background:#28a745;display:flex;align-items:center;justify-content:center;color:white;font-size:11px;">李</div>李同学</div></td>
+                                <td>ICT2024002</td>
+                                <td><span class="tag tag-info">学生</span></td>
+                                <td>HCIP</td>
+                                <td>2024-03-18</td>
+                                <td><span class="tag tag-success">正常</span></td>
+                                <td>
+                                    <a href="javascript:void(0)" onclick="showToast('用户编辑功能开发中','info')" class="btn btn-sm btn-outline">编辑</a>
+                                    <a href="javascript:void(0)" onclick="showToast('用户禁用功能开发中','warning')" class="btn btn-sm btn-outline text-danger">禁用</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td><div style="display:flex;align-items:center;gap:8px;"><div style="width:28px;height:28px;border-radius:50%;background:#e8a838;display:flex;align-items:center;justify-content:center;color:white;font-size:11px;">王</div>王老师</div></td>
+                                <td>TCH2024001</td>
+                                <td><span class="tag tag-warning">教师</span></td>
+                                <td>HCIE</td>
+                                <td>2024-02-20</td>
+                                <td><span class="tag tag-success">正常</span></td>
+                                <td>
+                                    <a href="javascript:void(0)" onclick="showToast('用户编辑功能开发中','info')" class="btn btn-sm btn-outline">编辑</a>
+                                    <a href="javascript:void(0)" onclick="showToast('用户禁用功能开发中','warning')" class="btn btn-sm btn-outline text-danger">禁用</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td><div style="display:flex;align-items:center;gap:8px;"><div style="width:28px;height:28px;border-radius:50%;background:#666;display:flex;align-items:center;justify-content:center;color:white;font-size:11px;">赵</div>赵同学</div></td>
+                                <td>ICT2024003</td>
+                                <td><span class="tag tag-info">学生</span></td>
+                                <td>-</td>
+                                <td>2024-06-10</td>
+                                <td><span class="tag tag-warning">待审核</span></td>
+                                <td>
+                                    <a href="javascript:void(0)" onclick="showToast('正在审核用户...','info')" class="btn btn-sm btn-primary">审核</a>
+                                    <a href="javascript:void(0)" onclick="showToast('已拒绝该用户申请','danger')" class="btn btn-sm btn-outline text-danger">拒绝</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:16px;border-top:1px solid #e5e7eb;">
+                        <span style="font-size:13px;color:#999;">共 1,286 条记录</span>
+                        <div style="display:flex;gap:4px;">
+                            <a href="javascript:void(0)" onclick="showToast('分页功能开发中','info')" class="btn btn-sm btn-outline" disabled>上一页</a>
+                            <a href="javascript:void(0)" onclick="showToast('分页功能开发中','info')" class="btn btn-sm btn-primary">1</a>
+                            <a href="javascript:void(0)" onclick="showToast('分页功能开发中','info')" class="btn btn-sm btn-outline">2</a>
+                            <a href="javascript:void(0)" onclick="showToast('分页功能开发中','info')" class="btn btn-sm btn-outline">3</a>
+                            <a href="javascript:void(0)" onclick="showToast('分页功能开发中','info')" class="btn btn-sm btn-outline">下一页</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/common.js"></script>
+<script>document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        const res = await apiRequest('/admin/users');
+        if (res && res.success && res.data && res.data.content) {
+            const tbody = document.querySelector('.data-table tbody');
+            if (tbody) tbody.innerHTML = res.data.content.map(function(u) {
+                return '<tr><td><input type="checkbox"></td><td><div style="display:flex;align-items:center;gap:8px;"><div style="width:28px;height:28px;border-radius:50%;background:#094086;display:flex;align-items:center;justify-content:center;color:white;font-size:11px;">' + (u.name ? u.name[0] : '?') + '</div>' + (u.name||'') + '</div></td><td>' + (u.studentId||'') + '</td><td><span class="tag ' + (u.role==='STUDENT'?'tag-info':u.role==='TEACHER'?'tag-warning':'tag-warning') + '">' + (u.role==='STUDENT'?'学生':u.role==='TEACHER'?'教师':'管理员') + '</span></td><td>' + (u.certificationLevel||'-') + '</td><td>' + (u.createdAt ? u.createdAt.substring(0,10) : '') + '</td><td><span class="tag ' + (u.status==='NORMAL'?'tag-success':u.status==='PENDING'?'tag-warning':'tag-danger') + '">' + (u.status==='NORMAL'?'正常':u.status==='PENDING'?'待审核':'禁用') + '</span></td><td><a href="javascript:void(0)" onclick="showToast(\'用户编辑功能开发中\',\'info\')" class="btn btn-sm btn-outline">编辑</a> <a href="javascript:void(0)" onclick="showToast(\'用户禁用功能开发中\',\'warning\')" class="btn btn-sm btn-outline text-danger">禁用</a></td></tr>';
+            }).join('');
+            const pageInfo = document.querySelector('.card-body .card-body span:first-child');
+            if (pageInfo) pageInfo.textContent = '共 ' + (res.data.totalElements || 0) + ' 条记录';
+        }
+    } catch(e) {}
+});</script>
+</body>
+</html>
