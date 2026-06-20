@@ -7,14 +7,8 @@ services:
     repo: https://github.com/Lvyc592/huawei-ict-platform
     buildCommand: ""
     startCommand: ""
-    envVars:
-      - key: SPRING_PROFILES_ACTIVE
-        value: prod
-      - key: JWT_SECRET
-        value: mySecretKey123456789012345678901234567890
-      - key: SPRING_DATASOURCE_URL
-        value: jdbc:h2:mem:huaweidb;MODE=MySQL;DDL_AUTO=update
-      - key: SPRING_DATASOURCE_USERNAME
-        value: sa
-      - key: SPRING_DATASOURCE_PASSWORD
-        value: ""
+envVars:
+  - key: SPRING_PROFILES_ACTIVE
+    value: prod
+  - key: JWT_SECRET
+    value: mySecretKey123456789012345678901234567890
