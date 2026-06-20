@@ -1,6 +1,6 @@
 # 多阶段构建 Dockerfile for Zeabur 部署
-# 阶段一：使用 Maven + JDK 21 构建项目
-FROM maven:3.9-eclipse-temurin-21 AS build
+# 阶段一：使用 Maven + JDK 18 构建项目（与 pom.xml java.version 一致）
+FROM maven:3.9-eclipse-temurin-18 AS build
 
 WORKDIR /app
 
@@ -12,8 +12,8 @@ RUN mvn dependency:go-offline -B || true
 COPY src ./src
 RUN mvn clean package -DskipTests -B
 
-# 阶段二：运行环境（JRE 21 LTS）
-FROM eclipse-temurin:21-jre
+# 阶段二：运行环境（JRE 18）
+FROM eclipse-temurin:18-jre
 
 WORKDIR /app
 
